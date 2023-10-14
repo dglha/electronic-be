@@ -1,3 +1,4 @@
+using Electronic.Persistence.DatabaseContext;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Electronic.API.Controllers;
@@ -12,10 +13,12 @@ public class WeatherForecastController : ControllerBase
     };
 
     private readonly ILogger<WeatherForecastController> _logger;
+    private readonly ElectronicDatabaseContext _dbContext;
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger)
+    public WeatherForecastController(ILogger<WeatherForecastController> logger, ElectronicDatabaseContext dbContext)
     {
         _logger = logger;
+        _dbContext = dbContext;
     }
 
     [HttpGet(Name = "GetWeatherForecast")]

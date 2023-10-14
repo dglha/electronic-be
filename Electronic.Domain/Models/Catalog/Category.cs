@@ -1,9 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Electronic.Domain.Common;
+﻿using Electronic.Domain.Common;
 using Electronic.Domain.Models.Core;
 
-namespace Electronic.Domain.Model.Catalog;
+namespace Electronic.Domain.Models.Catalog;
 
 public class Category : BaseEntity
 {
@@ -19,17 +17,20 @@ public class Category : BaseEntity
 
     public bool IsPublished { get; set; }
 
-    public bool IncludeInMenu { get; set; }
-    
     public bool IsDeleted { get; set; }
+    
+    public bool IncludeInMenu { get; set; }
     
     public long? ParentCategoryId { get; set; }
     
     public Category? ParentCategory { get; set; }
 
-    public virtual ICollection<Category> ChildCategories { get; protected set; } = new List<Category>();
+    public ICollection<Category> ChildCategories { get; protected set; } = new List<Category>();
     
-    public long ThumbnailImageId { get; set; }
+    public long? ThumbnailImageId { get; set; }
 
-    public Media ThumbnailImage { get; set; }
+    public Media? ThumbnailImage { get; set; }
+
+    public ICollection<ProductCategory> Products { get; set; } = new List<ProductCategory>();
+
 }

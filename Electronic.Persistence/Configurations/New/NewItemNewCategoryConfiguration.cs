@@ -11,9 +11,11 @@ public class NewItemNewCategoryConfiguration : IEntityTypeConfiguration<NewItemN
         builder.HasKey(nn => new { nn.NewItemId, nn.NewCategoryId });
         
         builder.HasOne<NewItem>(nn => nn.NewItem)
-            .WithMany(n => n.NewItemNewCategories);
+            .WithMany(n => n.NewItemNewCategories)
+            .HasForeignKey(nn => nn.NewItemId);
         
         builder.HasOne<NewCategory>(nn => nn.NewCategory)
-            .WithMany(n => n.NewItemNewCategories);
+            .WithMany(n => n.NewItemNewCategories)
+            .HasForeignKey(nn => nn.NewCategoryId);
     }
 }

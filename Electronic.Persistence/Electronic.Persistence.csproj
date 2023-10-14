@@ -17,6 +17,16 @@
     <ItemGroup>
       <ProjectReference Include="..\Electronic.Application\Electronic.Application.csproj" />
       <ProjectReference Include="..\Electronic.Domain\Electronic.Domain.csproj" />
+
+
+
+
+
+
+
+
+
+
     </ItemGroup>
 
 
