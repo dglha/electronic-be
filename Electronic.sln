@@ -16,7 +16,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Electronic.Persistence", "E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{8F318BE0-F45F-4BE4-A827-66086D708305}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity", "Identity\Identity.csproj", "{62D9E4E7-667D-431F-ACCC-84D01C326E1E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Electronic.Identity", "Electronic.Identity\Electronic.Identity.csproj", "{62D9E4E7-667D-431F-ACCC-84D01C326E1E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Electronic.API", "Electronic.API\Electronic.API.csproj", "{76E84B59-ADB1-47AE-B0F1-966746376647}"
 EndProject

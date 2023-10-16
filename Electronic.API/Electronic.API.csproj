@@ -16,6 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Electronic.Identity\Electronic.Identity.csproj" />
       <ProjectReference Include="..\Electronic.Persistence\Electronic.Persistence.csproj" />
     </ItemGroup>
 

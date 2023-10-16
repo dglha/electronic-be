@@ -32,6 +32,7 @@ public class Product : BaseEntity
     public int? BrandId { get; set; }
     public Brand? Brand { get; set; }
     public long? ThumbnailImageId { get; set; }
+    
     public Media? ThumbnailImage { get; set; }
     public ICollection<ProductMedia> Medias { get; set; }
     public ICollection<ProductAttributeValue> AttributeValues { get; set; } = new List<ProductAttributeValue>();
