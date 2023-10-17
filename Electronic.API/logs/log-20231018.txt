@@ -1,0 +1,7 @@
+2023-10-18 00:19:19.093 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-18 00:19:19.133 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-18 00:19:19.145 +07:00 [INF] Hosting environment: Development
+2023-10-18 00:19:19.147 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-18 00:19:37.776 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-18 00:19:39.913 +07:00 [INF] dlhapro Logged!!!
+2023-10-18 00:19:39.927 +07:00 [INF] HTTP POST /api/Auth/login responded 200 in 2153.7929 ms

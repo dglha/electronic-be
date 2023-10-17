@@ -1,15 +1,47 @@
+using Electronic.API.Middlewares;
+using Electronic.Application.Exceptions;
 using Electronic.Persistence;
 using Identity;
+using Infrastructure;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+#region Serilog
+
+builder.Host.UseSerilog((context, loggerConfig) => loggerConfig
+    .WriteTo.Console()
+    .ReadFrom.Configuration(context.Configuration));
+
+#endregion
+
 
 // Add services to the container.
 
 builder.Services.AddPersistenceServices(builder.Configuration);
 builder.Services.AddIdentityService(builder.Configuration);
+builder.Services.AddInfrastructureServices(builder.Configuration);
 
 builder.Services.AddControllers();
+
+builder.Services.AddHttpContextAccessor();
+
+// Adding custom error response
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.InvalidModelStateResponseFactory = actionContext =>
+    {
+        var errors = actionContext.ModelState
+            .Where(e => e.Value.Errors.Count > 0)
+            .SelectMany(x => x.Value.Errors)
+            .Select(x => x.ErrorMessage).ToArray();
+        return new BadRequestObjectResult(new ApiValidationErrorResponse() { Errors = errors });
+    };
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(opt =>
@@ -56,6 +88,12 @@ builder.Services.AddCors(opt =>
 
 var app = builder.Build();
 
+#region Middlewares
+
+app.UseMiddleware<ExceptionMiddleware>();
+
+#endregion
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -63,7 +101,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseSerilogRequestLogging();
+
 app.UseHttpsRedirection();
+
+app.UseCors("all");
 
 app.UseAuthentication();
 

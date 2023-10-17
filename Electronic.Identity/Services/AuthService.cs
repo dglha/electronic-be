@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Electronic.Application.Contracts.DTOs.Identity;
 using Electronic.Application.Contracts.Identity;
+using Electronic.Application.Contracts.Logging;
 using Identity.Extensions;
 using Identity.Models;
 using Microsoft.AspNetCore.Identity;
@@ -17,13 +18,15 @@ public class AuthService : IAuthService
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly JwtSettings _jwtSettings;
     private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly IAppLogger<AuthService> _logger;
 
     public AuthService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
-        IOptions<JwtSettings> jwtSetting)
+        IOptions<JwtSettings> jwtSetting, IAppLogger<AuthService> logger)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _jwtSettings = jwtSetting.Value;
+        _logger = logger;
     }
 
     public async Task<AuthResonseDto> Login(AuthRequestDto request)
@@ -41,6 +44,8 @@ public class AuthService : IAuthService
             Email = user.Email,
             Username = user.UserName,
         };
+        
+        _logger.LogInformation($"{response.Username} Logged!!!");
 
         return response;
     }
