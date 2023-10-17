@@ -1,5 +1,7 @@
 ﻿using System.Text;
+using Electronic.Application.Contracts.Identity;
 using Identity.Models;
+using Identity.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +16,8 @@ public static class IdentityServiceRegistration
     public static IServiceCollection AddIdentityService(this IServiceCollection serviceCollection,
         IConfiguration configuration)
     {
+        serviceCollection.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
+        
         serviceCollection.AddDbContext<ElectronicIdentityDbContext>(options =>
         {
             options.UseSqlServer(configuration.GetConnectionString("ElectronicIdentity"));
@@ -42,6 +46,10 @@ public static class IdentityServiceRegistration
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:Key"])),
             };
         });
+        
+        // DI
+        serviceCollection.AddTransient<IAuthService, AuthService>();
+        
         return serviceCollection;
     }
 }

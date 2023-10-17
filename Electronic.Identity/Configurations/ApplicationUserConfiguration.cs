@@ -18,6 +18,7 @@ public class ApplicationUserConfiguration : IEntityTypeConfiguration<Application
                 NormalizedEmail = "DLHA.19IT1@VKU.UDN.VN",
                 UserName = "duongleha",
                 NormalizedUserName = "DUONGLEHA",
+                // Default User password Ha02012001@
                 PasswordHash = hasher.HashPassword(null, "Ha02012001"),
                 EmailConfirmed = true
             }
