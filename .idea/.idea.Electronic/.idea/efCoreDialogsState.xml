@@ -4,6 +4,7 @@
     <option name="keyValueStorage">
       <map>
         <entry key="Common:5032a064-330b-49d1-a03b-c1826ca41874:dbContext" value="Electronic.Persistence.DatabaseContext.ElectronicDatabaseContext" />
+        <entry key="Common:62d9e4e7-667d-431f-accc-84d01c326e1e:dbContext" value="Identity.ElectronicIdentityDbContext" />
         <entry key="Common:buildConfiguration" value="Debug" />
         <entry key="Common:noBuild" value="false" />
         <entry key="Common:outputFolder" value="Migrations" />

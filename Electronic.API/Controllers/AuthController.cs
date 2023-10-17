@@ -32,8 +32,8 @@ namespace Electronic.API.Controllers
 
 
         [HttpGet("emailExists")]
-        public async Task<ActionResult<bool>> CheckEmailExistsAsync([FromQuery] string email)
-            => await _authService.CheckEmailExistsAsync(email);
+        public async Task<ActionResult<bool>> CheckEmailExistsAsync([FromQuery] CheckEmailRequestDto query)
+            => await _authService.CheckEmailExistsAsync(query.Email);
 
         [HttpPost("login")]
         public async Task<ActionResult<AuthResonseDto>> Login(AuthRequestDto request)
