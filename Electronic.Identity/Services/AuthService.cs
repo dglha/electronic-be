@@ -94,6 +94,16 @@ public class AuthService : IAuthService
         };
     }
 
+    public IQueryable<ApplicationUserDto> GetAllUser()
+    {
+        var users = _userManager.Users.Select(u => new ApplicationUserDto
+        {
+            Username = u.UserName, Email = u.Email, Id = u.Id
+        });
+
+        return users;
+    }
+
     private async Task<JwtSecurityToken> GenerateToken(ApplicationUser user)
     {
         var userClaims = await _userManager.GetClaimsAsync(user);
