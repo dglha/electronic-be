@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Text.Json;
 using Electronic.API.Models;
+using Electronic.Application.Contracts.Exeptions;
 using Electronic.Application.Exceptions;
 
 namespace Electronic.API.Middlewares;
@@ -27,10 +28,24 @@ public class ExceptionMiddleware
         {
             // await HandleExceptionAsync(httpContext, e);
             httpContext.Response.ContentType = "application/json";
-            httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-            var res = _host.IsDevelopment()
-                ? new ApiException((int)HttpStatusCode.InternalServerError, e.Message, e.StackTrace.ToString())
-                : new ApiException((int)HttpStatusCode.InternalServerError);
+            ApiException res;
+            switch (e)
+            {
+                case AppException appException:
+                    httpContext.Response.StatusCode = appException.StatusCode;
+                    res = _host.IsDevelopment()
+                        ? new ApiException(appException.StatusCode, appException.Message, appException.StackTrace.ToString())
+                        : new ApiException((int)HttpStatusCode.InternalServerError);
+                    break;
+                default:
+                    httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    res = _host.IsDevelopment()
+                        ? new ApiException((int)HttpStatusCode.InternalServerError, e.Message, e.StackTrace.ToString())
+                        : new ApiException((int)HttpStatusCode.InternalServerError);
+                    break;
+            }
+            
+            
             var options = new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
             var json = JsonSerializer.Serialize(res, options);
             await httpContext.Response.WriteAsync(json);

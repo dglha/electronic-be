@@ -43,15 +43,6 @@ namespace Electronic.API.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<AuthResonseDto>> Register(RegistrationRequestDto request) =>
             await _authService.Register(request);
-
-
-        [HttpGet("users")]
-        public async Task<ActionResult<Pagination<ApplicationUserDto>>> GetAllUser(int pageNumber = 1, int take = 10)
-        {
-            var userQuery = _authService.GetAllUser();
-
-            return Ok(Pagination<ApplicationUserDto>.ToPagination(userQuery, pageNumber, take));
-
-        }
+        
     }
 }

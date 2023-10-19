@@ -10,7 +10,23 @@
 
 
     <ItemGroup>
+
+
+
+
       <ProjectReference Include="..\Electronic.Domain\Electronic.Domain.csproj" />
+
+
+
+
+
+
+
+
+
+
+
+
     </ItemGroup>
 
 

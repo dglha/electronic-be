@@ -20,11 +20,8 @@ public class Pagination<T> where T : class
         Data = data;
     }
     
-    public static Pagination<T> ToPagination(IQueryable<T> dataQueryable, int currentPage, int pageSize)
+    public static Pagination<T> ToPagination(IEnumerable<T> data, int currentPage, int pageSize, int totalCount)
     {
-        var totalCount = dataQueryable.Count();
-        var data = dataQueryable.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
-
         return new Pagination<T>(data, currentPage, pageSize, totalCount);
     }
 }
