@@ -8,4 +8,6 @@ public interface IAuthService
     Task<AuthResonseDto> Register(RegistrationRequestDto request);
     Task<bool> CheckEmailExistsAsync(string email);
     Task<ApplicationUserDto> GetCurrentUserInfo(string email);
+
+    IQueryable<ApplicationUserDto> GetAllUser();
 }
