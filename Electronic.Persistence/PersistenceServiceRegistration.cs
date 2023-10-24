@@ -1,5 +1,6 @@
 ﻿using Electronic.Application.Contracts.Persistences;
 using Electronic.Application.Interfaces.Services;
+using Electronic.Domain.Models.Catalog;
 using Electronic.Persistence.DatabaseContext;
 using Electronic.Persistence.Implements.Services;
 using Electronic.Persistence.Interfaces.Repositories;
@@ -23,12 +24,15 @@ public static class PersistenceServiceRegistration
         #region DI Repository
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         services.AddScoped<IBrandRepository, BrandRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
 
         #endregion
 
         #region DI Services
 
         services.AddScoped<IBrandService, BrandService>();
+        services.AddScoped<ICategoryService, CategoryService>();
+        services.AddScoped<IMediaService, MediaService>();
 
         #endregion
         

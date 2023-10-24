@@ -9,5 +9,5 @@ public class CreateBrandDto
     [Required]
     public string Description { get; set; }
     [Required]
-    public bool IsPublished { get; set; }
+    public bool? IsPublished { get; set; }
 }

@@ -35,7 +35,7 @@ public class BrandService : IBrandService
             Name = request.Name,
             Description = request.Description,
             Slug = safeSlug,
-            IsPublished = request.IsPublished,
+            IsPublished = (bool)request.IsPublished!,
             IsDeleted = false // When create new -> not delete
         };
 

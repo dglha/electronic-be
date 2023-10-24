@@ -107,6 +107,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseSerilogRequestLogging();
 
+app.UseStaticFiles();
+
 app.UseHttpsRedirection();
 
 app.UseCors("all");

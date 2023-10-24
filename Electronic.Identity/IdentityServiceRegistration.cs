@@ -49,6 +49,7 @@ public static class IdentityServiceRegistration
         
         // DI
         serviceCollection.AddTransient<IAuthService, AuthService>();
+        serviceCollection.AddTransient<IUserService, UserService>();
         
         return serviceCollection;
     }
