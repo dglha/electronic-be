@@ -1,4 +1,5 @@
 ﻿using Electronic.Application.Contracts.Logging;
+using Electronic.Application.Interfaces.Services;
 using Infrastructure.Logging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +12,7 @@ public static class InfrastructureServiceRegistration
         IConfiguration configuration)
     {
         services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
+        services.AddSingleton<IStorageService, LocalStorageService.LocalStorageService>();
         return services;
     }
 }

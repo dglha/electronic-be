@@ -1,4 +1,6 @@
-﻿using Electronic.Domain.Model.Catalog;
+﻿using Electronic.Application.Contracts.Identity;
+using Electronic.Domain.Common;
+using Electronic.Domain.Model.Catalog;
 using Electronic.Domain.Models;
 using Electronic.Domain.Models.Catalog;
 using Electronic.Domain.Models.Core;
@@ -14,9 +16,10 @@ namespace Electronic.Persistence.DatabaseContext;
 
 public class ElectronicDatabaseContext : DbContext
 {
-    public ElectronicDatabaseContext(DbContextOptions<ElectronicDatabaseContext> options) : base (options)
+    private readonly IUserService _userService;
+    public ElectronicDatabaseContext(DbContextOptions<ElectronicDatabaseContext> options, IUserService userService) : base (options)
     {
-        
+        _userService = userService;
     }
 
     #region Advertisement
@@ -99,6 +102,21 @@ public class ElectronicDatabaseContext : DbContext
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ElectronicDatabaseContext).Assembly);
         base.OnModelCreating(modelBuilder);
+    }
+    
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        foreach(var entry in base.ChangeTracker.Entries<BaseEntity>()
+                    .Where(q => q.State is EntityState.Added or EntityState.Modified))
+        {
+            entry.Entity.UpdatedAt = DateTime.Now;
+            entry.Entity.ModifiedBy = _userService.UserId;
+            if (entry.State != EntityState.Added) continue;
+            entry.Entity.CreatedAt = DateTime.Now;
+            entry.Entity.CreatedBy = _userService.UserId;
+        }
+
+        return base.SaveChangesAsync(cancellationToken);
     }
     
 }

@@ -24,22 +24,23 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
         return await _dbContext.Set<T>().FindAsync(id);
     }
 
-    public Task CreateAsync(T entity)
+    public async Task CreateAsync(T entity)
     {
-        var res = _dbContext.Set<T>().AddAsync(entity);
-        return Task.CompletedTask;
+        await _dbContext.Set<T>().AddAsync(entity);
+        await _dbContext.SaveChangesAsync();
     }
 
-    public Task UpdateAsync(T entity)
+    public async Task UpdateAsync(T entity)
     {
         _dbContext.Set<T>().Attach(entity);
         _dbContext.Entry(entity).State = EntityState.Modified;
-        return Task.CompletedTask;
+        await _dbContext.SaveChangesAsync();
+
     }
 
-    public Task DeleteAsync(T entity)
+    public async Task DeleteAsync(T entity)
     {
         _dbContext.Set<T>().Remove(entity);
-        return Task.CompletedTask;
+        await _dbContext.SaveChangesAsync();
     }
 }
