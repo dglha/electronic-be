@@ -28,7 +28,7 @@ public class Product : BaseEntity
     public bool IsDeleted { get; set; }
     public int? RatingCount { get; set; }
     public double? RatingAverage { get; set; }
-    public int StockQuantity { get; set; }
+    public int? StockQuantity { get; set; }
     public int? BrandId { get; set; }
     public Brand? Brand { get; set; }
     public long? ThumbnailImageId { get; set; }
@@ -38,7 +38,13 @@ public class Product : BaseEntity
     public ICollection<ProductAttributeValue> AttributeValues { get; set; } = new List<ProductAttributeValue>();
     public ICollection<ProductOptionValue> OptionValues { get; set; } = new List<ProductOptionValue>();
     public ICollection<ProductOptionGroup> OptionCombinations { get; set; } = new List<ProductOptionGroup>();
-    public ICollection<ProductCategory> Categories { get; set; }
-    public ICollection<ProductPriceHistory> PriceHistories { get; set; }
+    public ICollection<ProductCategory> Categories { get; set; } = new List<ProductCategory>();
+    public ICollection<ProductPriceHistory> PriceHistories { get; set; } = new List<ProductPriceHistory>();
     public ICollection<ProductLink> ProductLinks { get; set; } = new List<ProductLink>();
+    
+    public void AddCategory(ProductCategory category)
+    {
+        category.Product = this;
+        Categories.Add(category);
+    }
 }

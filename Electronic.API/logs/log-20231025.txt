@@ -1,0 +1,28 @@
+2023-10-25 00:39:32.918 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-25 00:39:32.949 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-25 00:39:32.950 +07:00 [INF] Hosting environment: Development
+2023-10-25 00:39:32.952 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-25 00:39:51.091 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-25 00:39:52.738 +07:00 [INF] HTTP GET /api/Auth/currentUser responded 200 in 1649.5945 ms
+2023-10-25 00:40:10.453 +07:00 [ERR] HTTP POST /api/New/add-new responded 500 in 13.0880 ms
+System.InvalidOperationException: Unable to resolve service for type 'Electronic.Application.Interfaces.Persistences.INewService' while attempting to activate 'Electronic.API.Controllers.NewController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.GetService(IServiceProvider sp, Type type, Type requiredBy, Boolean isDefaultParameterRequired)
+   at lambda_method171(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2023-10-25 00:41:16.649 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-25 00:41:16.687 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-25 00:41:16.688 +07:00 [INF] Hosting environment: Development
+2023-10-25 00:41:16.690 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-25 00:41:30.974 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-25 00:41:32.053 +07:00 [WRN] The foreign key property 'ProductLink.ProductId1' was created in shadow state because a conflicting property with the simple name 'ProductId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2023-10-25 00:41:40.779 +07:00 [INF] HTTP POST /api/New/add-new responded 200 in 9807.1055 ms

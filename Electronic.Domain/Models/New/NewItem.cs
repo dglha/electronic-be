@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using Electronic.Domain.Common;
 using Electronic.Domain.Models.Core;
 
 namespace Electronic.Domain.Models.New;
 
-public class NewItem
+public class NewItem : BaseEntity
 {
     public NewItem()
     {

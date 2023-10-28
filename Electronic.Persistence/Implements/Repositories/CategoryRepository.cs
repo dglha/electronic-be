@@ -1,4 +1,5 @@
 ﻿using Electronic.Application.Contracts.Persistences;
+using Electronic.Application.Interfaces.Persistences;
 using Electronic.Domain.Models.Catalog;
 using Electronic.Persistence.DatabaseContext;
 

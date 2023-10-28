@@ -1,3 +1,4 @@
+using Electronic.API.Requests;
 using Electronic.Application.Contracts.DTOs.Category;
 using Electronic.Application.Contracts.Response;
 using Electronic.Application.Interfaces.Services;
@@ -43,15 +44,19 @@ namespace Electronic.API.Controllers
             await _service.DeleteCategory(categoryId);
         }
         
-        
+        /// <summary>
+        /// Create category.
+        /// </summary>
+        /// <returns></returns>
         [Authorize(Roles = "Administrator")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<CreateCategoryDto>> CreateCategory(CreateCategoryDto request)
+        public async Task<ActionResult<CreateCategoryDto>> CreateCategory([FromForm] CategoryRequestForm request)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            return Ok( await _service.CreateNewCategory(request));
+            
+            return Ok( await _service.CreateNewCategory(request, request.ThumbnailImage.OpenReadStream(), request.ThumbnailImage.FileName));
         }
         
     }

@@ -34,14 +34,14 @@ public class MediaService : IMediaService
 
     public async Task SaveMediaAsync(Stream mediaBinaryStream, string fileName, string mimeType = null)
     {
-        var media = new Media
-        {
-            FileName = fileName,
-            MediaType = MediaTypeEnum.Image,
-            Caption = "asdfadsf"
-        };
-        await _dbContext.Media.AddAsync(media);
-        await _dbContext.SaveChangesAsync();
+        // var media = new Media
+        // {
+        //     FileName = fileName,
+        //     MediaType = MediaTypeEnum.Image,
+        //     Caption = "asdfadsf"
+        // };
+        // await _dbContext.Media.AddAsync(media);
+        // await _dbContext.SaveChangesAsync();
         await _storageService.SaveMediaAsync(mediaBinaryStream, fileName, mimeType);
     }
 

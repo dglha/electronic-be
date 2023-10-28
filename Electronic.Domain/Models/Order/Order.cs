@@ -16,4 +16,6 @@ public class Order : BaseEntity
 
     public ICollection<OrderStatusHistory> OrderStatusHistories { get; set; } = new List<OrderStatusHistory>();
     public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+    
+    public string CustomerId { get; set; }
 }

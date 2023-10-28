@@ -13,4 +13,5 @@ public class Payment : BaseEntity
     public string GatewayTransactionId { get; set; }
     public PaymentStatusEnum Status { get; set; }
     public string FailureMessage { get; set; }
+    public string CustomerId { get; set; }
 }

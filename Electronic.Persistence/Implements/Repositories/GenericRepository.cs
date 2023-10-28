@@ -1,4 +1,5 @@
 ﻿using Electronic.Application.Contracts.Persistences;
+using Electronic.Application.Interfaces.Persistences;
 using Electronic.Domain.Common;
 using Electronic.Persistence.DatabaseContext;
 using Microsoft.EntityFrameworkCore;
