@@ -16,7 +16,7 @@ public class ProductLinkConfiguration : IEntityTypeConfiguration<ProductLink>
         
         builder.HasOne<Product>(pl => pl.LinkedProduct)
             .WithMany()
-            .HasForeignKey(pl => pl.ProductId)
+            .HasForeignKey(pl => pl.LinkedProductId)
             .OnDelete(DeleteBehavior.Restrict);
             
     }

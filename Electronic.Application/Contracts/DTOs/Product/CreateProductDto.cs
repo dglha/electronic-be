@@ -1,4 +1,5 @@
-﻿using Electronic.Application.Contracts.DTOs.Category;
+﻿using Electronic.Application.Contracts.Common;
+using Electronic.Application.Contracts.DTOs.Category;
 
 namespace Electronic.Application.Contracts.DTOs.Product;
 
@@ -18,6 +19,10 @@ public class CreateProductDto
     public bool IsPublished { get; set; }
     public bool IsFeatured { get; set; }
     public bool IsAllowToOrder { get; set; }
+    public bool IsVisibleIndividually { get; set; }
+    public int StockQuantity { get; set; }
     public int BrandId { get; set; }
+    public ImageFileDto ThumbnailImage { get; set; }
+    public IEnumerable<ImageFileDto> ProductImages { get; set; }
     public IEnumerable<long> CategoryIds { get; set; } = new List<long>();
 }
