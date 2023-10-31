@@ -118,7 +118,7 @@ namespace Electronic.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("OldPrice")
+                    b.Property<decimal?>("OldPrice")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
@@ -158,7 +158,7 @@ namespace Electronic.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StockQuantity")
+                    b.Property<int?>("StockQuantity")
                         .HasColumnType("int");
 
                     b.Property<long?>("ThumbnailImageId")
@@ -430,9 +430,6 @@ namespace Electronic.Persistence.Migrations
                     b.Property<long>("ProductId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("ProductId1")
-                        .HasColumnType("bigint");
-
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
@@ -441,9 +438,9 @@ namespace Electronic.Persistence.Migrations
 
                     b.HasKey("ProductLinkId");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("LinkedProductId");
 
-                    b.HasIndex("ProductId1");
+                    b.HasIndex("ProductId");
 
                     b.ToTable("ProductLinks");
                 });
@@ -486,9 +483,21 @@ namespace Electronic.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductOptionId"));
 
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("ProductOptionId");
 
@@ -590,7 +599,7 @@ namespace Electronic.Persistence.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("OldPrice")
+                    b.Property<decimal?>("OldPrice")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
@@ -976,6 +985,12 @@ namespace Electronic.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NewItemId"));
 
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FullContent")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -985,6 +1000,9 @@ namespace Electronic.Persistence.Migrations
 
                     b.Property<bool>("IsPublished")
                         .HasColumnType("bit");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("PublishedAt")
                         .HasColumnType("datetime2");
@@ -1003,6 +1021,9 @@ namespace Electronic.Persistence.Migrations
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("NewItemId");
 
@@ -1040,6 +1061,10 @@ namespace Electronic.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomerId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ModifiedBy")
@@ -1167,6 +1192,10 @@ namespace Electronic.Persistence.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CustomerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FailureMessage")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -1262,6 +1291,10 @@ namespace Electronic.Persistence.Migrations
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
+                    b.Property<string>("ReviewerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ReviewerName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -1294,6 +1327,10 @@ namespace Electronic.Persistence.Migrations
 
                     b.Property<long>("ReviewId")
                         .HasColumnType("bigint");
+
+                    b.Property<string>("ReviewerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ReviewerName")
                         .IsRequired()
@@ -1443,14 +1480,14 @@ namespace Electronic.Persistence.Migrations
                 {
                     b.HasOne("Electronic.Domain.Model.Catalog.Product", "LinkedProduct")
                         .WithMany()
-                        .HasForeignKey("ProductId")
+                        .HasForeignKey("LinkedProductId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Electronic.Domain.Model.Catalog.Product", "Product")
                         .WithMany("ProductLinks")
-                        .HasForeignKey("ProductId1")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("LinkedProduct");

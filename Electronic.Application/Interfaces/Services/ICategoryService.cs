@@ -6,7 +6,7 @@ namespace Electronic.Application.Interfaces.Services;
 
 public interface ICategoryService
 {
-    Task<CreateCategoryResultDto> CreateNewCategory(CreateCategoryDto request);
+    Task<CreateCategoryResultDto> CreateNewCategory(CreateCategoryDto request, Stream mediaBinaryStream, string fileName, string mimeType = null);
     Task<Pagination<CategoryDto>> GetAllCategories(int pageIndex, int itemPerPage);
     Task DeleteCategory(long categoryId);
 }

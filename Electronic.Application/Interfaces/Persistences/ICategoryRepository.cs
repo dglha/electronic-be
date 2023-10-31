@@ -1,6 +1,7 @@
-﻿using Electronic.Domain.Models.Catalog;
+﻿using Electronic.Application.Contracts.Persistences;
+using Electronic.Domain.Models.Catalog;
 
-namespace Electronic.Application.Contracts.Persistences;
+namespace Electronic.Application.Interfaces.Persistences;
 
 public interface ICategoryRepository : IGenericRepository<Category>
 {

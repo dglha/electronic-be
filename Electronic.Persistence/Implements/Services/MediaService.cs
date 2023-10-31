@@ -1,7 +1,9 @@
-﻿using Electronic.Application.Interfaces.Services;
+﻿using Electronic.Application.Contracts.Logging;
+using Electronic.Application.Interfaces.Services;
 using Electronic.Domain.Enums;
 using Electronic.Domain.Models.Core;
 using Electronic.Persistence.DatabaseContext;
+using Microsoft.Extensions.Logging;
 
 namespace Electronic.Persistence.Implements.Services;
 
@@ -9,11 +11,13 @@ public class MediaService : IMediaService
 {
     private readonly IStorageService _storageService;
     private readonly ElectronicDatabaseContext _dbContext;
+    private readonly IAppLogger<MediaService> _logger;
 
-    public MediaService(IStorageService storageService, ElectronicDatabaseContext dbContext)
+    public MediaService(IStorageService storageService, ElectronicDatabaseContext dbContext, IAppLogger<MediaService> logger)
     {
         _storageService = storageService;
         _dbContext = dbContext;
+        _logger = logger;
     }
 
 
@@ -34,20 +38,23 @@ public class MediaService : IMediaService
 
     public async Task SaveMediaAsync(Stream mediaBinaryStream, string fileName, string mimeType = null)
     {
-        var media = new Media
-        {
-            FileName = fileName,
-            MediaType = MediaTypeEnum.Image,
-            Caption = "asdfadsf"
-        };
-        await _dbContext.Media.AddAsync(media);
-        await _dbContext.SaveChangesAsync();
+        // var media = new Media
+        // {
+        //     FileName = fileName,
+        //     MediaType = MediaTypeEnum.Image,
+        //     Caption = "asdfadsf"
+        // };
+        // await _dbContext.Media.AddAsync(media);
+        // await _dbContext.SaveChangesAsync();
         await _storageService.SaveMediaAsync(mediaBinaryStream, fileName, mimeType);
     }
 
-    public Task DeleteMediaAsync(Media media)
+    public async Task DeleteMediaAsync(Media media)
     {
-        throw new NotImplementedException();
+        _dbContext.Set<Media>().Remove(media);
+        await _dbContext.SaveChangesAsync();
+        await _storageService.DeleteMediaAsync(media.FileName);
+        _logger.LogInformation($"Deleted media: {media.FileName}");
     }
 
     public Task DeleteMediaAsync(string fileName)

@@ -1,0 +1,356 @@
+2023-10-19 00:02:51.702 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-19 00:02:51.751 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-19 00:02:51.753 +07:00 [INF] Hosting environment: Development
+2023-10-19 00:02:51.754 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-19 00:02:58.103 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-19 00:02:59.516 +07:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2023-10-19 00:02:59.519 +07:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2023-10-19 00:02:59.552 +07:00 [INF] HTTP GET /api/Auth/users responded 200 in 1451.4718 ms
+2023-10-19 00:03:29.277 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-19 00:03:29.308 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-19 00:03:29.310 +07:00 [INF] Hosting environment: Development
+2023-10-19 00:03:29.311 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-19 00:03:55.728 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-19 00:03:57.170 +07:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2023-10-19 00:03:57.173 +07:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2023-10-19 00:03:57.230 +07:00 [INF] HTTP GET /api/Auth/users responded 200 in 1503.1490 ms
+2023-10-19 00:05:07.039 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-19 00:05:07.071 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-19 00:05:07.073 +07:00 [INF] Hosting environment: Development
+2023-10-19 00:05:07.074 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-19 00:05:55.016 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-19 00:05:56.367 +07:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2023-10-19 00:05:56.370 +07:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2023-10-19 00:05:56.424 +07:00 [INF] HTTP GET /api/Auth/users responded 200 in 1410.3091 ms
+2023-10-19 22:19:39.165 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-19 22:19:39.241 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-19 22:19:39.245 +07:00 [INF] Hosting environment: Development
+2023-10-19 22:19:39.247 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-19 22:19:58.529 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-19 22:19:58.881 +07:00 [ERR] HTTP POST /api/Brand responded 500 in 353.0165 ms
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Electronic.API.Controllers.BrandController.CreateBrand(CreateBrandDto request) in D:\etc\graduation-thesis\be\Electronic\Electronic.API\Controllers\BrandController.cs:line 24
+   at lambda_method6(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2023-10-19 22:22:40.426 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-19 22:22:40.455 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-19 22:22:40.458 +07:00 [INF] Hosting environment: Development
+2023-10-19 22:22:40.460 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-19 22:22:54.654 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-19 22:22:54.946 +07:00 [ERR] HTTP POST /api/Brand responded 500 in 295.5998 ms
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Electronic.API.Controllers.BrandController.CreateBrand(CreateBrandDto request) in D:\etc\graduation-thesis\be\Electronic\Electronic.API\Controllers\BrandController.cs:line 24
+   at lambda_method6(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2023-10-19 22:26:25.836 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-19 22:26:25.869 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-19 22:26:25.873 +07:00 [INF] Hosting environment: Development
+2023-10-19 22:26:25.875 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-19 22:27:11.998 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-19 22:27:26.837 +07:00 [ERR] HTTP POST /api/Brand responded 500 in 14841.8351 ms
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Electronic.API.Controllers.BrandController.CreateBrand(CreateBrandDto request) in D:\etc\graduation-thesis\be\Electronic\Electronic.API\Controllers\BrandController.cs:line 24
+   at lambda_method6(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2023-10-19 22:28:25.216 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-19 22:28:25.252 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-19 22:28:25.254 +07:00 [INF] Hosting environment: Development
+2023-10-19 22:28:25.255 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-19 22:28:36.291 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-19 22:28:40.366 +07:00 [ERR] HTTP POST /api/Brand responded 500 in 4077.1572 ms
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Electronic.API.Controllers.BrandController.CreateBrand(CreateBrandDto request) in D:\etc\graduation-thesis\be\Electronic\Electronic.API\Controllers\BrandController.cs:line 24
+   at lambda_method6(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2023-10-19 22:30:18.993 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-19 22:30:19.027 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-19 22:30:19.029 +07:00 [INF] Hosting environment: Development
+2023-10-19 22:30:19.029 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-19 22:30:26.999 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-19 22:30:34.404 +07:00 [WRN] The foreign key property 'ProductLink.ProductId1' was created in shadow state because a conflicting property with the simple name 'ProductId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2023-10-19 22:30:56.916 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-19 22:30:56.948 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-19 22:30:56.951 +07:00 [INF] Hosting environment: Development
+2023-10-19 22:30:56.953 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-19 22:31:51.344 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-19 22:32:01.844 +07:00 [WRN] The foreign key property 'ProductLink.ProductId1' was created in shadow state because a conflicting property with the simple name 'ProductId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2023-10-19 22:32:19.631 +07:00 [INF] HTTP POST /api/Brand responded 200 in 28289.5547 ms
+2023-10-19 22:34:04.580 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-19 22:34:04.611 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-19 22:34:04.613 +07:00 [INF] Hosting environment: Development
+2023-10-19 22:34:04.616 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-19 22:34:29.853 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-19 22:34:33.506 +07:00 [WRN] The foreign key property 'ProductLink.ProductId1' was created in shadow state because a conflicting property with the simple name 'ProductId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2023-10-19 22:34:38.087 +07:00 [INF] HTTP POST /api/Brand responded 200 in 8235.9968 ms
+2023-10-19 23:02:13.697 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-19 23:02:13.728 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-19 23:02:13.728 +07:00 [INF] Hosting environment: Development
+2023-10-19 23:02:13.730 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-19 23:02:34.920 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-19 23:02:35.005 +07:00 [INF] HTTP GET / responded 404 in 87.9696 ms
+2023-10-19 23:03:11.822 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-19 23:03:11.854 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-19 23:03:11.855 +07:00 [INF] Hosting environment: Development
+2023-10-19 23:03:11.856 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-19 23:03:17.273 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-19 23:03:18.118 +07:00 [WRN] The foreign key property 'ProductLink.ProductId1' was created in shadow state because a conflicting property with the simple name 'ProductId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2023-10-19 23:03:18.865 +07:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2023-10-19 23:03:18.866 +07:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2023-10-19 23:03:18.944 +07:00 [INF] HTTP GET /api/Brand responded 200 in 1672.5327 ms
+2023-10-19 23:04:21.347 +07:00 [INF] HTTP GET /api/Brand responded 200 in 71.7037 ms
+2023-10-19 23:21:07.158 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-19 23:21:07.187 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-19 23:21:07.189 +07:00 [INF] Hosting environment: Development
+2023-10-19 23:21:07.190 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-19 23:21:42.914 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-19 23:21:43.002 +07:00 [ERR] HTTP POST /api/Brand/100/delete responded 500 in 89.4962 ms
+System.TypeLoadException: Could not load type 'Invalid_Token.0x0200011A' from assembly 'Electronic.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'.
+   at System.Reflection.Emit.DynamicMethod.CreateDelegate(Type delegateType, Object target)
+   at System.Linq.Expressions.Compiler.LambdaCompiler.Compile(LambdaExpression lambda)
+   at System.Linq.Expressions.Expression`1.Compile()
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor..ctor(MethodInfo methodInfo, TypeInfo targetTypeInfo, Object[] parameterDefaultValues)
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.Create(MethodInfo methodInfo, TypeInfo targetTypeInfo, Object[] parameterDefaultValues)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvokerCache.GetCachedResult(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Routing.ControllerRequestDelegateFactory.<>c__DisplayClass12_0.<CreateRequestDelegate>b__0(HttpContext context)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2023-10-19 23:21:59.254 +07:00 [ERR] HTTP POST /api/Brand/100/delete responded 500 in 17.7974 ms
+System.TypeLoadException: Could not load type 'Invalid_Token.0x0200011A' from assembly 'Electronic.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'.
+   at System.Reflection.Emit.DynamicMethod.CreateDelegate(Type delegateType, Object target)
+   at System.Linq.Expressions.Compiler.LambdaCompiler.Compile(LambdaExpression lambda)
+   at System.Linq.Expressions.Expression`1.Compile()
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor..ctor(MethodInfo methodInfo, TypeInfo targetTypeInfo, Object[] parameterDefaultValues)
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.Create(MethodInfo methodInfo, TypeInfo targetTypeInfo, Object[] parameterDefaultValues)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvokerCache.GetCachedResult(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Routing.ControllerRequestDelegateFactory.<>c__DisplayClass12_0.<CreateRequestDelegate>b__0(HttpContext context)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2023-10-19 23:22:30.392 +07:00 [ERR] HTTP POST /api/Brand/100/delete responded 500 in 9.6576 ms
+System.TypeLoadException: Could not load type 'Invalid_Token.0x0200011A' from assembly 'Electronic.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'.
+   at System.Reflection.Emit.DynamicMethod.CreateDelegate(Type delegateType, Object target)
+   at System.Linq.Expressions.Compiler.LambdaCompiler.Compile(LambdaExpression lambda)
+   at System.Linq.Expressions.Expression`1.Compile()
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor..ctor(MethodInfo methodInfo, TypeInfo targetTypeInfo, Object[] parameterDefaultValues)
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.Create(MethodInfo methodInfo, TypeInfo targetTypeInfo, Object[] parameterDefaultValues)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvokerCache.GetCachedResult(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Routing.ControllerRequestDelegateFactory.<>c__DisplayClass12_0.<CreateRequestDelegate>b__0(HttpContext context)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2023-10-19 23:22:31.318 +07:00 [ERR] HTTP POST /api/Brand/100/delete responded 500 in 1.1738 ms
+System.TypeLoadException: Could not load type 'Invalid_Token.0x0200011A' from assembly 'Electronic.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'.
+   at System.Reflection.Emit.DynamicMethod.CreateDelegate(Type delegateType, Object target)
+   at System.Linq.Expressions.Compiler.LambdaCompiler.Compile(LambdaExpression lambda)
+   at System.Linq.Expressions.Expression`1.Compile()
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor..ctor(MethodInfo methodInfo, TypeInfo targetTypeInfo, Object[] parameterDefaultValues)
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.Create(MethodInfo methodInfo, TypeInfo targetTypeInfo, Object[] parameterDefaultValues)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvokerCache.GetCachedResult(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Routing.ControllerRequestDelegateFactory.<>c__DisplayClass12_0.<CreateRequestDelegate>b__0(HttpContext context)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2023-10-19 23:22:52.973 +07:00 [ERR] HTTP POST /api/Brand/1/delete responded 500 in 1.5775 ms
+System.TypeLoadException: Could not load type 'Invalid_Token.0x0200011A' from assembly 'Electronic.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'.
+   at System.Reflection.Emit.DynamicMethod.CreateDelegate(Type delegateType, Object target)
+   at System.Linq.Expressions.Compiler.LambdaCompiler.Compile(LambdaExpression lambda)
+   at System.Linq.Expressions.Expression`1.Compile()
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor..ctor(MethodInfo methodInfo, TypeInfo targetTypeInfo, Object[] parameterDefaultValues)
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.Create(MethodInfo methodInfo, TypeInfo targetTypeInfo, Object[] parameterDefaultValues)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvokerCache.GetCachedResult(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Routing.ControllerRequestDelegateFactory.<>c__DisplayClass12_0.<CreateRequestDelegate>b__0(HttpContext context)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2023-10-19 23:23:57.772 +07:00 [ERR] HTTP POST /api/Brand/1/delete responded 500 in 7.1662 ms
+System.TypeLoadException: Could not load type 'Invalid_Token.0x0200011A' from assembly 'Electronic.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'.
+   at System.Reflection.Emit.DynamicMethod.CreateDelegate(Type delegateType, Object target)
+   at System.Linq.Expressions.Compiler.LambdaCompiler.Compile(LambdaExpression lambda)
+   at System.Linq.Expressions.Expression`1.Compile()
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor..ctor(MethodInfo methodInfo, TypeInfo targetTypeInfo, Object[] parameterDefaultValues)
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.Create(MethodInfo methodInfo, TypeInfo targetTypeInfo, Object[] parameterDefaultValues)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvokerCache.GetCachedResult(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Routing.ControllerRequestDelegateFactory.<>c__DisplayClass12_0.<CreateRequestDelegate>b__0(HttpContext context)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2023-10-19 23:23:58.423 +07:00 [ERR] HTTP POST /api/Brand/1/delete responded 500 in 1.7256 ms
+System.TypeLoadException: Could not load type 'Invalid_Token.0x0200011A' from assembly 'Electronic.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'.
+   at System.Reflection.Emit.DynamicMethod.CreateDelegate(Type delegateType, Object target)
+   at System.Linq.Expressions.Compiler.LambdaCompiler.Compile(LambdaExpression lambda)
+   at System.Linq.Expressions.Expression`1.Compile()
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor..ctor(MethodInfo methodInfo, TypeInfo targetTypeInfo, Object[] parameterDefaultValues)
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.Create(MethodInfo methodInfo, TypeInfo targetTypeInfo, Object[] parameterDefaultValues)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvokerCache.GetCachedResult(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Routing.ControllerRequestDelegateFactory.<>c__DisplayClass12_0.<CreateRequestDelegate>b__0(HttpContext context)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2023-10-19 23:24:55.944 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-19 23:24:55.973 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-19 23:24:55.977 +07:00 [INF] Hosting environment: Development
+2023-10-19 23:24:55.979 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-19 23:25:16.619 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-19 23:25:22.911 +07:00 [WRN] The foreign key property 'ProductLink.ProductId1' was created in shadow state because a conflicting property with the simple name 'ProductId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2023-10-19 23:25:25.319 +07:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2023-10-19 23:25:25.321 +07:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2023-10-19 23:25:30.727 +07:00 [INF] HTTP GET /api/Brand responded 200 in 14109.7945 ms
+2023-10-19 23:25:47.297 +07:00 [ERR] HTTP POST /api/Brand/123/delete responded 500 in 10151.0467 ms
+System.ApplicationException: Brand Id not found
+   at Electronic.Persistence.Implements.Services.BrandService.DeleteBrand(Int32 brandId) in D:\etc\graduation-thesis\be\Electronic\Electronic.Persistence\Implements\Services\BrandService.cs:line 60
+   at Electronic.API.Controllers.BrandController.DeleteBrandWithId(Int32 brandId) in D:\etc\graduation-thesis\be\Electronic\Electronic.API\Controllers\BrandController.cs:line 46
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2023-10-19 23:36:13.176 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-19 23:36:13.208 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-19 23:36:13.208 +07:00 [INF] Hosting environment: Development
+2023-10-19 23:36:13.209 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-19 23:36:56.962 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-19 23:37:00.351 +07:00 [WRN] The foreign key property 'ProductLink.ProductId1' was created in shadow state because a conflicting property with the simple name 'ProductId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2023-10-19 23:37:04.058 +07:00 [ERR] HTTP POST /api/Brand/123123/delete responded 500 in 7098.3659 ms
+Electronic.Application.Contracts.Exeptions.AppException: Brand Id not found
+   at Electronic.Persistence.Implements.Services.BrandService.DeleteBrand(Int32 brandId) in D:\etc\graduation-thesis\be\Electronic\Electronic.Persistence\Implements\Services\BrandService.cs:line 62
+   at Electronic.API.Controllers.BrandController.DeleteBrandWithId(Int32 brandId) in D:\etc\graduation-thesis\be\Electronic\Electronic.API\Controllers\BrandController.cs:line 46
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2023-10-19 23:40:30.059 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-19 23:40:30.101 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-19 23:40:30.102 +07:00 [INF] Hosting environment: Development
+2023-10-19 23:40:30.104 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-19 23:43:07.797 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-19 23:43:07.829 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-19 23:43:07.833 +07:00 [INF] Hosting environment: Development
+2023-10-19 23:43:07.834 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-19 23:44:49.973 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-19 23:44:50.003 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-19 23:44:50.007 +07:00 [INF] Hosting environment: Development
+2023-10-19 23:44:50.008 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-19 23:46:16.751 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-19 23:46:16.781 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-19 23:46:16.784 +07:00 [INF] Hosting environment: Development
+2023-10-19 23:46:16.785 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-19 23:46:48.025 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-19 23:46:52.200 +07:00 [WRN] The foreign key property 'ProductLink.ProductId1' was created in shadow state because a conflicting property with the simple name 'ProductId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2023-10-19 23:46:52.901 +07:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2023-10-19 23:46:52.902 +07:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2023-10-19 23:46:52.976 +07:00 [INF] HTTP GET /api/Brand responded 200 in 4953.2692 ms
+2023-10-19 23:46:59.948 +07:00 [INF] HTTP POST /api/Brand/2/delete responded 200 in 183.7105 ms
+2023-10-19 23:47:21.932 +07:00 [INF] HTTP GET /api/Brand responded 200 in 26.7155 ms
+2023-10-19 23:53:35.085 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-19 23:53:35.118 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-19 23:53:35.120 +07:00 [INF] Hosting environment: Development
+2023-10-19 23:53:35.121 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-19 23:53:51.588 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-19 23:53:55.111 +07:00 [WRN] The foreign key property 'ProductLink.ProductId1' was created in shadow state because a conflicting property with the simple name 'ProductId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2023-10-19 23:53:55.866 +07:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2023-10-19 23:53:55.868 +07:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2023-10-19 23:53:55.929 +07:00 [INF] HTTP GET /api/Brand responded 200 in 4343.4636 ms
+2023-10-19 23:54:09.440 +07:00 [INF] HTTP POST /api/Brand/1/publish responded 200 in 172.8822 ms
+2023-10-19 23:54:12.806 +07:00 [INF] HTTP GET /api/Brand responded 200 in 15.4258 ms
+2023-10-19 23:54:15.475 +07:00 [INF] HTTP GET /api/Brand responded 200 in 5.3689 ms
+2023-10-19 23:54:15.898 +07:00 [INF] HTTP GET /api/Brand responded 200 in 6.0548 ms
+2023-10-19 23:56:05.065 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-19 23:56:05.095 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-19 23:56:05.097 +07:00 [INF] Hosting environment: Development
+2023-10-19 23:56:05.097 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-19 23:56:56.293 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-19 23:56:57.040 +07:00 [WRN] The foreign key property 'ProductLink.ProductId1' was created in shadow state because a conflicting property with the simple name 'ProductId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2023-10-19 23:56:57.908 +07:00 [INF] HTTP POST /api/Brand/1/publish responded 200 in 1616.6459 ms
+2023-10-19 23:57:03.589 +07:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2023-10-19 23:57:03.590 +07:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2023-10-19 23:57:03.612 +07:00 [INF] HTTP GET /api/Brand responded 200 in 100.3473 ms
+2023-10-19 23:57:11.526 +07:00 [INF] HTTP POST /api/Brand/1/publish responded 200 in 16.1372 ms
+2023-10-19 23:57:14.798 +07:00 [INF] HTTP GET /api/Brand responded 200 in 10.5433 ms
+2023-10-19 23:59:52.767 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-19 23:59:52.797 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-19 23:59:52.798 +07:00 [INF] Hosting environment: Development
+2023-10-19 23:59:52.798 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API

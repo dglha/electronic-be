@@ -1,5 +1,6 @@
 ﻿using Electronic.Application.Contracts.Logging;
 using Electronic.Application.Contracts.Persistences;
+using Electronic.Application.Interfaces.Persistences;
 using Electronic.Domain.Model.Catalog;
 using Electronic.Persistence.DatabaseContext;
 

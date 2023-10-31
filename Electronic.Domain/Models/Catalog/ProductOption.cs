@@ -1,6 +1,8 @@
-﻿namespace Electronic.Domain.Models.Catalog;
+﻿using Electronic.Domain.Common;
 
-public class ProductOption
+namespace Electronic.Domain.Models.Catalog;
+
+public class ProductOption : BaseEntity
 {
     public int ProductOptionId { get; set; }
     public string Name { get; set; }

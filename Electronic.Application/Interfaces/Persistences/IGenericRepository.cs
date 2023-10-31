@@ -1,6 +1,6 @@
 ﻿using Electronic.Domain.Common;
 
-namespace Electronic.Application.Contracts.Persistences;
+namespace Electronic.Application.Interfaces.Persistences;
 
 public interface IGenericRepository<T> where T : BaseEntity
 {

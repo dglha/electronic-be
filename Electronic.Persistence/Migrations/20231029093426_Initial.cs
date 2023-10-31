@@ -105,6 +105,7 @@ namespace Electronic.Persistence.Migrations
                     OrderTotal = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     PaymentMethod = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PaymentFeeAmount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: true),
+                    CustomerId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -158,7 +159,11 @@ namespace Electronic.Persistence.Migrations
                 {
                     ProductOptionId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -173,6 +178,7 @@ namespace Electronic.Persistence.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Rating = table.Column<int>(type: "int", nullable: false),
                     ReviewerName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ReviewerId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Comment = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<bool>(type: "bit", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -303,7 +309,11 @@ namespace Electronic.Persistence.Migrations
                     IsPublished = table.Column<bool>(type: "bit", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     PublishedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ThumbnailImageId = table.Column<long>(type: "bigint", nullable: true)
+                    ThumbnailImageId = table.Column<long>(type: "bigint", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -330,7 +340,7 @@ namespace Electronic.Persistence.Migrations
                     Slug = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SKU = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                    OldPrice = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    OldPrice = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: true),
                     SpecialPrice = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     SpecialPriceStartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     SpecialPriceEndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -343,7 +353,7 @@ namespace Electronic.Persistence.Migrations
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     RatingCount = table.Column<int>(type: "int", nullable: true),
                     RatingAverage = table.Column<double>(type: "float", nullable: true),
-                    StockQuantity = table.Column<int>(type: "int", nullable: false),
+                    StockQuantity = table.Column<int>(type: "int", nullable: true),
                     BrandId = table.Column<int>(type: "int", nullable: true),
                     ThumbnailImageId = table.Column<long>(type: "bigint", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -402,6 +412,7 @@ namespace Electronic.Persistence.Migrations
                     GatewayTransactionId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     FailureMessage = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CustomerId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -451,6 +462,7 @@ namespace Electronic.Persistence.Migrations
                     ReviewId = table.Column<long>(type: "bigint", nullable: false),
                     Rating = table.Column<int>(type: "int", nullable: false),
                     ReviewerName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ReviewerId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Comment = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -598,7 +610,6 @@ namespace Electronic.Persistence.Migrations
                     ProductLinkId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProductId = table.Column<long>(type: "bigint", nullable: false),
-                    ProductId1 = table.Column<long>(type: "bigint", nullable: false),
                     LinkedProductId = table.Column<long>(type: "bigint", nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -610,17 +621,17 @@ namespace Electronic.Persistence.Migrations
                 {
                     table.PrimaryKey("PK_ProductLinks", x => x.ProductLinkId);
                     table.ForeignKey(
+                        name: "FK_ProductLinks_Products_LinkedProductId",
+                        column: x => x.LinkedProductId,
+                        principalTable: "Products",
+                        principalColumn: "ProductId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_ProductLinks_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "ProductId",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ProductLinks_Products_ProductId1",
-                        column: x => x.ProductId1,
-                        principalTable: "Products",
-                        principalColumn: "ProductId",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -722,7 +733,7 @@ namespace Electronic.Persistence.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProductId = table.Column<long>(type: "bigint", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                    OldPrice = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    OldPrice = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: true),
                     SpecialPrice = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     SpecialPriceStartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     SpecialPriceEndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -965,14 +976,14 @@ namespace Electronic.Persistence.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductLinks_LinkedProductId",
+                table: "ProductLinks",
+                column: "LinkedProductId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProductLinks_ProductId",
                 table: "ProductLinks",
                 column: "ProductId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductLinks_ProductId1",
-                table: "ProductLinks",
-                column: "ProductId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductMedias_MediaId",

@@ -1,0 +1,345 @@
+2023-10-28 09:38:49.184 +07:00 [WRN] The foreign key property 'ProductLink.ProductId1' was created in shadow state because a conflicting property with the simple name 'ProductId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2023-10-28 09:38:49.375 +07:00 [WRN] The foreign key property 'ProductLink.ProductId1' was created in shadow state because a conflicting property with the simple name 'ProductId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2023-10-28 09:39:04.206 +07:00 [WRN] The foreign key property 'ProductLink.ProductId1' was created in shadow state because a conflicting property with the simple name 'ProductId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2023-10-28 10:05:39.293 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-28 10:05:39.326 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-28 10:05:39.329 +07:00 [INF] Hosting environment: Development
+2023-10-28 10:05:39.331 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-28 10:06:59.894 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-28 10:07:02.039 +07:00 [INF] duongleha Logged!!!
+2023-10-28 10:07:02.058 +07:00 [INF] HTTP POST /api/Auth/login responded 200 in 2165.2411 ms
+2023-10-28 10:07:35.391 +07:00 [INF] HTTP GET /api/Auth/currentUser responded 200 in 74.5985 ms
+2023-10-28 10:13:21.281 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-28 10:13:21.316 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-28 10:13:21.319 +07:00 [INF] Hosting environment: Development
+2023-10-28 10:13:21.320 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-28 10:14:26.211 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-28 10:14:27.270 +07:00 [WRN] The foreign key property 'ProductLink.ProductId1' was created in shadow state because a conflicting property with the simple name 'ProductId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2023-10-28 10:16:13.135 +07:00 [ERR] An exception occurred in the database while saving changes for context type 'Electronic.Persistence.DatabaseContext.ElectronicDatabaseContext'.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): Cannot insert the value NULL into column 'Caption', table 'electronic.dbo.Media'; column does not allow nulls. INSERT fails.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryHasMoreRows(Boolean& moreRows)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryReadInternal(Boolean setTimeout, Boolean& more)
+   at Microsoft.Data.SqlClient.SqlDataReader.ReadAsyncExecute(Task task, Object state)
+   at Microsoft.Data.SqlClient.SqlDataReader.InvokeAsyncCall[T](SqlDataReaderBaseAsyncCallContext`1 context)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetAsync(Int32 startCommandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+ClientConnectionId:510d70f4-34c1-4f85-891d-c2fc542189ba
+Error Number:515,State:2,Class:16
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): Cannot insert the value NULL into column 'Caption', table 'electronic.dbo.Media'; column does not allow nulls. INSERT fails.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryHasMoreRows(Boolean& moreRows)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryReadInternal(Boolean setTimeout, Boolean& more)
+   at Microsoft.Data.SqlClient.SqlDataReader.ReadAsyncExecute(Task task, Object state)
+   at Microsoft.Data.SqlClient.SqlDataReader.InvokeAsyncCall[T](SqlDataReaderBaseAsyncCallContext`1 context)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetAsync(Int32 startCommandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+ClientConnectionId:510d70f4-34c1-4f85-891d-c2fc542189ba
+Error Number:515,State:2,Class:16
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2023-10-28 10:17:02.602 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-28 10:17:02.631 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-28 10:17:02.632 +07:00 [INF] Hosting environment: Development
+2023-10-28 10:17:02.632 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-28 10:17:37.357 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-28 10:17:38.282 +07:00 [WRN] The foreign key property 'ProductLink.ProductId1' was created in shadow state because a conflicting property with the simple name 'ProductId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2023-10-28 10:17:51.981 +07:00 [INF] HTTP POST /api/Category responded 200 in 14625.2710 ms
+2023-10-28 10:18:10.778 +07:00 [INF] HTTP GET /user-content/d6e2bb98-9357-4ed8-99dd-0deaa01319c1.jfif responded 200 in 38.4018 ms
+2023-10-28 10:18:11.036 +07:00 [INF] HTTP GET /favicon.ico responded 404 in 2.2605 ms
+2023-10-28 14:13:41.147 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-28 14:13:41.208 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-28 14:13:41.210 +07:00 [INF] Hosting environment: Development
+2023-10-28 14:13:41.211 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-28 14:14:02.710 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-28 14:14:04.701 +07:00 [INF] HTTP GET /api/Auth/currentUser responded 200 in 1992.6260 ms
+2023-10-28 14:15:32.714 +07:00 [ERR] HTTP POST /api/Product responded 500 in 18.7511 ms
+System.InvalidOperationException: Unable to resolve service for type 'Electronic.Application.Interfaces.Services.IProductService' while attempting to activate 'Electronic.API.Controllers.ProductController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.GetService(IServiceProvider sp, Type type, Type requiredBy, Boolean isDefaultParameterRequired)
+   at lambda_method171(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2023-10-28 14:18:51.347 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-28 14:18:51.401 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-28 14:18:51.402 +07:00 [INF] Hosting environment: Development
+2023-10-28 14:18:51.404 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-28 14:19:01.385 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-28 14:19:52.291 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-28 14:19:52.339 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-28 14:19:52.341 +07:00 [INF] Hosting environment: Development
+2023-10-28 14:19:52.342 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-28 14:19:57.073 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-28 14:20:11.636 +07:00 [WRN] The foreign key property 'ProductLink.ProductId1' was created in shadow state because a conflicting property with the simple name 'ProductId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2023-10-28 14:20:12.618 +07:00 [ERR] An exception occurred in the database while saving changes for context type 'Electronic.Persistence.DatabaseContext.ElectronicDatabaseContext'.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): Cannot insert the value NULL into column 'NormalizedName', table 'electronic.dbo.Products'; column does not allow nulls. INSERT fails.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryHasMoreRows(Boolean& moreRows)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryReadInternal(Boolean setTimeout, Boolean& more)
+   at Microsoft.Data.SqlClient.SqlDataReader.ReadAsyncExecute(Task task, Object state)
+   at Microsoft.Data.SqlClient.SqlDataReader.InvokeAsyncCall[T](SqlDataReaderBaseAsyncCallContext`1 context)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetAsync(Int32 startCommandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+ClientConnectionId:2aa333f2-4feb-477a-9f16-fe637988c286
+Error Number:515,State:2,Class:16
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): Cannot insert the value NULL into column 'NormalizedName', table 'electronic.dbo.Products'; column does not allow nulls. INSERT fails.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryHasMoreRows(Boolean& moreRows)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryReadInternal(Boolean setTimeout, Boolean& more)
+   at Microsoft.Data.SqlClient.SqlDataReader.ReadAsyncExecute(Task task, Object state)
+   at Microsoft.Data.SqlClient.SqlDataReader.InvokeAsyncCall[T](SqlDataReaderBaseAsyncCallContext`1 context)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetAsync(Int32 startCommandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+ClientConnectionId:2aa333f2-4feb-477a-9f16-fe637988c286
+Error Number:515,State:2,Class:16
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2023-10-28 14:22:06.376 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-28 14:22:06.410 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-28 14:22:06.411 +07:00 [INF] Hosting environment: Development
+2023-10-28 14:22:06.412 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-28 14:22:11.178 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-28 14:22:18.757 +07:00 [WRN] The foreign key property 'ProductLink.ProductId1' was created in shadow state because a conflicting property with the simple name 'ProductId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2023-10-28 14:22:19.677 +07:00 [ERR] An exception occurred in the database while saving changes for context type 'Electronic.Persistence.DatabaseContext.ElectronicDatabaseContext'.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): The INSERT statement conflicted with the FOREIGN KEY constraint "FK_Products_Brands_BrandId". The conflict occurred in database "electronic", table "dbo.Brands", column 'BrandId'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryHasMoreRows(Boolean& moreRows)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryReadInternal(Boolean setTimeout, Boolean& more)
+   at Microsoft.Data.SqlClient.SqlDataReader.ReadAsyncExecute(Task task, Object state)
+   at Microsoft.Data.SqlClient.SqlDataReader.InvokeAsyncCall[T](SqlDataReaderBaseAsyncCallContext`1 context)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetAsync(Int32 startCommandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+ClientConnectionId:b446e7d3-06e2-40c7-a27f-aa4213d93bf4
+Error Number:547,State:0,Class:16
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): The INSERT statement conflicted with the FOREIGN KEY constraint "FK_Products_Brands_BrandId". The conflict occurred in database "electronic", table "dbo.Brands", column 'BrandId'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryHasMoreRows(Boolean& moreRows)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryReadInternal(Boolean setTimeout, Boolean& more)
+   at Microsoft.Data.SqlClient.SqlDataReader.ReadAsyncExecute(Task task, Object state)
+   at Microsoft.Data.SqlClient.SqlDataReader.InvokeAsyncCall[T](SqlDataReaderBaseAsyncCallContext`1 context)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetAsync(Int32 startCommandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+ClientConnectionId:b446e7d3-06e2-40c7-a27f-aa4213d93bf4
+Error Number:547,State:0,Class:16
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2023-10-28 14:23:00.155 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-28 14:23:00.185 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-28 14:23:00.186 +07:00 [INF] Hosting environment: Development
+2023-10-28 14:23:00.186 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-28 14:23:11.280 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-28 14:23:15.089 +07:00 [WRN] The foreign key property 'ProductLink.ProductId1' was created in shadow state because a conflicting property with the simple name 'ProductId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2023-10-28 14:23:16.049 +07:00 [INF] HTTP POST /api/Product responded 200 in 4771.3312 ms
+2023-10-28 14:24:55.968 +07:00 [INF] HTTP POST /api/Product responded 200 in 98.5236 ms
+2023-10-28 14:25:37.655 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-28 14:25:37.685 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-28 14:25:37.687 +07:00 [INF] Hosting environment: Development
+2023-10-28 14:25:37.689 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-28 14:25:47.187 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-28 14:25:57.895 +07:00 [WRN] The foreign key property 'ProductLink.ProductId1' was created in shadow state because a conflicting property with the simple name 'ProductId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2023-10-28 14:27:18.949 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-28 14:27:18.979 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-28 14:27:18.980 +07:00 [INF] Hosting environment: Development
+2023-10-28 14:27:18.981 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-28 14:27:25.924 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-28 14:27:31.743 +07:00 [WRN] The foreign key property 'ProductLink.ProductId1' was created in shadow state because a conflicting property with the simple name 'ProductId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2023-10-28 17:44:57.924 +07:00 [WRN] The foreign key property 'ProductLink.ProductId1' was created in shadow state because a conflicting property with the simple name 'ProductId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2023-10-28 17:44:58.120 +07:00 [WRN] The foreign key property 'ProductLink.ProductId1' was created in shadow state because a conflicting property with the simple name 'ProductId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2023-10-28 17:47:37.753 +07:00 [WRN] The foreign key property 'ProductLink.ProductId1' was created in shadow state because a conflicting property with the simple name 'ProductId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2023-10-28 17:47:56.188 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-28 17:47:56.217 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-28 17:47:56.218 +07:00 [INF] Hosting environment: Development
+2023-10-28 17:47:56.219 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-28 17:49:34.980 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-28 17:49:36.705 +07:00 [INF] HTTP GET /api/Auth/currentUser responded 200 in 1727.5393 ms
+2023-10-28 17:49:42.547 +07:00 [INF] HTTP POST /api/ProductOption responded 400 in 49.4978 ms
+2023-10-28 17:49:53.921 +07:00 [WRN] The foreign key property 'ProductLink.ProductId1' was created in shadow state because a conflicting property with the simple name 'ProductId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2023-10-28 17:49:54.162 +07:00 [INF] HTTP POST /api/ProductOption responded 200 in 473.9682 ms
+2023-10-28 17:50:02.403 +07:00 [INF] HTTP POST /api/ProductOption responded 200 in 16.9964 ms
+2023-10-28 17:54:35.582 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-28 17:54:35.614 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-28 17:54:35.615 +07:00 [INF] Hosting environment: Development
+2023-10-28 17:54:35.616 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-28 17:54:43.560 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-28 17:54:43.648 +07:00 [INF] HTTP GET /api/ProductOption/get-list responded 401 in 89.3284 ms
+2023-10-28 17:55:00.894 +07:00 [WRN] The foreign key property 'ProductLink.ProductId1' was created in shadow state because a conflicting property with the simple name 'ProductId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2023-10-28 17:55:01.580 +07:00 [INF] HTTP GET /api/ProductOption/get-list responded 200 in 1598.7159 ms
+2023-10-28 18:05:42.772 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-28 18:05:42.818 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-28 18:05:42.820 +07:00 [INF] Hosting environment: Development
+2023-10-28 18:05:42.821 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-28 18:06:12.202 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-28 18:06:13.175 +07:00 [WRN] The foreign key property 'ProductLink.ProductId1' was created in shadow state because a conflicting property with the simple name 'ProductId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2023-10-28 18:06:13.909 +07:00 [INF] HTTP POST /api/ProductOption/new responded 200 in 1709.3584 ms
+2023-10-28 18:06:24.037 +07:00 [INF] HTTP GET /api/ProductOption/get-list responded 200 in 219.6634 ms
+2023-10-28 18:07:08.262 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-28 18:07:08.332 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-28 18:07:08.334 +07:00 [INF] Hosting environment: Development
+2023-10-28 18:07:08.335 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-28 18:07:36.412 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-28 18:07:37.461 +07:00 [WRN] The foreign key property 'ProductLink.ProductId1' was created in shadow state because a conflicting property with the simple name 'ProductId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2023-10-28 18:07:38.462 +07:00 [INF] HTTP PUT /api/ProductOption/3/update responded 200 in 2051.9526 ms
+2023-10-28 18:07:43.279 +07:00 [INF] HTTP GET /api/ProductOption/get-list responded 200 in 48.4505 ms
+2023-10-28 18:08:11.053 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-28 18:08:11.102 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-28 18:08:11.104 +07:00 [INF] Hosting environment: Development
+2023-10-28 18:08:11.105 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-28 18:08:25.100 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-28 18:08:26.184 +07:00 [WRN] The foreign key property 'ProductLink.ProductId1' was created in shadow state because a conflicting property with the simple name 'ProductId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2023-10-28 18:08:27.340 +07:00 [INF] HTTP DELETE /api/ProductOption/3/delete responded 200 in 2243.9751 ms
+2023-10-28 18:08:31.120 +07:00 [INF] HTTP GET /api/ProductOption/get-list responded 200 in 55.1976 ms
+2023-10-28 18:49:10.456 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-28 18:49:10.486 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-28 18:49:10.487 +07:00 [INF] Hosting environment: Development
+2023-10-28 18:49:10.487 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-28 18:50:17.289 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-28 18:50:17.336 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-28 18:50:17.338 +07:00 [INF] Hosting environment: Development
+2023-10-28 18:50:17.339 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-28 18:55:38.648 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-28 18:55:38.706 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-28 18:55:38.708 +07:00 [INF] Hosting environment: Development
+2023-10-28 18:55:38.709 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-28 18:56:12.707 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-28 18:56:12.746 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-28 18:56:12.748 +07:00 [INF] Hosting environment: Development
+2023-10-28 18:56:12.749 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-28 19:08:15.109 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-28 19:08:15.161 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-28 19:08:15.164 +07:00 [INF] Hosting environment: Development
+2023-10-28 19:08:15.165 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-28 19:08:26.489 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-28 19:08:28.160 +07:00 [INF] HTTP GET /api/Auth/currentUser responded 200 in 1672.3001 ms
+2023-10-28 19:09:02.635 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-28 19:09:02.684 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-28 19:09:02.685 +07:00 [INF] Hosting environment: Development
+2023-10-28 19:09:02.687 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-28 19:10:03.690 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-28 19:10:03.825 +07:00 [INF] HTTP POST /api/Test responded 400 in 136.5136 ms
+2023-10-28 19:10:38.856 +07:00 [INF] HTTP POST /api/Test responded 200 in 22040.6718 ms
+2023-10-28 19:22:35.677 +07:00 [INF] HTTP POST /api/Test responded 200 in 501584.4016 ms
+2023-10-28 20:48:18.025 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-28 20:48:18.067 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-28 20:48:18.070 +07:00 [INF] Hosting environment: Development
+2023-10-28 20:48:18.072 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-28 20:50:21.342 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-28 20:50:21.398 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-28 20:50:21.400 +07:00 [INF] Hosting environment: Development
+2023-10-28 20:50:21.403 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-28 20:50:49.630 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-28 20:50:51.348 +07:00 [INF] HTTP GET /api/Auth/currentUser responded 200 in 1719.6907 ms
+2023-10-28 20:51:40.533 +07:00 [WRN] The foreign key property 'ProductLink.ProductId1' was created in shadow state because a conflicting property with the simple name 'ProductId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2023-10-28 20:51:40.786 +07:00 [INF] HTTP POST /api/Product/3/options responded 200 in 554.5172 ms
+2023-10-28 20:53:00.020 +07:00 [INF] HTTP POST /api/Product/3/options responded 200 in 37437.9713 ms
+2023-10-28 21:11:06.440 +07:00 [INF] Now listening on: http://localhost:5095
+2023-10-28 21:11:06.516 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-10-28 21:11:06.520 +07:00 [INF] Hosting environment: Development
+2023-10-28 21:11:06.522 +07:00 [INF] Content root path: D:\etc\graduation-thesis\be\Electronic\Electronic.API
+2023-10-28 21:11:29.124 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-10-28 21:11:38.173 +07:00 [WRN] The foreign key property 'ProductLink.ProductId1' was created in shadow state because a conflicting property with the simple name 'ProductId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2023-10-28 21:11:48.609 +07:00 [INF] HTTP POST /api/Product/3/options responded 200 in 19486.9072 ms
+2023-10-28 21:12:33.957 +07:00 [INF] HTTP POST /api/Product/3/options responded 200 in 3388.0506 ms

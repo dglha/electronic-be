@@ -1,4 +1,5 @@
-﻿using Electronic.Domain.Common;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Electronic.Domain.Common;
 using Electronic.Domain.Enums;
 using Electronic.Domain.Model.Catalog;
 
