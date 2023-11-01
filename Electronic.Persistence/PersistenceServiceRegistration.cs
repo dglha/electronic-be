@@ -41,6 +41,7 @@ public static class PersistenceServiceRegistration
         services.AddScoped<INewService, NewService>();
         services.AddScoped<IProductService, ProductService>();
         services.AddScoped<IProductOptionService, ProductOptionService>();
+        services.AddScoped<IShoppingCartService, ShoppingCartService>();
 
         #endregion
         

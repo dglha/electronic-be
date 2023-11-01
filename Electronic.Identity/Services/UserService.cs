@@ -20,4 +20,9 @@ public class UserService : IUserService
     {
         get => _contextAccessor.HttpContext?.User?.FindFirstValue("uid");
     }
+
+    public bool IsLogged
+    {
+        get => _contextAccessor.HttpContext?.User.Identity != null && (_contextAccessor.HttpContext?.User.Identity.IsAuthenticated ?? false);
+    }
 }
