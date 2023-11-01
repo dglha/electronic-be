@@ -3,4 +3,5 @@
 public interface IUserService
 {
     public string UserId { get; }
+    public bool IsLogged { get; }
 }

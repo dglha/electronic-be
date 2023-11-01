@@ -230,7 +230,7 @@ public class ProductService : IProductService
         var deletedProductVariant = await _dbContext.Set<ProductLink>()
             .Include(x => x.LinkedProduct)
             .Where(x =>
-                x.ProductId == parentProductId 
+                x.ProductId == parentProductId
                 && !productVariantIds.Contains(x.LinkedProductId)
                 && x.Type == ProductLinkEnum.Variant)
             .ToListAsync();
@@ -252,9 +252,8 @@ public class ProductService : IProductService
             .FirstOrDefaultAsync(p => p.ProductId == productId);
 
         if (product == null) throw new AppException("Product doesn't exists", 400);
-        
+
         AddOrDeleteProductOption(updateProductOptionDtos, product);
-        
     }
 
     private static ProductPriceHistory CreatePriceHistory(Product product)
@@ -376,14 +375,16 @@ public class ProductService : IProductService
                 optionValue.Value = option.Value;
             }
         }
-        
-        var deletedProductOptionValues = product.OptionValues.Where(x => updateProductOptionDtos.All(po => x.ProductOptionId != po.OptionId)).ToList();
+
+        var deletedProductOptionValues = product.OptionValues
+            .Where(x => updateProductOptionDtos.All(po => x.ProductOptionId != po.OptionId)).ToList();
 
         foreach (var productOptionValue in deletedProductOptionValues)
         {
             product.OptionValues.Remove(productOptionValue);
             _dbContext.Set<ProductOptionValue>().Remove(productOptionValue);
         }
+
         await _dbContext.SaveChangesAsync();
-    }     
+    }
 }
