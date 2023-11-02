@@ -3,6 +3,7 @@ using System.Text.Json;
 using Electronic.Application.Contracts.DTOs.Product;
 using Electronic.Application.Contracts.Exeptions;
 using Electronic.Application.Contracts.Logging;
+using Electronic.Application.Contracts.Response;
 using Electronic.Application.Interfaces.Persistences;
 using Electronic.Application.Interfaces.Services;
 using Electronic.Domain.Enums;
@@ -255,6 +256,94 @@ public class ProductService : IProductService
 
         AddOrDeleteProductOption(updateProductOptionDtos, product);
     }
+
+    public async Task<Pagination<ProductListDto>> GetProductList(int pageIndex, int itemPerPage)
+    {
+        var query = _dbContext.Products.Include(p=>p.Brand).AsQueryable();
+        var totalCount = await query.CountAsync();
+        var data = await query.Skip((pageIndex - 1) * itemPerPage).Take(itemPerPage)
+            .Select(p => new ProductListDto
+            {
+                ProductId = p.ProductId,
+                Name = p.Name,
+                Slug = p.Slug,
+                IsPublished = p.IsPublished,
+                IsFeatured = p.IsFeatured,
+                IsAllowToOrder = p.IsAllowToOrder,
+                SpecialPrice = p.SpecialPrice,
+                Price = p.Price,
+                StockQuantity = p.StockQuantity,
+                IsVisibleIndividually = p.IsVisibleIndividually,
+                Brand = p.Brand.Name
+            }).ToListAsync();
+        return Pagination<ProductListDto>.ToPagination(data, pageIndex, itemPerPage, totalCount);
+    }
+
+    public async Task<BaseResponse<ProductDetailDto>> GetProductDetail(long productId)
+    {
+        var product = await _dbContext.Set<Product>()
+            .Include(p => p.ThumbnailImage)
+            .Include(p => p.Categories).ThenInclude(c => c.Category)
+            .Include(p => p.OptionValues).ThenInclude(productOptionValue => productOptionValue.ProductOption)
+            .Include(product => product.Medias).ThenInclude(productMedia => productMedia.Media)
+            .Include(p => p.OptionCombinations).ThenInclude(productOptionGroup => productOptionGroup.ProductOption)
+            .Include(p => p.Brand)
+            .Include(p => p.ProductLinks)
+            .Where(p => p.ProductId == productId).FirstOrDefaultAsync();
+
+        if (product == null) throw new AppException("Product not found", 404);
+
+        var productDto = new ProductDetailDto
+        {
+            Name = product.Name,
+            Slug = product.Slug,
+            IsPublished = product.IsPublished,
+            IsFeatured = product.IsFeatured,
+            IsAllowToOrder = product.IsAllowToOrder,
+            BrandId = product.BrandId,
+            HasOption = product.HasOption,
+            IsDeleted = product.IsDeleted,
+            Description = product.Description,
+            Specification = product.Specification,
+            Price = product.Price,
+            OldPrice = product.OldPrice,
+            SpecialPrice = product.SpecialPrice,
+            SpecialPriceStartDate = product.SpecialPriceStartDate,
+            SpecialPriceEndDate = product.SpecialPriceEndDate,
+            SKU = product.SKU,
+            ShortDescription = product.ShortDescription,
+            ProductId = product.ProductId,
+            StockQuantity = product.StockQuantity,
+            IsVisibleIndividually = product.IsVisibleIndividually,
+            Brand = product.Brand.Name,
+            NormalizedName = product.NormalizedName,
+            IsNewProduct = product.IsNewProduct,
+            ThumbnailImageUrl = _mediaService.GetThumbnailUrl(product.ThumbnailImage),
+            ProductLinks = product.ProductLinks.Select(l => new ProductLinkDto
+            {
+                ProductId = l.LinkedProductId,
+                LinkType = (int)l.Type
+            }).ToList(),
+            Categories = product.Categories.Select(c => new ProductCategoryDto
+            {
+                CategoryId = c.CategoryId,
+                CategoryName = c.Category.Name
+            }).ToList(),
+            OptionValues = product.OptionValues.Select(o => new ProductOptionValueDto
+            {
+                ProductOption = o.ProductOption.Name,
+                Value = JsonSerializer.Deserialize<List<string>>(o.Value),
+            }),
+            OptionCombinations = product.OptionCombinations.Select(oc => new ProductOptionCombinationDto
+            {
+                OptionName = oc.ProductOption.Name,
+                Value = oc.Value,
+            }),
+            MediasUrl = product.Medias.Select(m => _mediaService.GetMediaUrl(m.Media))
+        };
+
+        return new BaseResponse<ProductDetailDto>(productDto);
+    }   
 
     private static ProductPriceHistory CreatePriceHistory(Product product)
     {

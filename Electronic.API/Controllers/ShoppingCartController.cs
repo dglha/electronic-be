@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Electronic.Application.Contracts.DTOs.ShoppingCart;
 using Electronic.Application.Contracts.Response;
 using Electronic.Application.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,17 +22,26 @@ namespace Electronic.API.Controllers
             _shoppingCartService = shoppingCartService;
         }
 
+        [Authorize]
         [HttpPost]
-        public async Task<ActionResult> UpdateCart(UpdateCartDto request)
+        public async Task<ActionResult<BaseResponse<CartDto>>> UpdateCart(UpdateCartDto request)
         {
-            await _shoppingCartService.UpdateCart(request);
-            return Ok();
+            return Ok(await _shoppingCartService.UpdateCart(request));
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<BaseResponse<CartDto>>> GetCart()
         {
             return Ok(await _shoppingCartService.GetCart());
+        }
+        
+        [Authorize]
+        [HttpPost("add-cart")]
+        public async Task<ActionResult> AddToCart(long productId)
+        {
+            await _shoppingCartService.AddToCart(productId);
+            return Ok();
         }
     }
 }

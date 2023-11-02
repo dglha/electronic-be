@@ -2,6 +2,7 @@ using Electronic.API.Requests;
 using Electronic.Application.Contracts.Common;
 using Electronic.Application.Contracts.DTOs.Product;
 using Electronic.Application.Contracts.DTOs.ProductOption;
+using Electronic.Application.Contracts.Response;
 using Electronic.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,7 @@ namespace Electronic.API.Controllers
         {
             _productService = productService;
         }
-        
+
         /// <summary>
         /// Create Product.
         /// </summary>
@@ -65,7 +66,7 @@ namespace Electronic.API.Controllers
             await _productService.CreateProduct(newRequest);
             return Ok();
         }
-        
+
         /// <summary>
         /// Update product info
         /// </summary>
@@ -113,7 +114,7 @@ namespace Electronic.API.Controllers
             await _productService.UpdateProduct(productId, newRequest);
             return Ok();
         }
-        
+
         /// <summary>
         /// Add option to product.
         /// </summary>
@@ -126,9 +127,9 @@ namespace Electronic.API.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             await _productService.AddOptionToProduct(productId, request.OptionId, request.Values!);
-            return Ok( );
+            return Ok();
         }
-        
+
         /// <summary>
         /// Update product's option
         /// </summary>
@@ -141,10 +142,10 @@ namespace Electronic.API.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             await _productService.UpdateProductOption(productId, request.ToList());
-            return Ok( );
+            return Ok();
         }
-        
-        
+
+
         /// <summary>
         /// Add product variant
         /// </summary>
@@ -153,7 +154,8 @@ namespace Electronic.API.Controllers
         [HttpPost("{productId:long}/variants")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> AddProductVariant(long productId, [FromForm] CreateProductVariantRequestForm request)
+        public async Task<ActionResult> AddProductVariant(long productId,
+            [FromForm] CreateProductVariantRequestForm request)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
@@ -180,9 +182,9 @@ namespace Electronic.API.Controllers
             };
 
             await _productService.AddProductVariant(productId, newRequest);
-            return Ok( );
+            return Ok();
         }
-        
+
         /// <summary>
         /// Update product's variants
         /// </summary>
@@ -191,12 +193,39 @@ namespace Electronic.API.Controllers
         [HttpPut("{productId:long}/variants-update")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> UpdateProductVariant(long productId, IEnumerable<UpdateProductVariantDto> request)
+        public async Task<ActionResult> UpdateProductVariant(long productId,
+            IEnumerable<UpdateProductVariantDto> request)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             await _productService.UpdateProductVariant(productId, request);
-            return Ok( );
+            return Ok();
+        }
+
+        /// <summary>
+        /// Get product list 
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(Roles = "Administrator")]
+        [HttpGet("product-list")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<Pagination<ProductListDto>>> GetProductList(int pageNumber = 1, int take = 20)
+        {
+            return Ok(await _productService.GetProductList(pageNumber, take));
+        }
+        
+        /// <summary>
+        /// Get product detail
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(Roles = "Administrator")]
+        [HttpGet("{productId:long}/detail")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<BaseResponse<ProductDetailDto>>> GetProductDetail(long productId)
+        {
+            return Ok(await _productService.GetProductDetail(productId));
         }
     }
 }

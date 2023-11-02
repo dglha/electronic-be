@@ -5,6 +5,7 @@ namespace Electronic.Application.Interfaces.Services;
 
 public interface IShoppingCartService
 {
-    public Task UpdateCart(UpdateCartDto request);
+    public Task<BaseResponse<CartDto>> UpdateCart(UpdateCartDto request);
     public Task<BaseResponse<CartDto>?> GetCart();
+    public Task AddToCart(long productId);
 }

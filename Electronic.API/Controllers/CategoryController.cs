@@ -59,5 +59,46 @@ namespace Electronic.API.Controllers
             return Ok( await _service.CreateNewCategory(request, request.ThumbnailImage.OpenReadStream(), request.ThumbnailImage.FileName));
         }
         
+        /// <summary>
+        /// Update category child
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(Roles = "Administrator")]
+        [HttpPut("{categoryId:long}/child")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> UpdateCategoryChild(long categoryId, List<long> childIds)
+        {
+            await _service.UpdateCategoryChildren(categoryId, childIds);
+            return Ok();
+        }
+        
+        /// <summary>
+        /// Get available category list for updating parent category
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(Roles = "Administrator")]
+        [HttpGet("available-category")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<List<CategoryDto>>> GetListAvailableCategory()
+        {
+            return Ok( await _service.GetListAvailableCategory());
+        }
+        
+        /// <summary>
+        /// Update category info
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(Roles = "Administrator")]
+        [HttpPut("{categoryId:long}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<BaseResponse<CategoryDto>>> UpdateCategoryChild(long categoryId, UpdateCategoryRequestDto request)
+        {
+            return Ok( await _service.UpdateCategory(categoryId, request));
+        }
+        
+        
     }
 }

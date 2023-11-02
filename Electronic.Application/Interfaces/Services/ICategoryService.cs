@@ -9,4 +9,8 @@ public interface ICategoryService
     Task<CreateCategoryResultDto> CreateNewCategory(CreateCategoryDto request, Stream mediaBinaryStream, string fileName, string mimeType = null);
     Task<Pagination<CategoryDto>> GetAllCategories(int pageIndex, int itemPerPage);
     Task DeleteCategory(long categoryId);
+    Task UpdateCategoryChildren(long parentCategoryId, List<long> childIds);
+
+    Task<List<CategoryDto>> GetListAvailableCategory();
+    Task<BaseResponse<CategoryDto>> UpdateCategory(long categoryId, UpdateCategoryRequestDto request);
 }

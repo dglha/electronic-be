@@ -81,6 +81,69 @@ public class CategoryService : ICategoryService
         await _dbContext.SaveChangesAsync();
     }
 
+    public async Task UpdateCategoryChildren(long categoryId, List<long> validChildIds)
+    {
+        var parentCategory = await _dbContext.Set<Category>().FirstOrDefaultAsync(c => c.CategoryId == categoryId);
+        
+        if (parentCategory == null) throw new AppException("Category not found", 404);
+        
+        var oldChildCategory = await _dbContext.Set<Category>()
+            .Where(c => c.ParentCategoryId.HasValue && c.ParentCategoryId.Value == parentCategory.CategoryId).ToListAsync();
+        
+        foreach (var removeCate in oldChildCategory.Where(c => !validChildIds.Contains(c.CategoryId)).ToList())
+        {
+            removeCate.ParentCategoryId = null;
+        }
+        
+        var childrenCategory = await _dbContext.Set<Category>()
+            .Where(c => validChildIds.Contains(c.CategoryId) && !c.ParentCategoryId.HasValue).ToListAsync();
+
+        foreach (var cate in childrenCategory)
+        {
+            if (await HaveCircularNesting(cate.CategoryId, parentCategory.CategoryId))
+                throw new AppException("Parent category cannot be itself children", 400);
+            cate.ParentCategory = parentCategory;
+        }
+
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<List<CategoryDto>> GetListAvailableCategory()
+    {
+        return await _dbContext.Set<Category>()
+            .Where(c => !c.IsDeleted && !c.ParentCategoryId.HasValue)
+            .Select(c => new CategoryDto
+            {
+                Name = c.Name,
+                CategoryId = c.CategoryId,
+            }).ToListAsync();
+    }
+
+    public async Task<BaseResponse<CategoryDto>> UpdateCategory(long categoryid, UpdateCategoryRequestDto request)
+    {
+        var category = await _dbContext.Categories.FirstOrDefaultAsync(c => c.CategoryId == categoryid);
+        
+        if (category == null) throw new AppException("Category not found", 404);
+
+        category.Name = request.Name;
+        category.IsPublished = request.IsPublished;
+        category.Description = request.Description;
+
+        await _dbContext.SaveChangesAsync();
+
+        return new BaseResponse<CategoryDto>(new CategoryDto
+        {
+            Name = category.Name,
+            CategoryId = category.CategoryId,
+            Description = category.Description,
+            ParentCategoryId = category.ParentCategoryId,
+            IsPublished = category.IsPublished,
+            DisplayOrder = category.DisplayOrder,
+            IncludeInMenu = category.IncludeInMenu,
+            Slug = category.Slug
+        });
+    }
+
     private IQueryable<CategoryDto> GetListCategoryDtosQuery() =>
         _dbContext.Set<Category>()
             .Where(c => !c.IsDeleted)
