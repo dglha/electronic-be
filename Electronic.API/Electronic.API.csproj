@@ -26,6 +26,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Electric.Payment\Electric.Payment.csproj" />
       <ProjectReference Include="..\Electronic.Identity\Electronic.Identity.csproj" />
       <ProjectReference Include="..\Electronic.Infrastructure\Electronic.Infrastructure.csproj" />
       <ProjectReference Include="..\Electronic.Persistence\Electronic.Persistence.csproj" />

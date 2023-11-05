@@ -1,4 +1,5 @@
 using System.Reflection;
+using Electric.Payment;
 using Electronic.API.Middlewares;
 using Electronic.Application.Exceptions;
 using Electronic.Persistence;
@@ -25,6 +26,7 @@ builder.Host.UseSerilog((context, loggerConfig) => loggerConfig
 builder.Services.AddPersistenceServices(builder.Configuration);
 builder.Services.AddIdentityService(builder.Configuration);
 builder.Services.AddInfrastructureServices(builder.Configuration);
+builder.Services.AddPaymentService(builder.Configuration);
 
 builder.Services.AddControllers();
 

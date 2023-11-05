@@ -3,6 +3,7 @@ using Electronic.Application.Interfaces.Persistences;
 using Electronic.Application.Interfaces.Services;
 using Electronic.Domain.Models.Catalog;
 using Electronic.Domain.Models.Order;
+using Electronic.Domain.Models.Payment;
 using Electronic.Persistence.DatabaseContext;
 using Electronic.Persistence.Implements.Services;
 using Electronic.Persistence.Interfaces.Repositories;
@@ -44,6 +45,7 @@ public static class PersistenceServiceRegistration
         services.AddScoped<IProductOptionService, ProductOptionService>();
         services.AddScoped<IShoppingCartService, ShoppingCartService>();
         services.AddScoped<IOrderService, OrderService>();
+        services.AddScoped<IPaymentService, PaymentService>();
 
         #endregion
         
