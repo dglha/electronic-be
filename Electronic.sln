@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Electronic.Identity", "Elec
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Electronic.API", "Electronic.API\Electronic.API.csproj", "{76E84B59-ADB1-47AE-B0F1-966746376647}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Electric.Payment", "Electric.Payment\Electric.Payment.csproj", "{27521A71-2A8E-48F9-BC33-48F876809EFA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,7 @@ Global
 		{8F318BE0-F45F-4BE4-A827-66086D708305} = {A2EF9185-FF73-4840-B33F-9B1BC838D180}
 		{62D9E4E7-667D-431F-ACCC-84D01C326E1E} = {A2EF9185-FF73-4840-B33F-9B1BC838D180}
 		{76E84B59-ADB1-47AE-B0F1-966746376647} = {C2F1D2B1-CE21-411B-95AF-07F8787F01A8}
+		{27521A71-2A8E-48F9-BC33-48F876809EFA} = {A2EF9185-FF73-4840-B33F-9B1BC838D180}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{F8981921-614C-490A-A014-20DAE497FAF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -61,5 +64,9 @@ Global
 		{76E84B59-ADB1-47AE-B0F1-966746376647}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76E84B59-ADB1-47AE-B0F1-966746376647}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76E84B59-ADB1-47AE-B0F1-966746376647}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27521A71-2A8E-48F9-BC33-48F876809EFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27521A71-2A8E-48F9-BC33-48F876809EFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27521A71-2A8E-48F9-BC33-48F876809EFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27521A71-2A8E-48F9-BC33-48F876809EFA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
