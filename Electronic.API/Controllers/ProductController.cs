@@ -227,5 +227,18 @@ namespace Electronic.API.Controllers
         {
             return Ok(await _productService.GetProductDetail(productId));
         }
+        
+        /// <summary>
+        /// Update product price
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(Roles = "Administrator")]
+        [HttpPut("{productId:long}/update-price")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<BaseResponse<ProductDetailDto>>> UpdateProductPrice(long productId, [FromForm] UpdateProductPriceRequestDto request)
+        {
+            return Ok(await _productService.UpdateProductPrice(productId, request));
+        }
     }
 }

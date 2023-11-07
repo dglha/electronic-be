@@ -10,6 +10,7 @@ using Electronic.Domain.Enums;
 using Electronic.Domain.Model.Catalog;
 using Electronic.Domain.Models.Catalog;
 using Electronic.Domain.Models.Core;
+using Electronic.Domain.Models.Inventory;
 using Electronic.Persistence.DatabaseContext;
 using Electronic.Persistence.Helpers;
 using Microsoft.EntityFrameworkCore;
@@ -74,6 +75,18 @@ public class ProductService : IProductService
 
         var productPriceHistory = CreatePriceHistory(product);
         product.PriceHistories.Add(productPriceHistory);
+
+        if (product.StockQuantity != null)
+        {
+            var warehouse = await _dbContext.Set<Warehouse>().FirstAsync();
+            var stock = new Stock
+            {
+                Product = product,
+                Quantity = (int)product.StockQuantity,
+                Warehouse = warehouse,
+            };
+            _dbContext.Set<Stock>().Add(stock);
+        }
 
         await _productRepository.CreateAsync(product);
         return request;
@@ -259,7 +272,7 @@ public class ProductService : IProductService
 
     public async Task<Pagination<ProductListDto>> GetProductList(int pageIndex, int itemPerPage)
     {
-        var query = _dbContext.Products.Include(p=>p.Brand).AsQueryable();
+        var query = _dbContext.Products.Include(p => p.Brand).AsQueryable();
         var totalCount = await query.CountAsync();
         var data = await query.Skip((pageIndex - 1) * itemPerPage).Take(itemPerPage)
             .Select(p => new ProductListDto
@@ -343,7 +356,44 @@ public class ProductService : IProductService
         };
 
         return new BaseResponse<ProductDetailDto>(productDto);
-    }   
+    }
+
+    public async Task<BaseResponse<string>> UpdateProductPrice(long productId, UpdateProductPriceRequestDto request)
+    {
+        var product = await _dbContext.Set<Product>().FirstOrDefaultAsync(p => p.ProductId == productId);
+
+        if (product is null) throw new AppException("Product not found", 400);
+
+        var isPriceChanged = product.Price != request.Price ||
+                             product.SpecialPrice != request.SpecialPrice ||
+                             product.SpecialPriceStartDate != request.SpecialPriceStartDate ||
+                             product.SpecialPriceEndDate != request.SpecialPriceEndDate;
+
+        if (!isPriceChanged)
+            return new BaseResponse<string>
+            {
+                Data = "",
+                Message = "Ok",
+                IsSuccess = true
+            };
+        product.OldPrice = product.Price;
+        product.Price = request.Price;
+        product.SpecialPrice = request.SpecialPrice;
+        product.SpecialPriceStartDate = request.SpecialPriceStartDate;
+        product.SpecialPriceEndDate = request.SpecialPriceEndDate;
+
+        var productPriceHistory = CreatePriceHistory(product);
+        product.PriceHistories.Add(productPriceHistory);
+
+        await _dbContext.SaveChangesAsync();
+
+        return new BaseResponse<string>
+        {
+            Data = "",
+            Message = "Updated",
+            IsSuccess = true
+        };
+    }
 
     private static ProductPriceHistory CreatePriceHistory(Product product)
     {

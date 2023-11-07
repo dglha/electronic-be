@@ -1,7 +1,9 @@
 ﻿using System.Text.Json;
+using Electronic.Application.Contracts.DTOs.Order;
 using Electronic.Application.Contracts.Exeptions;
 using Electronic.Application.Contracts.Identity;
 using Electronic.Application.Contracts.Logging;
+using Electronic.Application.Contracts.Response;
 using Electronic.Application.Interfaces.Services;
 using Electronic.Domain.Enums;
 using Electronic.Domain.Model.Catalog;
@@ -17,12 +19,14 @@ public class OrderService : IOrderService
     private readonly ElectronicDatabaseContext _dbContext;
     private readonly IAppLogger<OrderService> _logger;
     private readonly IUserService _userService;
+    private readonly IMediaService _mediaService;
 
-    public OrderService(ElectronicDatabaseContext dbContext, IAppLogger<OrderService> logger, IUserService userService)
+    public OrderService(ElectronicDatabaseContext dbContext, IAppLogger<OrderService> logger, IUserService userService, IMediaService mediaService)
     {
         _dbContext = dbContext;
         _logger = logger;
         _userService = userService;
+        _mediaService = mediaService;
     }
 
     public async Task CreateOrder()
@@ -95,6 +99,73 @@ public class OrderService : IOrderService
             throw new AppException(e.Message, 500);
         }
     }
+
+    public async Task<OrderDto> GetOrderDetail(long orderId)
+    {
+        var order =  await _dbContext.Set<Order>()
+            .Include(o => o.OrderStatusHistories)
+            .Include(o => o.OrderItems)
+            .ThenInclude(oi => oi.Product).ThenInclude(product => product.OptionCombinations)
+            .Include(order => order.OrderItems).ThenInclude(orderItem => orderItem.Product)
+            .ThenInclude(product => product.ThumbnailImage)
+            .Where(o => o.CustomerId == _userService.UserId && o.OrderId == orderId).FirstOrDefaultAsync();
+
+        if (order is null) throw new AppException("Order not found!", 400);
+
+        var orderItems = order.OrderItems.Select(oi => new OrderItemDto
+        {
+            ProductId = oi.ProductId,
+            Quantity = oi.Quantity,
+            ProductPrice = oi.ProductPrice,
+            Name = oi.Product.Name,
+            DiscountAmount = oi.DiscountAmount,
+            TaxAmount = oi.TaxAmount,
+            TaxPercent = oi.TaxAmount,
+            Options = oi.Product.OptionCombinations.Select(oc => oc.Value).ToList(),
+            Slug = oi.Product.Slug,
+            ThumbnailImageUrl = _mediaService.GetThumbnailUrl(oi.Product.ThumbnailImage),
+        }).ToList();
+
+        var orderStatusHistoriesDto = order.OrderStatusHistories.Select(x => new OrderStatusHistoryDto
+        {
+            Note = x.Note, NewStatus = x.NewStatus.ToString(), OldStatus = x.OldStatus.ToString()
+        }).ToList();
+
+        var result = new OrderDto
+        {
+            OrderId = order.OrderId,
+            TaxAmount = order.TaxAmount ?? 0,
+            OrderItems = orderItems,
+            OrderStatus = order.OrderStatus.ToString(),
+            OrderTotal = order.OrderTotal,
+            ShippingMethod = order.ShippingMethod,
+            OrderStatusHistories = orderStatusHistoriesDto,
+            PaymentMethod = order.PaymentMethod,
+            PaymentFeeAmount = order.PaymentFeeAmount ?? 0,
+
+        };
+
+        return result;
+    }
+
+    public async Task<Pagination<OrderListDto>> GetOrders(int pageIndex, int itemPerPage)
+    {
+        var query = _dbContext.Orders.OrderByDescending(o => o.UpdatedAt).AsQueryable();
+
+        var totalCount = await query.CountAsync();
+        var data = await query.Skip((pageIndex - 1) * itemPerPage).Take(itemPerPage)
+            .Select(o => new OrderListDto
+            {
+                OrderId = o.OrderId,
+                TaxAmount = o.TaxAmount ?? 0,
+                OrderStatus = o.OrderStatus.ToString(),
+                OrderTotal = o.OrderTotal,
+                Customer = _userService.UserId
+            }).ToListAsync();
+
+        return Pagination<OrderListDto>.ToPagination(data, pageIndex, itemPerPage, totalCount);
+    }
+
 
     private async Task<List<long>> GetValidProductIdList(Cart cart)
     {

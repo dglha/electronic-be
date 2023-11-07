@@ -16,15 +16,15 @@ public class VnPayPaymentService : IVnPayPaymentService
         _vnPayConfig = vnPayConfig.Value;
     }
 
-    public string CreatePaymentLink(Order order)
+    public string  CreatePaymentLink(Order order)
     {
         var paymentUrl = string.Empty;
 
         var vnPayRequest = new VnPayRequestDto(_vnPayConfig.Version,
-            _vnPayConfig.TmnCode, DateTime.Now, "192.168.1.1" ?? string.Empty,
-            order.OrderTotal, "VND" ?? string.Empty,
-            "120000", $"Electronic Thanh toan ${order.OrderId} ${order.OrderTotal} VND" ?? string.Empty, _vnPayConfig.ReturnUrl,
-            Guid.NewGuid().ToString());
+            _vnPayConfig.TmnCode, DateTime.Now, "192.168.1.1",
+            order.OrderTotal, "VND",
+            "120000", $"Electronic Thanh toan hoa don ${order.OrderId} ${order.OrderTotal} VND" ?? string.Empty, _vnPayConfig.ReturnUrl,
+            order.OrderId.ToString());
 
         paymentUrl = vnPayRequest.GetLink(_vnPayConfig.PaymentUrl, _vnPayConfig.HashSecret);
         return paymentUrl;
