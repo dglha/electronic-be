@@ -37,12 +37,14 @@ public class AuthService : IAuthService
         if (!result) throw new Exception($"Credential for {request.Email} aren't valid.");
 
         var jwtSecurityToken = await GenerateToken(user);
+        var role = await _userManager.GetRolesAsync(user);
         var response = new AuthResonseDto
         {
             Id = user.Id,
             Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
             Email = user.Email,
             Username = user.UserName,
+            Role = role.First()
         };
         
         _logger.LogInformation($"{response.Username} Logged!!!");
@@ -69,12 +71,15 @@ public class AuthService : IAuthService
         await _userManager.AddToRoleAsync(user, "Customer");
 
         var jwtSecurityToken = await GenerateToken(user);
+
+        var role = await _userManager.GetRolesAsync(user);
         var response = new AuthResonseDto
         {
             Id = user.Id,
             Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
             Email = user.Email,
             Username = user.UserName,
+            Role = role.First()
         };
 
         return response;

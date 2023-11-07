@@ -114,9 +114,11 @@ public class ShoppingCartService : IShoppingCartService
     public async Task AddToCart(long productId)
     {
         var product = await  _dbContext.Set<Product>().FirstOrDefaultAsync(p => p.ProductId == productId);
-        if (product == null) return;
+        if (product == null || product.HasOption || !product.IsVisibleIndividually ) return;
 
-        var cart = await _dbContext.Set<Cart>().Where(c => c.CustomerId == _userService.UserId).FirstOrDefaultAsync();
+        var cart = await _dbContext.Set<Cart>().Where(c => c.CustomerId == _userService.UserId).FirstOrDefaultAsync() ??
+                   new Cart { CustomerId = _userService.UserId };
+
         var cartItems = JsonSerializer.Deserialize<List<CartItem>>(cart.CartItems);
 
         var updateItem = cartItems.Find(c => c.ProductId == product.ProductId);

@@ -10,4 +10,6 @@ public class CartItemDto
     public string ThumbnailImageUrl { get; set; }
     public decimal TotalPrice { get; set; }
     public List<string> Options { get; set; }
+    public string Slug { get; set; }
+    public long ProductId { get; set; }
 }

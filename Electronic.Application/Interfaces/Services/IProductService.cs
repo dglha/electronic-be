@@ -20,4 +20,6 @@ public interface IProductService
     Task<Pagination<ProductListDto>> GetProductList(int pageIndex, int itemPerPage);
 
     Task<BaseResponse<ProductDetailDto>> GetProductDetail(long productId);
+
+    Task<BaseResponse<string>> UpdateProductPrice(long productId, UpdateProductPriceRequestDto request);
 }

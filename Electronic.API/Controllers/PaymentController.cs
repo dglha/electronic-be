@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Electric.Payment.VNPay.DTOs.Response;
 using Electronic.Application.Contracts.DTOs.Payment;
 using Electronic.Application.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,16 +24,20 @@ namespace Electronic.API.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<string>> GetPaymentLink(long orderId)
         {
             return Ok(await _paymentService.CreatePaymentLink(orderId));
         }
         
         [HttpGet]
+        [Authorize]
         [Route("vnpay-return")]
         public async Task<ActionResult<PaymentResponseDto>> VnpayReturn([FromQuery]VnPayResponseDto response)
         {
             return Ok( _paymentService.VNPayPaymentCallback(response));
         }
+        
+        
     }
 }
