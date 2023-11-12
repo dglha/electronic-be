@@ -56,6 +56,20 @@ namespace Electronic.API.Controllers
             await _service.DeleteBrand(brandId);
         }
         
+        /// <summary>
+        /// Update brand.
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(Roles = "Administrator")]
+        [HttpPut("{brandId:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> UpdateBrand(int brandId, UpdateBrandDto request)
+        {
+            await _service.UpdateBrand(brandId, request);
+
+            return Ok();
+        }
+        
         
         /// <summary>
         /// Toggle publish brand.

@@ -8,6 +8,8 @@ public interface IBrandService
 {
     Task<CreateBrandResultDto> CreateBrand(CreateBrandDto request);
     Task DeleteBrand(int brandId);
+
+    Task UpdateBrand(int brandId, UpdateBrandDto request);
     Task TogglePublishBrand(int brandId);
     Task<Pagination<BrandDto>> GetAvailableBrands(int pageNumber, int itemPerPage);
 }

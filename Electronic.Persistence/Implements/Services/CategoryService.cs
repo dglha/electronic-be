@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Electronic.Application.Contracts.DTOs.Category;
+using Electronic.Application.Contracts.DTOs.Category.Admin;
 using Electronic.Application.Contracts.Exeptions;
 using Electronic.Application.Contracts.Logging;
 using Electronic.Application.Contracts.Persistences;
@@ -142,6 +143,55 @@ public class CategoryService : ICategoryService
             IncludeInMenu = category.IncludeInMenu,
             Slug = category.Slug
         });
+    }
+
+    public async Task<CreateCategoryResultDto> GetCategoryDetailInfo(long categoryId)
+    {
+        var category = await _dbContext.Set<Category>().Include(category => category.ThumbnailImage).FirstOrDefaultAsync(c => c.CategoryId == categoryId);
+
+        if (category is null) throw new AppException("Category not found", (int)HttpStatusCode.BadRequest);
+        
+        return new CreateCategoryResultDto
+        {
+            CategoryId = category.CategoryId,
+            Name = category.Name,
+            Slug = category.Slug,
+            IsPublished = category.IsPublished,
+            DisplayOrder = category.DisplayOrder,
+            IsDeleted = category.IsDeleted,
+            Description = category.Description,
+            ParentCategoryId = category.ParentCategoryId,
+            IncludeInMenu = category.IncludeInMenu,
+            ThumbnailImageUrl = _mediaService.GetThumbnailUrl(category.ThumbnailImage)
+        };
+    }
+
+    public async Task<BaseResponse<ICollection<CategoryListViewDto>>> GetCategoryTreeView()
+    {
+        var rootCategory = await _dbContext.Set<Category>().Include(c => c.ChildCategories)
+            .Include(c => c.ChildCategories).ThenInclude(c => c.ChildCategories)
+            .Where(c => !c.ParentCategoryId.HasValue && !c.IsDeleted && c.IsPublished && c.IncludeInMenu)
+            .Select(c => new CategoryListViewDto
+            {
+                Id = c.CategoryId,
+                Name = c.Name,
+                Level = 1,
+                Children = c.ChildCategories.Where(firstChild =>
+                    !firstChild.IsDeleted && firstChild.IsPublished && firstChild.IncludeInMenu).Select(firstChild => new CategoryListViewDto
+                {
+                    Id = firstChild.CategoryId,
+                    Name = firstChild.Name,
+                    Level = 2,
+                    Children = firstChild.ChildCategories.Where(secondChild => !secondChild.IsDeleted && secondChild.IsPublished && secondChild.IncludeInMenu).Select(secondChild => new CategoryListViewDto
+                    {
+                        Id = secondChild.CategoryId,
+                        Name = secondChild.Name,
+                        Level = 3,
+                    }).ToList()
+                }).ToList()
+            }).ToListAsync();
+
+        return new BaseResponse<ICollection<CategoryListViewDto>>(rootCategory);
     }
 
     private IQueryable<CategoryDto> GetListCategoryDtosQuery() =>

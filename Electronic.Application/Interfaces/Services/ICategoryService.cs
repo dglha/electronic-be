@@ -1,4 +1,5 @@
 ﻿using Electronic.Application.Contracts.DTOs.Category;
+using Electronic.Application.Contracts.DTOs.Category.Admin;
 using Electronic.Application.Contracts.Response;
 using Electronic.Domain.Models.Catalog;
 
@@ -13,4 +14,8 @@ public interface ICategoryService
 
     Task<List<CategoryDto>> GetListAvailableCategory();
     Task<BaseResponse<CategoryDto>> UpdateCategory(long categoryId, UpdateCategoryRequestDto request);
+
+    Task<CreateCategoryResultDto> GetCategoryDetailInfo(long categoryId);
+
+    Task<BaseResponse<ICollection<CategoryListViewDto>>> GetCategoryTreeView();
 }
