@@ -62,7 +62,7 @@ public class PaymentService : IPaymentService
         var orderHistory = new OrderStatusHistory
         {
             Order = order,
-            OldStatus = order.OrderStatus,
+            OldStatus = order.OrderStatus,    
             NewStatus = OrderStatusEnum.Completed,
             Note = "Payment using VNPay"
         };

@@ -1,5 +1,6 @@
 using Electronic.API.Requests;
 using Electronic.Application.Contracts.DTOs.Category;
+using Electronic.Application.Contracts.DTOs.Category.Admin;
 using Electronic.Application.Contracts.Response;
 using Electronic.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -97,6 +98,32 @@ namespace Electronic.API.Controllers
         public async Task<ActionResult<BaseResponse<CategoryDto>>> UpdateCategoryChild(long categoryId, UpdateCategoryRequestDto request)
         {
             return Ok( await _service.UpdateCategory(categoryId, request));
+        }
+        
+        /// <summary>
+        /// Get category detail info
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(Roles = "Administrator")]
+        [HttpGet("{categoryId:long}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<CreateCategoryResultDto>> GetCategoryDetail(long categoryId)
+        {
+            return Ok( await _service.GetCategoryDetailInfo(categoryId));
+        }
+        
+        /// <summary>
+        /// Get category tree view for admin
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(Roles = "Administrator")]
+        [HttpGet("tree")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<BaseResponse<ICollection<CategoryListViewDto>>>> GetCategoryTreeView()
+        {
+            return Ok( await _service.GetCategoryTreeView());
         }
         
         

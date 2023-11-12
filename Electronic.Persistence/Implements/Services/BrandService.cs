@@ -49,6 +49,19 @@ public class BrandService : IBrandService
         };
     }
 
+    public async Task UpdateBrand(int brandId, UpdateBrandDto request)
+    {
+        var brand = await _dbContext.Set<Brand>().FirstOrDefaultAsync(b => b.BrandId == brandId && !b.IsDeleted);
+
+        if (brand is null) throw new AppException("Brand not found", (int)HttpStatusCode.BadRequest);
+
+        brand.Description = request.Description;
+        brand.Name = request.Name;
+        brand.IsPublished = (bool)request.IsPublished!;
+
+        await _dbContext.SaveChangesAsync();
+    }
+
     public async Task TogglePublishBrand(int brandId)
     {
         var brand = await _dbContext.Set<Brand>().FirstOrDefaultAsync(b => b.BrandId == brandId && !b.IsDeleted);
