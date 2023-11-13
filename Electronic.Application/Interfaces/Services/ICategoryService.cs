@@ -18,4 +18,8 @@ public interface ICategoryService
     Task<CreateCategoryResultDto> GetCategoryDetailInfo(long categoryId);
 
     Task<BaseResponse<ICollection<CategoryListViewDto>>> GetCategoryTreeView();
+
+    Task<BaseResponse<CategoryDto>> UpdateParentCategory(long categoryId, long parentCategoryId);
+    
+    Task<BaseResponse<CategoryDto>> RemoveParentCategory(long categoryId);
 }

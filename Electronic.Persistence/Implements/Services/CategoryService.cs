@@ -111,8 +111,10 @@ public class CategoryService : ICategoryService
 
     public async Task<List<CategoryDto>> GetListAvailableCategory()
     {
+        var rootCategoryIds = await _dbContext.Set<Category>().Where(c => c.ParentCategoryId.HasValue)
+            .Select(p => p.ParentCategoryId).Distinct().ToListAsync();
         return await _dbContext.Set<Category>()
-            .Where(c => !c.IsDeleted && !c.ParentCategoryId.HasValue)
+            .Where(c => !c.IsDeleted && !c.ParentCategoryId.HasValue && !rootCategoryIds.Contains(c.CategoryId))
             .Select(c => new CategoryDto
             {
                 Name = c.Name,
@@ -120,9 +122,9 @@ public class CategoryService : ICategoryService
             }).ToListAsync();
     }
 
-    public async Task<BaseResponse<CategoryDto>> UpdateCategory(long categoryid, UpdateCategoryRequestDto request)
+    public async Task<BaseResponse<CategoryDto>> UpdateCategory(long categoryId, UpdateCategoryRequestDto request)
     {
-        var category = await _dbContext.Categories.FirstOrDefaultAsync(c => c.CategoryId == categoryid);
+        var category = await _dbContext.Categories.FirstOrDefaultAsync(c => c.CategoryId == categoryId);
         
         if (category == null) throw new AppException("Category not found", 404);
 
@@ -192,6 +194,65 @@ public class CategoryService : ICategoryService
             }).ToListAsync();
 
         return new BaseResponse<ICollection<CategoryListViewDto>>(rootCategory);
+    }
+
+    public async Task<BaseResponse<CategoryDto>> UpdateParentCategory(long categoryId, long parentCategoryId)
+    {
+        if (categoryId == parentCategoryId) throw new AppException("Invalid input", (int)HttpStatusCode.BadRequest);
+        var category = await _dbContext.Set<Category>().FirstOrDefaultAsync(c => c.CategoryId == categoryId);
+        var parentCategory = await _dbContext.Set<Category>().FirstOrDefaultAsync(c => c.CategoryId == parentCategoryId);
+
+        if (category is null || parentCategory is null)
+        {
+            throw new AppException("Invalid category or parent category!", (int)HttpStatusCode.BadRequest);
+        }
+
+        var isHaveCircularNesting = await HaveCircularNesting(category.CategoryId, parentCategory.CategoryId);
+        
+        if (isHaveCircularNesting)  throw new AppException("Parent category cannot be itself children", 400);
+
+        category.ParentCategory = parentCategory;
+
+        await _dbContext.SaveChangesAsync();
+
+        return new BaseResponse<CategoryDto>(new CategoryDto
+        {
+            Name = category.Name,
+            CategoryId = category.CategoryId,
+            ParentCategoryId = category.ParentCategoryId,
+            IsPublished = category.IsPublished,
+            DisplayOrder = category.DisplayOrder,
+            IncludeInMenu = category.IncludeInMenu,
+            Slug = category.Slug,
+            Description = category.Description
+        });
+    }
+
+    public async Task<BaseResponse<CategoryDto>> RemoveParentCategory(long categoryId)
+    {
+        var category = await _dbContext.Set<Category>().FirstOrDefaultAsync(c => c.CategoryId == categoryId);
+
+        if (category is null)
+        {
+            throw new AppException("Invalid category id", (int)HttpStatusCode.BadRequest);
+        }
+
+        category.ParentCategoryId = null;
+        
+        await _dbContext.SaveChangesAsync();
+
+        return new BaseResponse<CategoryDto>(new CategoryDto
+        {
+            Name = category.Name,
+            CategoryId = category.CategoryId,
+            ParentCategoryId = category.ParentCategoryId,
+            IsPublished = category.IsPublished,
+            DisplayOrder = category.DisplayOrder,
+            IncludeInMenu = category.IncludeInMenu,
+            Slug = category.Slug,
+            Description = category.Description
+        });
+        
     }
 
     private IQueryable<CategoryDto> GetListCategoryDtosQuery() =>

@@ -126,6 +126,30 @@ namespace Electronic.API.Controllers
             return Ok( await _service.GetCategoryTreeView());
         }
         
+        /// <summary>
+        /// Add child to parent category
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(Roles = "Administrator")]
+        [HttpPost("{parentId:long}/add-child/{childId:long}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<BaseResponse<CategoryDto>>> AddChildToParentCategory(long parentId, long childId)
+        {
+            return Ok( await _service.UpdateParentCategory(childId, parentId));
+        }
         
+        /// <summary>
+        /// Remove child from parent category
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(Roles = "Administrator")]
+        [HttpPost("{categoryId:long}/remove-child")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<BaseResponse<CategoryDto>>> RemoveChildFromParentCategory(long categoryId)
+        {
+            return Ok( await _service.RemoveParentCategory(categoryId));
+        }
     }
 }
