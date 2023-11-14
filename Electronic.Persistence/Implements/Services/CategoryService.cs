@@ -3,7 +3,6 @@ using Electronic.Application.Contracts.DTOs.Category;
 using Electronic.Application.Contracts.DTOs.Category.Admin;
 using Electronic.Application.Contracts.Exeptions;
 using Electronic.Application.Contracts.Logging;
-using Electronic.Application.Contracts.Persistences;
 using Electronic.Application.Contracts.Response;
 using Electronic.Application.Interfaces.Persistences;
 using Electronic.Application.Interfaces.Services;
@@ -68,6 +67,11 @@ public class CategoryService : ICategoryService
     {
         var query = GetListCategoryDtosQuery();
         var totalCount = await query.CountAsync();
+        if (pageNumber == -1)
+        {
+            itemPerPage = totalCount;
+            pageNumber *= -1;
+        }
         var data = await query.Skip((pageNumber - 1) * itemPerPage).Take(itemPerPage).ToListAsync();
         return Pagination<CategoryDto>.ToPagination(data, pageNumber, itemPerPage, totalCount);
 

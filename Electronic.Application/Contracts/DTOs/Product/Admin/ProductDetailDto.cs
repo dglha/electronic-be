@@ -26,7 +26,7 @@ public class ProductDetailDto
     public int? BrandId { get; set; }
     public string Brand { get; set; }
     public string ThumbnailImageUrl { get; set; }
-    public IEnumerable<string> MediasUrl { get; set; }
+    public IEnumerable<ProductMediaDto> MediasUrl { get; set; }
     public IEnumerable<ProductOptionValueDto> OptionValues { get; set; }
     public IEnumerable<ProductCategoryDto> Categories { get; set; }
     public IEnumerable<ProductLinkDto> ProductLinks { get; set; }

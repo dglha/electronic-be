@@ -74,6 +74,12 @@ public class BrandService : IBrandService
     {
         var query = GetListAvailableBrandQuery();
         var totalCount = await query.CountAsync();
+
+        if (pageNumber == -1)
+        {
+            itemPerPage = totalCount;
+            pageNumber *= -1;
+        }
         var data = await query.Skip((pageNumber - 1) * itemPerPage).Take(itemPerPage).ToListAsync();
         return Pagination<BrandDto>.ToPagination(data, pageNumber, itemPerPage, totalCount);
     }

@@ -76,6 +76,8 @@ public class ProductService : IProductService
         var productPriceHistory = CreatePriceHistory(product);
         product.PriceHistories.Add(productPriceHistory);
 
+        await SaveProductMedias(request, product);
+
         if (product.StockQuantity != null)
         {
             var warehouse = await _dbContext.Set<Warehouse>().FirstAsync();
@@ -87,6 +89,7 @@ public class ProductService : IProductService
             };
             _dbContext.Set<Stock>().Add(stock);
         }
+        
 
         await _productRepository.CreateAsync(product);
         return request;
@@ -352,7 +355,7 @@ public class ProductService : IProductService
                 OptionName = oc.ProductOption.Name,
                 Value = oc.Value,
             }),
-            MediasUrl = product.Medias.Select(m => _mediaService.GetMediaUrl(m.Media))
+            MediasUrl = product.Medias.Select(m => new ProductMediaDto {MediaUrl = _mediaService.GetMediaUrl(m.Media), MeidaId = m.MediaId})
         };
 
         return new BaseResponse<ProductDetailDto>(productDto);
