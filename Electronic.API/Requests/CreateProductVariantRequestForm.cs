@@ -12,5 +12,5 @@ public class CreateProductVariantRequestForm
     public decimal? OldPrice { get; set; }
     public IFormFile ThumbnailImage { get; set; }
     public IEnumerable<IFormFile?> NewImages { get; set; }
-    public IList<CreateProductOptionGroupDto> OptionCombinations { get; set; }
+    public IEnumerable<CreateProductOptionGroupDto> OptionCombinations { get; set; }
 }

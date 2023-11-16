@@ -22,4 +22,6 @@ public interface IProductService
     Task<BaseResponse<ProductDetailDto>> GetProductDetail(long productId);
 
     Task<BaseResponse<string>> UpdateProductPrice(long productId, UpdateProductPriceRequestDto request);
+
+    Task<IEnumerable<ProductOptionValueDto>> GetProductOptionsDetail(long productId);
 }

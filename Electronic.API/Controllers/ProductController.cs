@@ -240,5 +240,18 @@ namespace Electronic.API.Controllers
         {
             return Ok(await _productService.UpdateProductPrice(productId, request));
         }
+        
+        /// <summary>
+        /// Get product's options value
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(Roles = "Administrator")]
+        [HttpGet("{productId:long}/option-values")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<IEnumerable<ProductOptionValueDto>>> GetProductOptionValues(long productId)
+        {
+            return Ok(await _productService.GetProductOptionsDetail(productId));
+        }
     }
 }

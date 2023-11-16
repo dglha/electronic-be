@@ -11,6 +11,7 @@ public class ProductListDto
     public bool IsFeatured { get; set; }
     public bool IsAllowToOrder { get; set; }
     public bool IsVisibleIndividually { get; set; }
+    public bool HasOption { get; set; }
     public int? StockQuantity { get; set; }
     public string Brand { get; set; }
 }
