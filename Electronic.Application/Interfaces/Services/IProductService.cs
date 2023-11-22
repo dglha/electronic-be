@@ -1,4 +1,5 @@
 ﻿using Electronic.Application.Contracts.DTOs.Product;
+using Electronic.Application.Contracts.DTOs.Product.User;
 using Electronic.Application.Contracts.Response;
 
 namespace Electronic.Application.Interfaces.Services;
@@ -24,4 +25,10 @@ public interface IProductService
     Task<BaseResponse<string>> UpdateProductPrice(long productId, UpdateProductPriceRequestDto request);
 
     Task<IEnumerable<ProductOptionValueDto>> GetProductOptionsDetail(long productId);
+
+    Task<BaseResponse<IEnumerable<ProductUserDto>>> GetFeaturedProducts();
+    
+    Task<BaseResponse<IEnumerable<ProductUserDto>>> GetNewProducts();
+
+    Task<BaseResponse<ProductDetailUserDto>> GetProductUserDetail(long productId);
 }

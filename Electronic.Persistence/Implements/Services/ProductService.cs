@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Text.Json;
 using Electronic.Application.Contracts.DTOs.Product;
+using Electronic.Application.Contracts.DTOs.Product.User;
 using Electronic.Application.Contracts.Exeptions;
 using Electronic.Application.Contracts.Logging;
 using Electronic.Application.Contracts.Response;
@@ -142,7 +143,7 @@ public class ProductService : IProductService
         foreach (var optionCombination in request.OptionCombinations)
         {
             var productOption = await _dbContext.Set<ProductOptionValue>()
-                .Where(option => option.ProductOptionId == optionCombination.ProductOptionId).FirstAsync();
+                .Where(option => option.ProductOptionId == optionCombination.ProductOptionId && option.ProductId == product.ProductId).FirstAsync();
 
             if (productOption is null)
                 throw new AppException("Product Option not found!", (int)HttpStatusCode.BadRequest);
@@ -457,6 +458,114 @@ public class ProductService : IProductService
         }).ToList();
 
         return result;
+    }
+
+    public async Task<BaseResponse<IEnumerable<ProductUserDto>>> GetFeaturedProducts()
+    {
+        var featuredProducts = await _dbContext.Set<Product>()
+            .Where(p => !p.IsDeleted && p.IsVisibleIndividually && p.IsFeatured && p.StockQuantity > 0).OrderByDescending(p => p.UpdatedAt).Take(4).Select(p =>
+                new ProductUserDto
+                {
+                    Name = p.Name,
+                    ProductId = p.ProductId,
+                    Slug = p.Slug,
+                    SpecialPrice = DateTime.Now > p.SpecialPriceEndDate ? null : p.SpecialPrice,
+                    Price = p.Price,
+                    ThumbnailImage = _mediaService.GetThumbnailUrl(p.ThumbnailImage)
+                }).ToListAsync();
+
+        return new BaseResponse<IEnumerable<ProductUserDto>>(featuredProducts);
+    }
+
+    public async Task<BaseResponse<IEnumerable<ProductUserDto>>> GetNewProducts()
+    {
+        var newProducts = await _dbContext.Set<Product>()
+            .Where(p => !p.IsDeleted && p.IsVisibleIndividually && p.IsNewProduct && p.StockQuantity > 0).OrderByDescending(p => p.UpdatedAt).Take(4).Select(p =>
+                new ProductUserDto
+                {
+                    Name = p.Name,
+                    ProductId = p.ProductId,
+                    Slug = p.Slug,
+                    SpecialPrice = DateTime.Now > p.SpecialPriceEndDate ? null : p.SpecialPrice,
+                    Price = p.Price,
+                    ThumbnailImage = _mediaService.GetThumbnailUrl(p.ThumbnailImage)
+                }).ToListAsync();
+
+        return new BaseResponse<IEnumerable<ProductUserDto>>(newProducts);
+    }
+
+    public async Task<BaseResponse<ProductDetailUserDto>> GetProductUserDetail(long productId)
+    {
+        var product = await _dbContext.Set<Product>().Where(p => p.ProductId == productId)
+            .Include(product => product.Brand).Include(product => product.ThumbnailImage)
+            .Include(product => product.Categories).ThenInclude(productCategory => productCategory.Category)
+            .Include(product => product.Medias).ThenInclude(productMedia => productMedia.Media)
+            .Include(product => product.OptionValues)
+            .ThenInclude(productOptionValue => productOptionValue.ProductOption).FirstOrDefaultAsync();
+
+        if (product is null) throw new AppException("Product not found!", (int)HttpStatusCode.BadRequest);
+
+        var variantIds = await _dbContext.Set<ProductLink>().Where(p => p.Type == ProductLinkEnum.Variant && p.ProductId == product.ProductId).Select(p => p.LinkedProductId).ToListAsync();
+
+        var productVariants = await _dbContext.Set<Product>()
+            .Include(product => product.Brand).Include(product => product.ThumbnailImage)
+            .Include(product => product.Categories).ThenInclude(productCategory => productCategory.Category)
+            .Include(product => product.Medias).ThenInclude(productMedia => productMedia.Media)
+            .Include(product => product.OptionValues)
+            .ThenInclude(productOptionValue => productOptionValue.ProductOption)
+            .Where(p => variantIds.Count != 0 && variantIds.Contains(p.ProductId))
+            .Select(p => new ProductDetailUserDto
+            {
+                ProductId = p.ProductId,
+                Name = p.Name,
+                Slug = p.Slug,
+                SpecialPrice = p.SpecialPrice,
+                Price = p.Price,
+                SpecialPriceEndDate = p.SpecialPriceEndDate,
+                SpecialPriceStartDate = p.SpecialPriceStartDate,
+                SKU = p.SKU,
+                StockQuantity = p.StockQuantity,
+                OptionCombinations = p.OptionCombinations.Select(oc => new ProductOptionCombinationDto
+                {
+                    ProductOptionId = oc.ProductOptionId,
+                    ProductOption = oc.ProductOption.Name,
+                    Value = oc.Value,
+                }),
+            }).ToListAsync();
+        
+        
+        var productDto = new ProductDetailUserDto
+        {
+            Name = product.Name,
+            Slug = product.Slug,
+            SpecialPrice = product.SpecialPrice,
+            Price = product.Price,
+            ProductId = product.ProductId,
+            Brand = product.Brand.Name,
+            Description = product.Description,
+            ShortDescription = product.ShortDescription,
+            Categories = product.Categories.Select(c => new ProductCategoryDto
+            {
+                CategoryId = c.CategoryId,
+                CategoryName = c.Category.Name
+            }),
+            MediasUrl = product.Medias.Select(m => _mediaService.GetMediaUrl(m.Media)),
+            BrandId = product.BrandId,
+            SKU = product.SKU,
+            ThumbnailImageUrl = _mediaService.GetThumbnailUrl(product.ThumbnailImage),
+            OptionValues = product.OptionValues.Select(o => new ProductOptionValueDto
+            {
+                ProductOptionId = o.ProductOptionId,
+                ProductOption = o.ProductOption.Name,
+                Value = JsonSerializer.Deserialize<List<string>>(o.Value),
+            }),
+            StockQuantity = product.StockQuantity,
+            SpecialPriceEndDate = product.SpecialPriceEndDate,
+            SpecialPriceStartDate = product.SpecialPriceStartDate,
+            ProductVariants = productVariants
+        };
+
+        return new BaseResponse<ProductDetailUserDto>(productDto);
     }
 
     // public async Task GetAvailableOptionCombination(long productId)

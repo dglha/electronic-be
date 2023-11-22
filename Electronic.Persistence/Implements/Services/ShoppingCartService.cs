@@ -111,10 +111,10 @@ public class ShoppingCartService : IShoppingCartService
         return new BaseResponse<CartDto>(GetCartDetail(cart));
     }
 
-    public async Task AddToCart(long productId)
+    public async Task AddToCart(CartItem request)
     {
-        var product = await  _dbContext.Set<Product>().FirstOrDefaultAsync(p => p.ProductId == productId);
-        if (product == null || product.HasOption || !product.IsVisibleIndividually ) return;
+        var product = await  _dbContext.Set<Product>().FirstOrDefaultAsync(p => p.ProductId == request.ProductId && p.StockQuantity > 0);
+        if (product == null || product.HasOption || !product.IsVisibleIndividually || product.StockQuantity.HasValue && product.StockQuantity.Value < request.Quantity) return;
 
         var cart = await _dbContext.Set<Cart>().Where(c => c.CustomerId == _userService.UserId).FirstOrDefaultAsync() ??
                    new Cart { CustomerId = _userService.UserId };
