@@ -26,21 +26,26 @@ public class ProductDetailDto
     public int? BrandId { get; set; }
     public string Brand { get; set; }
     public string ThumbnailImageUrl { get; set; }
-    public IEnumerable<string> MediasUrl { get; set; }
+    public IEnumerable<ProductMediaDto> MediasUrl { get; set; }
     public IEnumerable<ProductOptionValueDto> OptionValues { get; set; }
     public IEnumerable<ProductCategoryDto> Categories { get; set; }
     public IEnumerable<ProductLinkDto> ProductLinks { get; set; }
     public IEnumerable<ProductOptionCombinationDto> OptionCombinations { get; set; }
+    
+    public IEnumerable<ProductDetailDto> ProductVariants { get; set; } 
+    public bool HasParentProduct { get; set; }
 }
 
 public class ProductOptionCombinationDto
 {
-    public string OptionName { get; set; }
+    public int ProductOptionId { get; set; }
+    public string ProductOption { get; set; }
     public string Value { get; set; }
 }
 
 public class ProductOptionValueDto
 {
+    public int ProductOptionId { get; set; }
     public string ProductOption { get; set; }
     public List<string>? Value { get; set; }
 }
@@ -53,6 +58,6 @@ public class ProductCategoryDto
 
 public class ProductLinkDto
 {
-    public int LinkType { get; set; }
+    public string LinkType { get; set; }
     public long ProductId { get; set; }
 }
