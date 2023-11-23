@@ -496,6 +496,17 @@ public class ProductService : IProductService
 
     public async Task<BaseResponse<ProductDetailUserDto>> GetProductUserDetail(long productId)
     {
+        var isVariant = _dbContext.Set<ProductLink>()
+            .Any(p => p.Type == ProductLinkEnum.Variant && p.LinkedProductId == productId);
+
+        if (isVariant)
+            return new BaseResponse<ProductDetailUserDto>
+            {
+                Data = null,
+                IsSuccess = false,
+                Message = "Product not found"
+            };
+        
         var product = await _dbContext.Set<Product>().Where(p => p.ProductId == productId)
             .Include(product => product.Brand).Include(product => product.ThumbnailImage)
             .Include(product => product.Categories).ThenInclude(productCategory => productCategory.Category)
@@ -503,7 +514,12 @@ public class ProductService : IProductService
             .Include(product => product.OptionValues)
             .ThenInclude(productOptionValue => productOptionValue.ProductOption).FirstOrDefaultAsync();
 
-        if (product is null) throw new AppException("Product not found!", (int)HttpStatusCode.BadRequest);
+        if (product is null) return new BaseResponse<ProductDetailUserDto>
+        {
+            Data = null,
+            IsSuccess = false,
+            Message = "Product not found"
+        };
 
         var variantIds = await _dbContext.Set<ProductLink>().Where(p => p.Type == ProductLinkEnum.Variant && p.ProductId == product.ProductId).Select(p => p.LinkedProductId).ToListAsync();
 
@@ -531,7 +547,10 @@ public class ProductService : IProductService
                     ProductOption = oc.ProductOption.Name,
                     Value = oc.Value,
                 }),
+                ThumbnailImageUrl = _mediaService.GetThumbnailUrl(p.ThumbnailImage)
             }).ToListAsync();
+
+        var productVariantImages = productVariants.Select(o => o.ThumbnailImageUrl).ToList();
         
         
         var productDto = new ProductDetailUserDto
@@ -549,7 +568,7 @@ public class ProductService : IProductService
                 CategoryId = c.CategoryId,
                 CategoryName = c.Category.Name
             }),
-            MediasUrl = product.Medias.Select(m => _mediaService.GetMediaUrl(m.Media)),
+            MediasUrl = product.Medias.Select(m => _mediaService.GetMediaUrl(m.Media)).ToList(),
             BrandId = product.BrandId,
             SKU = product.SKU,
             ThumbnailImageUrl = _mediaService.GetThumbnailUrl(product.ThumbnailImage),
@@ -564,6 +583,8 @@ public class ProductService : IProductService
             SpecialPriceStartDate = product.SpecialPriceStartDate,
             ProductVariants = productVariants
         };
+        
+        productDto.MediasUrl.AddRange(productVariantImages);
 
         return new BaseResponse<ProductDetailUserDto>(productDto);
     }

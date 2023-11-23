@@ -114,7 +114,7 @@ public class ShoppingCartService : IShoppingCartService
     public async Task AddToCart(CartItem request)
     {
         var product = await  _dbContext.Set<Product>().FirstOrDefaultAsync(p => p.ProductId == request.ProductId && p.StockQuantity > 0);
-        if (product == null || product.HasOption || !product.IsVisibleIndividually || product.StockQuantity.HasValue && product.StockQuantity.Value < request.Quantity) return;
+        if (product == null || product.HasOption || product.IsVisibleIndividually || product.StockQuantity.HasValue && product.StockQuantity.Value < request.Quantity) return;
 
         var cart = await _dbContext.Set<Cart>().Where(c => c.CustomerId == _userService.UserId).FirstOrDefaultAsync() ??
                    new Cart { CustomerId = _userService.UserId };
@@ -130,7 +130,7 @@ public class ShoppingCartService : IShoppingCartService
         }
         else
         {
-            cartItems.Add(new CartItem{ProductId = product.ProductId, Quantity = 1});
+            cartItems.Add(new CartItem{ProductId = product.ProductId, Quantity = request.Quantity});
         }
 
         cart.CartItems = JsonSerializer.Serialize(cartItems);
