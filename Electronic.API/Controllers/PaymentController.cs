@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Electric.Payment.VNPay.DTOs.Response;
+using Electric.Payment.VNPay.Service;
 using Electronic.Application.Contracts.DTOs.Payment;
 using Electronic.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -17,25 +18,27 @@ namespace Electronic.API.Controllers
     {
 
         private readonly IPaymentService _paymentService;
+        private readonly IVnPayPaymentService _vnPayPaymentService;
 
-        public PaymentController(IPaymentService paymentService)
+        public PaymentController(IPaymentService paymentService, IVnPayPaymentService vnPayPaymentService)
         {
             _paymentService = paymentService;
+            _vnPayPaymentService = vnPayPaymentService;
         }
 
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<string>> GetPaymentLink(long orderId)
+        public async Task<ActionResult<string>> GetPaymentLink([FromBody] long orderId)
         {
             return Ok(await _paymentService.CreatePaymentLink(orderId));
         }
         
         [HttpGet]
-        [Authorize]
         [Route("vnpay-return")]
         public async Task<ActionResult<PaymentResponseDto>> VnpayReturn([FromQuery]VnPayResponseDto response)
         {
-            return Ok( _paymentService.VNPayPaymentCallback(response));
+            return Ok(_vnPayPaymentService.CheckCallback(response));
+            // return Ok( _paymentService.VNPayPaymentCallback(response));
         }
         
         

@@ -1,7 +1,9 @@
-﻿using Electric.Payment.VNPay.Config;
+﻿using System.Net;
+using Electric.Payment.VNPay.Config;
 using Electric.Payment.VNPay.DTOs.Response;
 using Electric.Payment.VNPay.Helper;
 using Electronic.Application.Contracts.DTOs.Payment;
+using Electronic.Application.Contracts.Identity;
 using Electronic.Domain.Models.Order;
 using Microsoft.Extensions.Options;
 
@@ -10,9 +12,11 @@ namespace Electric.Payment.VNPay.Service;
 public class VnPayPaymentService : IVnPayPaymentService
 {
     private readonly VnPayConfig _vnPayConfig;
+    private readonly IUserService _userService;
 
-    public VnPayPaymentService(IOptions<VnPayConfig> vnPayConfig)
+    public VnPayPaymentService(IOptions<VnPayConfig> vnPayConfig, IUserService userService)
     {
+        _userService = userService;
         _vnPayConfig = vnPayConfig.Value;
     }
 
@@ -21,10 +25,11 @@ public class VnPayPaymentService : IVnPayPaymentService
         var paymentUrl = string.Empty;
 
         var vnPayRequest = new VnPayRequestDto(_vnPayConfig.Version,
-            _vnPayConfig.TmnCode, DateTime.Now, "192.168.1.1",
+            _vnPayConfig.TmnCode, DateTime.Now,
+           _userService.IpAddress,
             order.OrderTotal, "VND",
             "120000", $"Electronic Thanh toan hoa don ${order.OrderId} ${order.OrderTotal} VND" ?? string.Empty, _vnPayConfig.ReturnUrl,
-            order.OrderId.ToString());
+            $"{Guid.NewGuid()}-${order.OrderId}");
 
         paymentUrl = vnPayRequest.GetLink(_vnPayConfig.PaymentUrl, _vnPayConfig.HashSecret);
         return paymentUrl;

@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Electronic.Application.Contracts.DTOs.Order;
+using Electronic.Application.Contracts.Response;
 using Electronic.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -26,6 +28,13 @@ namespace Electronic.API.Controllers
         {
             await _orderService.CreateOrder();
             return Ok();
+        }
+        
+        [Authorize]
+        [HttpGet("{orderId:long}/detail")]
+        public async Task<ActionResult<BaseResponse<OrderDto>>> GetOrderDetail(long orderId)
+        {
+            return Ok(await _orderService.GetOrderDetail(orderId));
         }
     }
 }

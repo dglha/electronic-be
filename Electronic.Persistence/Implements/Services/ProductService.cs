@@ -4,6 +4,7 @@ using Electronic.Application.Contracts.DTOs.Product;
 using Electronic.Application.Contracts.DTOs.Product.User;
 using Electronic.Application.Contracts.Exeptions;
 using Electronic.Application.Contracts.Logging;
+using Electronic.Application.Contracts.Queries;
 using Electronic.Application.Contracts.Response;
 using Electronic.Application.Interfaces.Persistences;
 using Electronic.Application.Interfaces.Services;
@@ -587,6 +588,73 @@ public class ProductService : IProductService
         productDto.MediasUrl.AddRange(productVariantImages);
 
         return new BaseResponse<ProductDetailUserDto>(productDto);
+    }
+
+    public async Task<Pagination<ProductUserDto>> GetProductList(ProductQuery query)
+    {
+        var productQuery = GetProductUserQuery();
+
+        if (query.CategoryId.HasValue && query.CategoryId > 0)
+        {
+            productQuery = productQuery.Where(p => p.Categories.Any(c => c.CategoryId == query.CategoryId));
+        }
+
+        if (query.BrandId.HasValue && query.BrandId > 0)
+        {
+            productQuery = productQuery.Where(p => p.BrandId.HasValue && p.BrandId == query.BrandId);
+        }
+
+        if (query.MinPrice.HasValue && query.MinPrice > 0)
+        {
+            productQuery = productQuery.Where(p =>
+                p.SpecialPriceEndDate <= DateTime.Now ? p.Price >= query.MinPrice : p.SpecialPrice >= query.MinPrice);
+        }
+        
+        if (query.MaxPrice.HasValue && query.MaxPrice > 0)
+        {
+            productQuery = productQuery.Where(p =>
+                p.SpecialPriceEndDate <= DateTime.Now ? p.Price <= query.MaxPrice : p.SpecialPrice <= query.MinPrice);
+        }
+        
+        if (!string.IsNullOrEmpty(query.Name))
+        {
+            productQuery = productQuery.Where(p => p.Name.Contains(query.Name));
+        }
+        
+        if (!query.Page.HasValue && query.Page < 0)
+        {
+            query.Page = 1;
+        }
+
+        if (!query.PageSize.HasValue && query.PageSize < 0)
+        {
+            query.Page = 15;
+        }
+
+        if (!string.IsNullOrEmpty(query.SortBy) && query.SortBy.Equals("price") && query.IsSortAscending.HasValue)
+        {
+            productQuery = (bool)query.IsSortAscending
+                ? productQuery.OrderBy(p => p.Price)
+                : productQuery.OrderByDescending(p => p.Price);
+        }
+
+        var totalCount = await productQuery.CountAsync();
+        var data = await productQuery.Skip((int)(query.Page! - 1)).Take((int)query.PageSize!).Select(p => new ProductUserDto
+        {
+            Name = p.Name,
+            ProductId = p.ProductId,
+            Slug = p.Slug,
+            SpecialPrice = DateTime.Now > p.SpecialPriceEndDate ? null : p.SpecialPrice,
+            Price = p.Price,
+            ThumbnailImage = _mediaService.GetThumbnailUrl(p.ThumbnailImage)
+        }).ToListAsync();
+
+        return Pagination<ProductUserDto>.ToPagination(data, (int)query.Page, (int)query.PageSize, totalCount);
+    }
+
+    private IQueryable<Product> GetProductUserQuery()
+    {
+        return _dbContext.Set<Product>().Where(p => !p.IsDeleted && p.IsVisibleIndividually);
     }
 
     // public async Task GetAvailableOptionCombination(long productId)
