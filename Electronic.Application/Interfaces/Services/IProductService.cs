@@ -1,5 +1,6 @@
 ﻿using Electronic.Application.Contracts.DTOs.Product;
 using Electronic.Application.Contracts.DTOs.Product.User;
+using Electronic.Application.Contracts.DTOs.Review;
 using Electronic.Application.Contracts.Queries;
 using Electronic.Application.Contracts.Response;
 
@@ -34,4 +35,10 @@ public interface IProductService
     Task<BaseResponse<ProductDetailUserDto>> GetProductUserDetail(long productId);
 
     Task<Pagination<ProductUserDto>> GetProductList(ProductQuery query);
+
+    Task<IEnumerable<ProductPriceHistoryDto>> GetProductPriceHistory(long productId);
+
+    Task AddProductReview(long productId, string userEmail, ProductReviewRequestDto request);
+
+    Task<Pagination<ProductReviewDto>> GetProductReview(long productId, int pageNumber, int itemPerPage);
 }

@@ -2,7 +2,9 @@
 using System.Text.Json;
 using Electronic.Application.Contracts.DTOs.Product;
 using Electronic.Application.Contracts.DTOs.Product.User;
+using Electronic.Application.Contracts.DTOs.Review;
 using Electronic.Application.Contracts.Exeptions;
+using Electronic.Application.Contracts.Identity;
 using Electronic.Application.Contracts.Logging;
 using Electronic.Application.Contracts.Queries;
 using Electronic.Application.Contracts.Response;
@@ -13,6 +15,7 @@ using Electronic.Domain.Model.Catalog;
 using Electronic.Domain.Models.Catalog;
 using Electronic.Domain.Models.Core;
 using Electronic.Domain.Models.Inventory;
+using Electronic.Domain.Models.Review;
 using Electronic.Persistence.DatabaseContext;
 using Electronic.Persistence.Helpers;
 using Microsoft.EntityFrameworkCore;
@@ -26,15 +29,19 @@ public class ProductService : IProductService
     private readonly IProductOptionRepository _productOptionRepository;
     private readonly IMediaService _mediaService;
     private readonly IAppLogger<ProductService> _logger;
+    private readonly IUserService _userService;
+    private readonly IAuthService _authService;
 
     public ProductService(ElectronicDatabaseContext dbContext, IProductRepository productRepository,
-        IMediaService mediaService, IProductOptionRepository productOptionRepository, IAppLogger<ProductService> logger)
+        IMediaService mediaService, IProductOptionRepository productOptionRepository, IAppLogger<ProductService> logger, IUserService userService, IAuthService authService)
     {
         _dbContext = dbContext;
         _productRepository = productRepository;
         _mediaService = mediaService;
         _productOptionRepository = productOptionRepository;
         _logger = logger;
+        _userService = userService;
+        _authService = authService;
     }
 
     public async Task<CreateProductDto> CreateProduct(CreateProductDto request)
@@ -79,7 +86,8 @@ public class ProductService : IProductService
         product.PriceHistories.Add(productPriceHistory);
 
         await SaveProductMedias(request, product);
-
+        
+        // Create product Stock
         if (product.StockQuantity != null)
         {
             var warehouse = await _dbContext.Set<Warehouse>().FirstAsync();
@@ -89,7 +97,15 @@ public class ProductService : IProductService
                 Quantity = (int)product.StockQuantity,
                 Warehouse = warehouse,
             };
+            var stockHistory = new StockHistory
+            {
+                Note = StockHistoryNoteEnum.Create.ToString(),
+                Stock = stock,
+                AdjustedQuantity = stock.Quantity,
+                OldQuantity = 0,
+            };
             _dbContext.Set<Stock>().Add(stock);
+            _dbContext.Set<StockHistory>().Add(stockHistory);
         }
 
 
@@ -184,6 +200,28 @@ public class ProductService : IProductService
             Product = product,
             LinkedProduct = variantProduct
         };
+        
+        // Create product Stock
+        if (variantProduct.StockQuantity != null)
+        {
+            var warehouse = await _dbContext.Set<Warehouse>().FirstAsync();
+            var stock = new Stock
+            {
+                Product = product,
+                Quantity = (int)variantProduct.StockQuantity,
+                Warehouse = warehouse,
+            };
+            var stockHistory = new StockHistory
+            {
+                Note = StockHistoryNoteEnum.Create.ToString(),
+                Stock = stock,
+                AdjustedQuantity = stock.Quantity,
+                OldQuantity = 0,
+            };
+            
+            _dbContext.Set<Stock>().Add(stock);
+            _dbContext.Set<StockHistory>().Add(stockHistory);
+        }
 
         product.AddProductLinks(productLink);
         if (!product.HasOption) product.HasOption = true;
@@ -227,7 +265,7 @@ public class ProductService : IProductService
             product.PriceHistories.Add(productPriceHistory);
         }
 
-        await SaveProductMedias(request, product);
+        // await SaveProductMedias(request, product);
 
         foreach (var productMediaId in request.DeletedMediaIds)
         {
@@ -650,6 +688,68 @@ public class ProductService : IProductService
         }).ToListAsync();
 
         return Pagination<ProductUserDto>.ToPagination(data, (int)query.Page, (int)query.PageSize, totalCount);
+    }
+
+    public async Task<IEnumerable<ProductPriceHistoryDto>> GetProductPriceHistory(long productId)
+    {
+        var product = await _dbContext.Set<Product>().Where(p => p.ProductId == productId).FirstOrDefaultAsync();
+
+        if (product is null) throw new AppException("Product not found!", (int)HttpStatusCode.BadRequest);
+
+        var priceHistories = await _dbContext.Set<ProductPriceHistory>().Where(p => p.ProductId == product.ProductId)
+            .Select(p => new ProductPriceHistoryDto
+            {
+                ProductId = p.ProductId,
+                OldPrice = p.OldPrice,
+                SpecialPrice = p.SpecialPrice,
+                Price = p.SpecialPrice,
+                SpecialPriceEndDate = p.SpecialPriceEndDate,
+                SpecialPriceStartDate = p.SpecialPriceStartDate
+            }).ToListAsync();
+
+        return priceHistories;
+    }
+
+    public async Task AddProductReview(long productId, string userEmail,ProductReviewRequestDto request)
+    {
+        var product = await _dbContext.Set<Product>().Where(p => p.ProductId == productId).FirstOrDefaultAsync();
+
+        if (product is null) throw new AppException("Product not found!", (int)HttpStatusCode.BadRequest);
+
+        var user = await _authService.GetCurrentUserInfo(userEmail);
+
+        var review = new Review
+        {
+            Comment = request.Comment,
+            Rating = request.Rating,
+            ReviewerName = user.Username,
+            ProductId = productId,
+            ReviewerId = _userService.UserId
+        };
+
+        _dbContext.Set<Review>().Add(review);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<Pagination<ProductReviewDto>> GetProductReview(long productId, int pageNumber, int itemPerPage)
+    {
+        var query = _dbContext.Set<Review>().Where(p => p.ProductId == productId);
+        var totalCount = await query.CountAsync();
+        if (pageNumber == -1)
+        {
+            itemPerPage = totalCount;
+            pageNumber *= -1;
+        }
+
+        var data = await query.Skip((pageNumber - 1) * itemPerPage).Take(itemPerPage).Select(s =>
+            new ProductReviewDto
+            {
+                Comment = s.Comment,
+                Rating = s.Rating,
+                ReviewerName = s.ReviewerName,
+                ReviewId = s.ReviewId,
+            }).ToListAsync();
+        return Pagination<ProductReviewDto>.ToPagination(data, pageNumber, itemPerPage, totalCount);
     }
 
     private IQueryable<Product> GetProductUserQuery()

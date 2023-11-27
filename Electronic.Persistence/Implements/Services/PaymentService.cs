@@ -101,6 +101,8 @@ public class PaymentService : IPaymentService
         _dbContext.Set<OrderStatusHistory>().Add(orderHistory);
         _dbContext.Set<Payment>().Add(payment);
         await _dbContext.SaveChangesAsync();
+        
+        // TODO: Clear Cart
 
         await _dbContext.Database.CommitTransactionAsync();
 
