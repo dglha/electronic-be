@@ -12,7 +12,7 @@ public static class PaymentServiceRegistration
     {
         serviceCollection.Configure<VnPayConfig>(configuration.GetSection("VnPay"));
 
-        serviceCollection.AddTransient<IVnPayPaymentService, VnPayPaymentService>();
+        serviceCollection.AddScoped<IVnPayPaymentService, VnPayPaymentService>();
         
         return serviceCollection;
     }

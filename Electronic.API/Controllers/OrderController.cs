@@ -16,7 +16,7 @@ namespace Electronic.API.Controllers
     public class OrderController : ControllerBase
     {
         private readonly IOrderService _orderService;
-
+        
         public OrderController(IOrderService orderService)
         {
             _orderService = orderService;
@@ -24,10 +24,9 @@ namespace Electronic.API.Controllers
         
         [Authorize]
         [HttpPost]
-        public async Task<ActionResult> CreateOrder()
+        public async Task<ActionResult<long>> CreateOrder()
         {
-            await _orderService.CreateOrder();
-            return Ok();
+            return Ok(await _orderService.CreateOrder());
         }
         
         [Authorize]

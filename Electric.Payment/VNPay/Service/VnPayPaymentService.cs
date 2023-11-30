@@ -29,7 +29,7 @@ public class VnPayPaymentService : IVnPayPaymentService
            _userService.IpAddress,
             order.OrderTotal, "VND",
             "120000", $"Electronic Thanh toan hoa don ${order.OrderId} ${order.OrderTotal} VND" ?? string.Empty, _vnPayConfig.ReturnUrl,
-            $"{Guid.NewGuid()}-${order.OrderId}");
+            $"{order.OrderId}");
 
         paymentUrl = vnPayRequest.GetLink(_vnPayConfig.PaymentUrl, _vnPayConfig.HashSecret);
         return paymentUrl;

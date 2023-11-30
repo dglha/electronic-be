@@ -106,6 +106,7 @@ public class StockService : IStockService
             new ProductStockDto
             {
                 StockId = s.StockId,
+                ProductId = s.ProductId,
                 StockQuantity = s.Quantity,
                 ProductName = s.Product.Name,
                 UpdatedAt = s.UpdatedAt,

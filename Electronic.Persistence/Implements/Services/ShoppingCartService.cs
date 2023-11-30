@@ -165,6 +165,7 @@ public class ShoppingCartService : IShoppingCartService
                     Price = price,
                     Quantity = quantity,
                     TotalPrice = price * quantity,
+                    ProductId = p.ProductId,
                     ThumbnailImageUrl = _mediaService.GetThumbnailUrl(p.ThumbnailImage),
                     Options = p.OptionCombinations.Select(ob => ob.Value).ToList()
                 };

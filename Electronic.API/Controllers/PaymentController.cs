@@ -37,8 +37,7 @@ namespace Electronic.API.Controllers
         [Route("vnpay-return")]
         public async Task<ActionResult<PaymentResponseDto>> VnpayReturn([FromQuery]VnPayResponseDto response)
         {
-            // return Ok(_vnPayPaymentService.CheckCallback(response));
-            return Ok( _paymentService.VNPayPaymentCallback(response));
+            return Ok(await  _paymentService.VNPayPaymentCallback(response));
         }
         
         
