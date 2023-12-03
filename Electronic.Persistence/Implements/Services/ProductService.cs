@@ -67,7 +67,7 @@ public class ProductService : IProductService
             IsAllowToOrder = request.IsAllowToOrder,
             BrandId = request.BrandId,
             HasOption = false,
-            IsVisibleIndividually = request.IsVisibleIndividually,
+            IsVisibleIndividually = true,
             IsDeleted = false,
             IsNewProduct = true,
             StockQuantity = request.IsVisibleIndividually ? request.StockQuantity : null
@@ -88,13 +88,13 @@ public class ProductService : IProductService
         await SaveProductMedias(request, product);
         
         // Create product Stock
-        if (product.StockQuantity != null)
+        if (product.StockQuantity == null || product.StockQuantity == 0)
         {
             var warehouse = await _dbContext.Set<Warehouse>().FirstAsync();
             var stock = new Stock
             {
                 Product = product,
-                Quantity = (int)product.StockQuantity,
+                Quantity = 0,
                 Warehouse = warehouse,
             };
             var stockHistory = new StockHistory
@@ -235,12 +235,11 @@ public class ProductService : IProductService
             .Include(p => p.ThumbnailImage)
             .Include(p => p.Medias).ThenInclude(m => m.Media)
             .Include(p => p.Categories)
-            .FirstOrDefaultAsync();
+            .FirstOrDefaultAsync(p => p.ProductId == productId);
 
         if (product == null) throw new AppException("Product doesn't exists", (int)HttpStatusCode.BadRequest);
 
         var isPriceChanged = product.Price != request.Price ||
-                             product.OldPrice != request.OldPrice ||
                              product.SpecialPrice != request.SpecialPrice ||
                              product.SpecialPriceStartDate != request.SpecialPriceStartDate ||
                              product.SpecialPriceEndDate != request.SpecialPriceEndDate;
@@ -252,8 +251,10 @@ public class ProductService : IProductService
         product.ShortDescription = request.ShortDescription;
         product.Description = request.Description;
         product.SpecialPrice = request.SpecialPrice;
-        product.OldPrice = request.OldPrice;
-        product.SpecialPriceStartDate = request.SpecialPriceEndDate;
+        product.OldPrice = product.Price;
+        product.Price = request.Price;
+        product.SpecialPriceStartDate = request.SpecialPriceStartDate;
+        product.SpecialPriceEndDate = request.SpecialPriceEndDate;
         product.IsPublished = request.IsPublished;
         product.IsFeatured = request.IsFeatured;
         product.IsAllowToOrder = request.IsAllowToOrder;
@@ -265,7 +266,7 @@ public class ProductService : IProductService
             product.PriceHistories.Add(productPriceHistory);
         }
 
-        // await SaveProductMedias(request, product);
+        await SaveProductMedias(request, product);
 
         foreach (var productMediaId in request.DeletedMediaIds)
         {
@@ -275,6 +276,8 @@ public class ProductService : IProductService
         }
 
         AddOrDeleteCategories(request, product);
+
+        await _dbContext.SaveChangesAsync();
     }
 
     public async Task UpdateProductVariant(long parentProductId,
@@ -400,7 +403,7 @@ public class ProductService : IProductService
             Brand = product.Brand.Name,
             NormalizedName = product.NormalizedName,
             IsNewProduct = product.IsNewProduct,
-            ThumbnailImageUrl = _mediaService.GetThumbnailUrl(product.ThumbnailImage),
+            ThumbnailImageUrl = product.ThumbnailImage != null ? _mediaService.GetThumbnailUrl(product.ThumbnailImage) : "",
             HasParentProduct = hasParentProduct,
             ProductLinks = product.ProductLinks.Select(l => new ProductLinkDto
             {
@@ -677,7 +680,7 @@ public class ProductService : IProductService
         }
 
         var totalCount = await productQuery.CountAsync();
-        var data = await productQuery.Skip((int)(query.Page! - 1)).Take((int)query.PageSize!).Select(p => new ProductUserDto
+        var data = await productQuery.Skip((int)(query.Page! - 1) * (int)query.PageSize).Take((int)query.PageSize!).Select(p => new ProductUserDto
         {
             Name = p.Name,
             ProductId = p.ProductId,
@@ -849,6 +852,37 @@ public class ProductService : IProductService
             }
         }
 
+        foreach (var image in request.ProductImages)
+        {
+            var fileName = await SaveFile(image.FileContent, image.FileName, image.FileType);
+            var productMedia = new ProductMedia
+            {
+                Product = product,
+                Media = new Media { FileName = fileName, MediaType = MediaTypeEnum.Image, Caption = "" }
+            };
+            product.AddMedia(productMedia);
+        }
+    }
+    
+    private async Task SaveProductMedias(UpdateProductDto request, Product product)
+    {
+        if (request.ThumbnailImage != null)
+        {
+            var fileName = await SaveFile(request.ThumbnailImage.FileContent, request.ThumbnailImage.FileName,
+                request.ThumbnailImage.FileType);
+            if (product.ThumbnailImage != null)
+            {
+                product.ThumbnailImage.FileName = fileName;
+            }
+            else
+            {
+                product.ThumbnailImage = new Media
+                    { FileName = fileName, MediaType = MediaTypeEnum.Image, Caption = "" };
+            }
+        }
+
+        if (request.ProductImages is null || !request.ProductImages.Any()) return;
+        
         foreach (var image in request.ProductImages)
         {
             var fileName = await SaveFile(image.FileContent, image.FileName, image.FileType);
