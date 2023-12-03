@@ -29,7 +29,7 @@ public class OrderService : IOrderService
         _mediaService = mediaService;
     }
 
-    public async Task CreateOrder()
+    public async Task<long> CreateOrder()
     {
         var cart = await _dbContext.Set<Cart>()
             .Where(c => c.CustomerId == _userService.UserId).FirstOrDefaultAsync();
@@ -92,6 +92,8 @@ public class OrderService : IOrderService
             await _dbContext.SaveChangesAsync();
             
             await _dbContext.Database.CommitTransactionAsync();
+
+            return order.OrderId;
         }
         
         catch (Exception e)
@@ -100,7 +102,7 @@ public class OrderService : IOrderService
         }
     }
 
-    public async Task<OrderDto> GetOrderDetail(long orderId)
+    public async Task<BaseResponse<OrderDto>> GetOrderDetail(long orderId)
     {
         var order =  await _dbContext.Set<Order>()
             .Include(o => o.OrderStatusHistories)
@@ -142,10 +144,9 @@ public class OrderService : IOrderService
             OrderStatusHistories = orderStatusHistoriesDto,
             PaymentMethod = order.PaymentMethod,
             PaymentFeeAmount = order.PaymentFeeAmount ?? 0,
-
         };
 
-        return result;
+        return new BaseResponse<OrderDto>(result);
     }
 
     public async Task<Pagination<OrderListDto>> GetOrders(int pageIndex, int itemPerPage)

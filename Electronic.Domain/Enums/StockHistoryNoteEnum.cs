@@ -3,5 +3,6 @@
 public enum StockHistoryNoteEnum
 {
     Sold,
-    Adjustment
+    Adjustment,
+    Create,
 }

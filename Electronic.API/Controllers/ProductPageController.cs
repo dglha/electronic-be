@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Electronic.Application.Contracts.DTOs.Product.User;
+using Electronic.Application.Contracts.DTOs.Review;
 using Electronic.Application.Contracts.Response;
 using Electronic.Application.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,6 +28,28 @@ namespace Electronic.API.Controllers
         public async Task<ActionResult<BaseResponse<ProductDetailUserDto>>> GetProductDetail(long productId)
         {
             return Ok(await _productService.GetProductUserDetail(productId));
+        }
+        
+        /// <summary>
+        /// Get Product's reviews
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("{productId:long}/reviews")]
+        public async Task<ActionResult<Pagination<ProductReviewDto>>> GetProductReviews(long productId, int pageNumber = 1, int pageSize = 15)
+        {
+            return Ok(await _productService.GetProductReview(productId, pageNumber, pageSize));
+        }
+        
+        /// <summary>
+        /// Add Product review
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("{productId:long}/reviews")]
+        [Authorize]
+        public async Task<ActionResult> AddProductReview(long productId, ProductReviewRequestDto request)
+        {
+            await _productService.AddProductReview(productId, User.FindFirstValue(ClaimTypes.Email), request);
+            return Ok();
         }
     }
 }

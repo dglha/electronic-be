@@ -130,7 +130,7 @@ public class ShoppingCartService : IShoppingCartService
         }
         else
         {
-            cartItems.Add(new CartItem{ProductId = product.ProductId, Quantity = 1});
+            cartItems.Add(new CartItem{ProductId = product.ProductId, Quantity = request.Quantity});
         }
 
         cart.CartItems = JsonSerializer.Serialize(cartItems);
@@ -165,6 +165,7 @@ public class ShoppingCartService : IShoppingCartService
                     Price = price,
                     Quantity = quantity,
                     TotalPrice = price * quantity,
+                    ProductId = p.ProductId,
                     ThumbnailImageUrl = _mediaService.GetThumbnailUrl(p.ThumbnailImage),
                     Options = p.OptionCombinations.Select(ob => ob.Value).ToList()
                 };

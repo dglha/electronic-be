@@ -5,9 +5,9 @@ namespace Electronic.Application.Interfaces.Services;
 
 public interface IOrderService
 {
-    Task CreateOrder();
+    Task<long> CreateOrder();
 
-    Task<OrderDto> GetOrderDetail(long orderId);
+    Task<BaseResponse<OrderDto>> GetOrderDetail(long orderId);
 
     Task<Pagination<OrderListDto>> GetOrders(int pageIndex, int itemPerPage);
 }

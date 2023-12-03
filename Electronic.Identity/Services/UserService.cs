@@ -25,4 +25,6 @@ public class UserService : IUserService
     {
         get => _contextAccessor.HttpContext?.User.Identity != null && (_contextAccessor.HttpContext?.User.Identity.IsAuthenticated ?? false);
     }
+
+    public string? IpAddress => _contextAccessor?.HttpContext?.Connection?.LocalIpAddress?.ToString();
 }

@@ -44,11 +44,12 @@ public class PaymentService : IPaymentService
     public async Task<PaymentResponseDto> VNPayPaymentCallback(object model)
     {
         var result = _vnPayPaymentService.CheckCallback(model);
-
+        
         // Update order status
         if (!result.IsSuccess) return result;
-
+        
         await _dbContext.Database.BeginTransactionAsync();
+        
 
         var order = await _dbContext.Set<Order>()
             .Include(o => o.OrderItems)
@@ -86,7 +87,7 @@ public class PaymentService : IPaymentService
             product.StockQuantity -= orderItem.Quantity;
             
             // Update stock history
-            var stock = await _dbContext.Set<Stock>().FirstAsync(s => s.ProductId == product.ProductId);
+            var stock = await _dbContext.Set<Stock>().FirstOrDefaultAsync(s => s.ProductId == product.ProductId);
             var stockHistory = new StockHistory
             {
                 Note = StockHistoryNoteEnum.Sold.ToString(),
@@ -94,6 +95,7 @@ public class PaymentService : IPaymentService
                 OldQuantity = product.StockQuantity.Value,
                 Stock = stock,
             };
+            stock.Quantity = (int)product.StockQuantity;
 
             _dbContext.Set<StockHistory>().Add(stockHistory);
         }
@@ -101,6 +103,8 @@ public class PaymentService : IPaymentService
         _dbContext.Set<OrderStatusHistory>().Add(orderHistory);
         _dbContext.Set<Payment>().Add(payment);
         await _dbContext.SaveChangesAsync();
+        
+        // TODO: Clear Cart
 
         await _dbContext.Database.CommitTransactionAsync();
 

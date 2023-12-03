@@ -96,13 +96,13 @@ namespace Electronic.API.Controllers
                 IsFeatured = (bool)request.IsFeatured!,
                 IsAllowToOrder = (bool)request.IsAllowToOrder!,
                 BrandId = (int)request.BrandId!,
-                ThumbnailImage = new ImageFileDto
+                ThumbnailImage = request.ThumbnailImage != null ? new ImageFileDto
                 {
                     FileName = request.ThumbnailImage.FileName,
                     FileType = request.ThumbnailImage.ContentType,
                     FileContent = request.ThumbnailImage.OpenReadStream()
-                },
-                ProductImages = request.ProductImages.Select(i => new ImageFileDto
+                } : null,
+                ProductImages = request.ProductImages?.Select(i => new ImageFileDto
                 {
                     FileName = i.FileName,
                     FileType = i.ContentType,

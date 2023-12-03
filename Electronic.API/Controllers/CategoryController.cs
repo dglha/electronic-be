@@ -117,7 +117,7 @@ namespace Electronic.API.Controllers
         /// Get category tree view for admin
         /// </summary>
         /// <returns></returns>
-        [Authorize(Roles = "Administrator")]
+        // [Authorize(Roles = "Administrator")]
         [HttpGet("tree")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
