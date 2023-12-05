@@ -41,4 +41,6 @@ public interface IProductService
     Task AddProductReview(long productId, string userEmail, ProductReviewRequestDto request);
 
     Task<Pagination<ProductReviewDto>> GetProductReview(long productId, int pageNumber, int itemPerPage);
+
+    Task<BaseResponse<IEnumerable<ProductUserDto>>> GetTopSaleProducts();
 }

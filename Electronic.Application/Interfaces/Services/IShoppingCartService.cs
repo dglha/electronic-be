@@ -9,4 +9,5 @@ public interface IShoppingCartService
     public Task<BaseResponse<CartDto>> UpdateCart(UpdateCartDto request);
     public Task<BaseResponse<CartDto>?> GetCart();
     public Task AddToCart(CartItem request);
+    public Task CheckValidCart();
 }

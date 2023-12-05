@@ -15,6 +15,7 @@ using Electronic.Domain.Model.Catalog;
 using Electronic.Domain.Models.Catalog;
 using Electronic.Domain.Models.Core;
 using Electronic.Domain.Models.Inventory;
+using Electronic.Domain.Models.Order;
 using Electronic.Domain.Models.Review;
 using Electronic.Persistence.DatabaseContext;
 using Electronic.Persistence.Helpers;
@@ -202,7 +203,7 @@ public class ProductService : IProductService
         };
         
         // Create product Stock
-        if (variantProduct.StockQuantity != null)
+        if (product.StockQuantity == null || product.StockQuantity == 0)
         {
             var warehouse = await _dbContext.Set<Warehouse>().FirstAsync();
             var stock = new Stock
@@ -522,7 +523,7 @@ public class ProductService : IProductService
     public async Task<BaseResponse<IEnumerable<ProductUserDto>>> GetNewProducts()
     {
         var newProducts = await _dbContext.Set<Product>()
-            .Where(p => !p.IsDeleted && p.IsVisibleIndividually && p.IsNewProduct && p.StockQuantity > 0).OrderByDescending(p => p.UpdatedAt).Take(4).Select(p =>
+            .Where(p => !p.IsDeleted && p.IsVisibleIndividually && p.IsNewProduct).OrderByDescending(p => p.CreatedAt).Take(4).Select(p =>
                 new ProductUserDto
                 {
                     Name = p.Name,
@@ -599,7 +600,8 @@ public class ProductService : IProductService
         {
             Name = product.Name,
             Slug = product.Slug,
-            SpecialPrice = product.SpecialPrice,
+            // SpecialPrice = product.SpecialPrice,
+            SpecialPrice = DateTime.Now > product.SpecialPriceEndDate ? null : product.SpecialPrice,
             Price = product.Price,
             ProductId = product.ProductId,
             Brand = product.Brand.Name,
@@ -623,7 +625,7 @@ public class ProductService : IProductService
             StockQuantity = product.StockQuantity,
             SpecialPriceEndDate = product.SpecialPriceEndDate,
             SpecialPriceStartDate = product.SpecialPriceStartDate,
-            ProductVariants = productVariants
+            ProductVariants = productVariants,
         };
         
         productDto.MediasUrl.AddRange(productVariantImages);
@@ -753,6 +755,43 @@ public class ProductService : IProductService
                 ReviewId = s.ReviewId,
             }).ToListAsync();
         return Pagination<ProductReviewDto>.ToPagination(data, pageNumber, itemPerPage, totalCount);
+    }
+
+    public async Task<BaseResponse<IEnumerable<ProductUserDto>>> GetTopSaleProducts()
+    {
+        var query = GetProductUserQuery();
+
+        var topItems = await (from orderItems in _dbContext.Set<OrderItem>()
+            join order in _dbContext.Set<Order>() on orderItems.OrderId equals order.OrderId
+            group orderItems by orderItems.ProductId
+            into g
+            select new
+            {
+                ProductId = g.Key,
+                TotalSold = g.Count()
+            }).OrderByDescending(p => p.TotalSold).ToListAsync();
+
+        var topItemIds = topItems.Select(p => p.ProductId).ToList();
+
+        var parentProductIds = await _dbContext.Set<Product>()
+            .Where(p => !p.IsDeleted && p.IsAllowToOrder && p.ProductLinks.Any(l =>
+                l.Type == ProductLinkEnum.Variant && topItemIds.Contains(l.LinkedProductId))).Select(p => p.ProductId)
+            .ToListAsync();
+        
+        topItemIds.AddRange(parentProductIds);
+        
+        var products = await query.Where(p =>
+            topItemIds.Contains(p.ProductId) && p.StockQuantity.HasValue && p.StockQuantity.Value > 0).Take(5).Select(p=>new ProductUserDto
+        {
+            Name = p.Name,
+            ProductId = p.ProductId,
+            Slug = p.Slug,
+            SpecialPrice = DateTime.Now > p.SpecialPriceEndDate ? null : p.SpecialPrice,
+            Price = p.Price,
+            ThumbnailImage = _mediaService.GetThumbnailUrl(p.ThumbnailImage)
+        }).ToListAsync();
+
+        return new BaseResponse<IEnumerable<ProductUserDto>>(products);
     }
 
     private IQueryable<Product> GetProductUserQuery()

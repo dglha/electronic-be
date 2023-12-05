@@ -35,5 +35,16 @@ namespace Electronic.API.Controllers
         {
             return Ok(await _orderService.GetOrderDetail(orderId));
         }
+        
+        /// <summary>
+        /// Get Shop's top sell
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(Roles = "Administrator")]
+        [HttpGet("list")]
+        public async Task<ActionResult<Pagination<OrderListDto>>> GetAdminOrders(int pageNumber = 1, int take = 20)
+        {
+            return Ok(await _orderService.GetOrders(pageNumber, take));
+        }
     }
 }

@@ -20,17 +20,21 @@ public class OrderService : IOrderService
     private readonly IAppLogger<OrderService> _logger;
     private readonly IUserService _userService;
     private readonly IMediaService _mediaService;
+    private readonly IShoppingCartService _shoppingCartService;
 
-    public OrderService(ElectronicDatabaseContext dbContext, IAppLogger<OrderService> logger, IUserService userService, IMediaService mediaService)
+    public OrderService(ElectronicDatabaseContext dbContext, IAppLogger<OrderService> logger, IUserService userService, IMediaService mediaService, IShoppingCartService shoppingCartService)
     {
         _dbContext = dbContext;
         _logger = logger;
         _userService = userService;
         _mediaService = mediaService;
+        _shoppingCartService = shoppingCartService;
     }
 
     public async Task<long> CreateOrder()
     {
+        await _shoppingCartService.CheckValidCart();
+        
         var cart = await _dbContext.Set<Cart>()
             .Where(c => c.CustomerId == _userService.UserId).FirstOrDefaultAsync();
 
@@ -154,14 +158,16 @@ public class OrderService : IOrderService
         var query = _dbContext.Orders.OrderByDescending(o => o.UpdatedAt).AsQueryable();
 
         var totalCount = await query.CountAsync();
-        var data = await query.Skip((pageIndex - 1) * itemPerPage).Take(itemPerPage)
+        var data = await query
+            .OrderByDescending(o => o.CreatedAt)
+            .Skip((pageIndex - 1) * itemPerPage).Take(itemPerPage)
             .Select(o => new OrderListDto
             {
                 OrderId = o.OrderId,
                 TaxAmount = o.TaxAmount ?? 0,
                 OrderStatus = o.OrderStatus.ToString(),
                 OrderTotal = o.OrderTotal,
-                Customer = _userService.UserId
+                Customer = _userService.UserEmail
             }).ToListAsync();
 
         return Pagination<OrderListDto>.ToPagination(data, pageIndex, itemPerPage, totalCount);

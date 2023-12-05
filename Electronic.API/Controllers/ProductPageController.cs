@@ -23,11 +23,21 @@ namespace Electronic.API.Controllers
         {
             _productService = productService;
         }
-
+        
         [HttpGet("{productId:long}/detail")]
         public async Task<ActionResult<BaseResponse<ProductDetailUserDto>>> GetProductDetail(long productId)
         {
             return Ok(await _productService.GetProductUserDetail(productId));
+        }
+        
+        /// <summary>
+        /// Get Shop's top sell
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("top-sold")]
+        public async Task<ActionResult<BaseResponse<ProductUserDto>>> GetTopSold()
+        {
+            return Ok(await _productService.GetTopSaleProducts());
         }
         
         /// <summary>
