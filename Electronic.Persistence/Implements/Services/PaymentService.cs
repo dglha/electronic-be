@@ -121,7 +121,7 @@ public class PaymentService : IPaymentService
 
         var totalCount = await query.CountAsync();
 
-        var data = await query.Skip((pageIndex - 1) * itemPerPage).Take(itemPerPage)
+        var data = await query.OrderByDescending(p => p.CreatedAt).Skip((pageIndex - 1) * itemPerPage).Take(itemPerPage)
             .Select(p => new PaymentDto
             {
                 Amount = p.Amount,
