@@ -1,13 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Electric.Payment.VNPay.DTOs.Response;
 using Electric.Payment.VNPay.Service;
 using Electronic.Application.Contracts.DTOs.Payment;
 using Electronic.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Electronic.API.Controllers

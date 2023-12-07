@@ -114,7 +114,7 @@ public class ShoppingCartService : IShoppingCartService
     public async Task AddToCart(CartItem request)
     {
         var product = await  _dbContext.Set<Product>().FirstOrDefaultAsync(p => p.ProductId == request.ProductId && p.StockQuantity > 0);
-        if (product == null || product.HasOption || !product.IsVisibleIndividually || product.StockQuantity.HasValue && product.StockQuantity.Value < request.Quantity) return;
+        if (product == null || product.HasOption || product.StockQuantity.HasValue && product.StockQuantity.Value < request.Quantity) return;
 
         var cart = await _dbContext.Set<Cart>().Where(c => c.CustomerId == _userService.UserId).FirstOrDefaultAsync() ??
                    new Cart { CustomerId = _userService.UserId };
@@ -125,7 +125,7 @@ public class ShoppingCartService : IShoppingCartService
         if (updateItem != null)
         {
             cartItems.Remove(updateItem);
-            updateItem.Quantity += 1;
+            updateItem.Quantity += request.Quantity;
             cartItems.Add(updateItem);
         }
         else
@@ -134,6 +134,41 @@ public class ShoppingCartService : IShoppingCartService
         }
 
         cart.CartItems = JsonSerializer.Serialize(cartItems);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task CheckValidCart()
+    {
+        var userCart = await _dbContext.Set<Cart>().Where(c => c.CustomerId == _userService.UserId)
+            .FirstOrDefaultAsync();
+
+        if (userCart is null) return;
+        
+        var cartItems = JsonSerializer.Deserialize<List<CartItem>>(userCart.CartItems);
+
+        if (cartItems == null || cartItems.Count == 0) return;
+
+        var validCartItems = new List<CartItem>();
+
+        var products = _dbContext.Set<Product>().Where(p => !p.IsDeleted && p.IsAllowToOrder);
+        // Validation for cart item
+        foreach (var cartItem in cartItems)
+        {
+            var product = products.FirstOrDefault(p => p.ProductId == cartItem.ProductId);
+            if (product is null) continue;
+            if (product.HasOption || !product.StockQuantity.HasValue)
+                continue;
+            if (product.StockQuantity is 0)
+                continue;
+            if (cartItem.Quantity > product.StockQuantity)
+                cartItem.Quantity = product.StockQuantity.Value;
+            
+            validCartItems.Add(cartItem);
+        }
+        
+        if (validCartItems.Count == 0) return;
+        
+        userCart.CartItems = JsonSerializer.Serialize(validCartItems);
         await _dbContext.SaveChangesAsync();
     }
 

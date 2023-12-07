@@ -9,7 +9,7 @@ public class ProductDetailUserDto
     public string Slug { get; set; }
     public string SKU { get; set; }
     public decimal Price { get; set; }
-    public decimal SpecialPrice { get; set; }
+    public decimal? SpecialPrice { get; set; }
     public DateTime SpecialPriceStartDate { get; set; }
     public DateTime SpecialPriceEndDate { get; set; }
     public int? StockQuantity { get; set; }

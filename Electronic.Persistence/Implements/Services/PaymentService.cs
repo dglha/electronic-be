@@ -1,4 +1,5 @@
-﻿using Electric.Payment.VNPay.Service;
+﻿using System.Text.Json;
+using Electric.Payment.VNPay.Service;
 using Electronic.Application.Contracts.DTOs.Payment;
 using Electronic.Application.Contracts.Exeptions;
 using Electronic.Application.Contracts.Identity;
@@ -9,6 +10,7 @@ using Electronic.Domain.Enums;
 using Electronic.Domain.Models.Inventory;
 using Electronic.Domain.Models.Order;
 using Electronic.Domain.Models.Payment;
+using Electronic.Domain.Models.ShoppingCart;
 using Electronic.Persistence.DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 
@@ -57,7 +59,7 @@ public class PaymentService : IPaymentService
             .FirstOrDefaultAsync(o =>
                 o.OrderId == long.Parse(result.OrderId) && o.CustomerId == _userService.UserId &&
                 o.OrderStatus == OrderStatusEnum.New);
-
+        
         if (order == null) throw new AppException($"Order id {result.OrderId} not found!", 404);
         
         var orderHistory = new OrderStatusHistory
@@ -67,9 +69,9 @@ public class PaymentService : IPaymentService
             NewStatus = OrderStatusEnum.Completed,
             Note = "Payment using VNPay"
         };
-
+        
         order.OrderStatus = OrderStatusEnum.Completed;
-
+        
         var payment = new Payment
         {
             CustomerId = _userService.UserId,
@@ -80,7 +82,7 @@ public class PaymentService : IPaymentService
             GatewayTransactionId = result.TransactionId,
             PaymentFee = 0
         };
-
+        
         foreach (var orderItem in order.OrderItems)
         {
             var product = orderItem.Product;
@@ -96,15 +98,17 @@ public class PaymentService : IPaymentService
                 Stock = stock,
             };
             stock.Quantity = (int)product.StockQuantity;
-
+        
             _dbContext.Set<StockHistory>().Add(stockHistory);
         }
-
+        
         _dbContext.Set<OrderStatusHistory>().Add(orderHistory);
         _dbContext.Set<Payment>().Add(payment);
-        await _dbContext.SaveChangesAsync();
         
-        // TODO: Clear Cart
+        var cart = await _dbContext.Set<Cart>().FirstAsync(c => c.CustomerId == _userService.UserId);
+        cart.CartItems = JsonSerializer.Serialize(new List<CartItem>());
+        
+        await _dbContext.SaveChangesAsync();
 
         await _dbContext.Database.CommitTransactionAsync();
 
@@ -117,7 +121,7 @@ public class PaymentService : IPaymentService
 
         var totalCount = await query.CountAsync();
 
-        var data = await query.Skip((pageIndex - 1) * itemPerPage).Take(itemPerPage)
+        var data = await query.OrderByDescending(p => p.CreatedAt).Skip((pageIndex - 1) * itemPerPage).Take(itemPerPage)
             .Select(p => new PaymentDto
             {
                 Amount = p.Amount,

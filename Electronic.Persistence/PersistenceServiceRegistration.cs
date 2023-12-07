@@ -1,9 +1,5 @@
-﻿using Electronic.Application.Contracts.Persistences;
-using Electronic.Application.Interfaces.Persistences;
+﻿using Electronic.Application.Interfaces.Persistences;
 using Electronic.Application.Interfaces.Services;
-using Electronic.Domain.Models.Catalog;
-using Electronic.Domain.Models.Order;
-using Electronic.Domain.Models.Payment;
 using Electronic.Persistence.DatabaseContext;
 using Electronic.Persistence.Implements.Services;
 using Electronic.Persistence.Interfaces.Repositories;
@@ -47,6 +43,8 @@ public static class PersistenceServiceRegistration
         services.AddScoped<IOrderService, OrderService>();
         services.AddScoped<IPaymentService, PaymentService>();
         services.AddScoped<IStockService, StockService>();
+        services.AddScoped<IDashboardService, DashboardService>();
+        services.AddScoped<IAdvertisementService, AdvertisementService>();
 
         #endregion
         
