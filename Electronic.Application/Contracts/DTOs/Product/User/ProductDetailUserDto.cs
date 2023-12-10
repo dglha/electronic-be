@@ -22,4 +22,5 @@ public class ProductDetailUserDto
     // public IEnumerable<ProductLinkDto> ProductLinks { get; set; }
     public IEnumerable<ProductOptionCombinationDto> OptionCombinations { get; set; }
     public IEnumerable<ProductDetailUserDto> ProductVariants { get; set; }
+    public string Specification { get; set; }
 }

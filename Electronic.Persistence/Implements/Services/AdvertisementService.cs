@@ -23,7 +23,8 @@ public class AdvertisementService : IAdvertisementService
         var result = await _dbContext.Set<Advertisement>().Where(a => !a.IsDeleted).Select(a => new AdvertisementDto
         {
             Name = a.Name,
-            ImageUrl = _mediaService.GetMediaUrl(a.Media)
+            ImageUrl = _mediaService.GetMediaUrl(a.Media),
+            DisplayOrder = a.DisplayOrder
         }).ToListAsync();
         return result;
     }

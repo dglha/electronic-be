@@ -36,7 +36,7 @@ public class StockService : IStockService
         if (product.HasOption)
             throw new AppException("Please adjust product's variants!", (int)HttpStatusCode.BadRequest);
 
-        if (!product.StockQuantity.HasValue || product.StockQuantity is 0 && request.AdjustedAmount <= 0)
+        if (product.StockQuantity is 0 && request.AdjustedAmount <= 0)
             throw new AppException("Invalid adjustment, try again!", (int)HttpStatusCode.BadRequest);
 
         if (product.StockQuantity.HasValue && product.StockQuantity.Value + request.AdjustedAmount < 0)

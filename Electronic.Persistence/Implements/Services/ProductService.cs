@@ -208,8 +208,8 @@ public class ProductService : IProductService
             var warehouse = await _dbContext.Set<Warehouse>().FirstAsync();
             var stock = new Stock
             {
-                Product = product,
-                Quantity = (int)variantProduct.StockQuantity,
+                Product = variantProduct,
+                Quantity = variantProduct.StockQuantity ?? 0,
                 Warehouse = warehouse,
             };
             var stockHistory = new StockHistory
@@ -249,6 +249,7 @@ public class ProductService : IProductService
         product.Name = request.Name;
         product.Slug = request.Slug;
         product.SKU = request.SKU;
+        product.Specification = request.Specification;
         product.ShortDescription = request.ShortDescription;
         product.Description = request.Description;
         product.SpecialPrice = request.SpecialPrice;
@@ -506,7 +507,7 @@ public class ProductService : IProductService
     public async Task<BaseResponse<IEnumerable<ProductUserDto>>> GetFeaturedProducts()
     {
         var featuredProducts = await _dbContext.Set<Product>()
-            .Where(p => !p.IsDeleted && p.IsVisibleIndividually && p.IsFeatured && p.StockQuantity > 0).OrderByDescending(p => p.UpdatedAt).Take(4).Select(p =>
+            .Where(p => !p.IsDeleted && p.IsVisibleIndividually && p.IsFeatured && p.StockQuantity > 0).OrderByDescending(p => p.CreatedAt).Take(5).Select(p =>
                 new ProductUserDto
                 {
                     Name = p.Name,
@@ -523,7 +524,7 @@ public class ProductService : IProductService
     public async Task<BaseResponse<IEnumerable<ProductUserDto>>> GetNewProducts()
     {
         var newProducts = await _dbContext.Set<Product>()
-            .Where(p => !p.IsDeleted && p.IsVisibleIndividually && p.IsNewProduct).OrderByDescending(p => p.CreatedAt).Take(4).Select(p =>
+            .Where(p => !p.IsDeleted && p.IsVisibleIndividually && p.IsNewProduct).OrderByDescending(p => p.CreatedAt).Take(5).Select(p =>
                 new ProductUserDto
                 {
                     Name = p.Name,
@@ -590,7 +591,8 @@ public class ProductService : IProductService
                     ProductOption = oc.ProductOption.Name,
                     Value = oc.Value,
                 }),
-                ThumbnailImageUrl = _mediaService.GetThumbnailUrl(p.ThumbnailImage)
+                ThumbnailImageUrl = _mediaService.GetThumbnailUrl(p.ThumbnailImage),
+                Specification = p.Specification
             }).ToListAsync();
 
         var productVariantImages = productVariants.Select(o => o.ThumbnailImageUrl).ToList();
@@ -626,6 +628,7 @@ public class ProductService : IProductService
             SpecialPriceEndDate = product.SpecialPriceEndDate,
             SpecialPriceStartDate = product.SpecialPriceStartDate,
             ProductVariants = productVariants,
+            Specification = product.Specification,
         };
         
         productDto.MediasUrl.AddRange(productVariantImages);

@@ -116,8 +116,12 @@ public class ShoppingCartService : IShoppingCartService
         var product = await  _dbContext.Set<Product>().FirstOrDefaultAsync(p => p.ProductId == request.ProductId && p.StockQuantity > 0);
         if (product == null || product.HasOption || product.StockQuantity.HasValue && product.StockQuantity.Value < request.Quantity) return;
 
-        var cart = await _dbContext.Set<Cart>().Where(c => c.CustomerId == _userService.UserId).FirstOrDefaultAsync() ??
-                   new Cart { CustomerId = _userService.UserId };
+        var cart = await _dbContext.Set<Cart>().Where(c => c.CustomerId == _userService.UserId).FirstOrDefaultAsync();
+        if (cart == null)
+        {
+            cart = new Cart { CustomerId = _userService.UserId, CartItems = JsonSerializer.Serialize(new List<CartItem>{})};
+            await _dbContext.Set<Cart>().AddAsync(cart);
+        }
 
         var cartItems = JsonSerializer.Deserialize<List<CartItem>>(cart.CartItems);
 
