@@ -87,6 +87,7 @@ builder.Services.AddCors(opt =>
         policy.AllowAnyHeader().AllowAnyMethod().AllowCredentials()
             .WithOrigins("https://localhost:4200"); 
         policy.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:4200");
+        policy.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("https://203d-2402-800-629c-7568-a149-225b-d362-63bf.ngrok-free.app");
     });
 });
 

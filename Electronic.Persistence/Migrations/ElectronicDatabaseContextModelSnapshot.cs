@@ -288,6 +288,279 @@ namespace Electronic.Persistence.Migrations
                         .HasFilter("[ThumbnailImageId] IS NOT NULL");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1L,
+                            Description = "TEST",
+                            DisplayOrder = 1,
+                            IncludeInMenu = true,
+                            IsDeleted = false,
+                            IsPublished = true,
+                            Name = "Điện tử, điện lạnh",
+                            Slug = "dien-tu-dien-lanh"
+                        },
+                        new
+                        {
+                            CategoryId = 2L,
+                            Description = "TEST",
+                            DisplayOrder = 1,
+                            IncludeInMenu = true,
+                            IsDeleted = false,
+                            IsPublished = true,
+                            Name = "Tủ lạnh",
+                            ParentCategoryId = 1L,
+                            Slug = "tu-lanh"
+                        },
+                        new
+                        {
+                            CategoryId = 3L,
+                            Description = "TEST",
+                            DisplayOrder = 1,
+                            IncludeInMenu = true,
+                            IsDeleted = false,
+                            IsPublished = true,
+                            Name = "Máy giặt",
+                            ParentCategoryId = 1L,
+                            Slug = "may-giat"
+                        },
+                        new
+                        {
+                            CategoryId = 4L,
+                            Description = "TEST",
+                            DisplayOrder = 1,
+                            IncludeInMenu = true,
+                            IsDeleted = false,
+                            IsPublished = true,
+                            Name = "Máy sấy",
+                            ParentCategoryId = 1L,
+                            Slug = "may-say"
+                        },
+                        new
+                        {
+                            CategoryId = 5L,
+                            Description = "TEST",
+                            DisplayOrder = 1,
+                            IncludeInMenu = true,
+                            IsDeleted = false,
+                            IsPublished = true,
+                            Name = "Máy nóng lạnh",
+                            ParentCategoryId = 1L,
+                            Slug = "may-nong-lanh"
+                        },
+                        new
+                        {
+                            CategoryId = 6L,
+                            Description = "TEST",
+                            DisplayOrder = 1,
+                            IncludeInMenu = true,
+                            IsDeleted = false,
+                            IsPublished = true,
+                            Name = "Máy lọc nước",
+                            ParentCategoryId = 1L,
+                            Slug = "may-loc-nuoc"
+                        },
+                        new
+                        {
+                            CategoryId = 7L,
+                            Description = "TEST",
+                            DisplayOrder = 1,
+                            IncludeInMenu = true,
+                            IsDeleted = false,
+                            IsPublished = true,
+                            Name = "Gia dụng nhà bếp",
+                            Slug = "gia-dung-nha-bep"
+                        },
+                        new
+                        {
+                            CategoryId = 8L,
+                            Description = "TEST",
+                            DisplayOrder = 1,
+                            IncludeInMenu = true,
+                            IsDeleted = false,
+                            IsPublished = true,
+                            Name = "Bếp hồng ngoại",
+                            ParentCategoryId = 7L,
+                            Slug = "bep-hong-ngoai"
+                        },
+                        new
+                        {
+                            CategoryId = 9L,
+                            Description = "TEST",
+                            DisplayOrder = 1,
+                            IncludeInMenu = true,
+                            IsDeleted = false,
+                            IsPublished = true,
+                            Name = "Bếp Gas",
+                            ParentCategoryId = 7L,
+                            Slug = "bep-gas"
+                        },
+                        new
+                        {
+                            CategoryId = 10L,
+                            Description = "TEST",
+                            DisplayOrder = 1,
+                            IncludeInMenu = true,
+                            IsDeleted = false,
+                            IsPublished = true,
+                            Name = "Lò nướng",
+                            ParentCategoryId = 7L,
+                            Slug = "lo-nuong"
+                        },
+                        new
+                        {
+                            CategoryId = 11L,
+                            Description = "TEST",
+                            DisplayOrder = 1,
+                            IncludeInMenu = true,
+                            IsDeleted = false,
+                            IsPublished = true,
+                            Name = "Lò vi sóng",
+                            ParentCategoryId = 7L,
+                            Slug = "lo-vi-song"
+                        },
+                        new
+                        {
+                            CategoryId = 12L,
+                            Description = "TEST",
+                            DisplayOrder = 1,
+                            IncludeInMenu = true,
+                            IsDeleted = false,
+                            IsPublished = true,
+                            Name = "Nồi cơm điện",
+                            ParentCategoryId = 7L,
+                            Slug = "noi-com-dien"
+                        },
+                        new
+                        {
+                            CategoryId = 13L,
+                            Description = "TEST",
+                            DisplayOrder = 1,
+                            IncludeInMenu = true,
+                            IsDeleted = false,
+                            IsPublished = true,
+                            Name = "Nồi chiên không dầu",
+                            ParentCategoryId = 7L,
+                            Slug = "noi-chien-khong-dau"
+                        },
+                        new
+                        {
+                            CategoryId = 14L,
+                            Description = "TEST",
+                            DisplayOrder = 1,
+                            IncludeInMenu = true,
+                            IsDeleted = false,
+                            IsPublished = true,
+                            Name = "Bình Gas",
+                            ParentCategoryId = 7L,
+                            Slug = "binh-gas"
+                        },
+                        new
+                        {
+                            CategoryId = 15L,
+                            Description = "TEST",
+                            DisplayOrder = 1,
+                            IncludeInMenu = true,
+                            IsDeleted = false,
+                            IsPublished = true,
+                            Name = "Chăm sóc nhà cửa",
+                            Slug = "cham-soc-nha-cua"
+                        },
+                        new
+                        {
+                            CategoryId = 16L,
+                            Description = "TEST",
+                            DisplayOrder = 1,
+                            IncludeInMenu = true,
+                            IsDeleted = false,
+                            IsPublished = true,
+                            Name = "Quạt",
+                            ParentCategoryId = 15L,
+                            Slug = "quat"
+                        },
+                        new
+                        {
+                            CategoryId = 17L,
+                            Description = "TEST",
+                            DisplayOrder = 1,
+                            IncludeInMenu = true,
+                            IsDeleted = false,
+                            IsPublished = true,
+                            Name = "Quạt Mini",
+                            ParentCategoryId = 15L,
+                            Slug = "quat-mini"
+                        },
+                        new
+                        {
+                            CategoryId = 18L,
+                            Description = "TEST",
+                            DisplayOrder = 1,
+                            IncludeInMenu = true,
+                            IsDeleted = false,
+                            IsPublished = true,
+                            Name = "Điện tử",
+                            Slug = "dien-tu"
+                        },
+                        new
+                        {
+                            CategoryId = 19L,
+                            Description = "TEST",
+                            DisplayOrder = 1,
+                            IncludeInMenu = true,
+                            IsDeleted = false,
+                            IsPublished = true,
+                            Name = "Điện thoại",
+                            ParentCategoryId = 18L,
+                            Slug = "dien-thoai"
+                        },
+                        new
+                        {
+                            CategoryId = 20L,
+                            Description = "TEST",
+                            DisplayOrder = 1,
+                            IncludeInMenu = true,
+                            IsDeleted = false,
+                            IsPublished = true,
+                            Name = "Laptop",
+                            ParentCategoryId = 18L,
+                            Slug = "latop"
+                        },
+                        new
+                        {
+                            CategoryId = 21L,
+                            Description = "TEST",
+                            DisplayOrder = 1,
+                            IncludeInMenu = true,
+                            IsDeleted = false,
+                            IsPublished = true,
+                            Name = "Màn hình máy tính",
+                            ParentCategoryId = 18L,
+                            Slug = "man-hinh-may-tinh"
+                        },
+                        new
+                        {
+                            CategoryId = 22L,
+                            Description = "TEST",
+                            DisplayOrder = 1,
+                            IncludeInMenu = true,
+                            IsDeleted = false,
+                            IsPublished = true,
+                            Name = "Máy in",
+                            ParentCategoryId = 18L,
+                            Slug = "may-in"
+                        },
+                        new
+                        {
+                            CategoryId = 23L,
+                            Description = "TEST",
+                            DisplayOrder = 1,
+                            IncludeInMenu = true,
+                            IsDeleted = false,
+                            IsPublished = true,
+                            Name = "Dụng cụ sửa chữa, vệ sinh",
+                            Slug = "dien-tu"
+                        });
                 });
 
             modelBuilder.Entity("Electronic.Domain.Models.Catalog.ProductAttribute", b =>
