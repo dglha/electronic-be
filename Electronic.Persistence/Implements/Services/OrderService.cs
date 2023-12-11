@@ -92,10 +92,14 @@ public class OrderService : IOrderService
             _dbContext.Set<Order>().Add(order);
             _dbContext.Set<OrderItem>().AddRange(orderItems);
             _dbContext.Set<OrderStatusHistory>().Add(orderStatusHistory);
+            
+            // TODO: Clear cart
+            cart.CartItems = JsonSerializer.Serialize(new List<CartItem> { });
 
             await _dbContext.SaveChangesAsync();
             
             await _dbContext.Database.CommitTransactionAsync();
+            
 
             return order.OrderId;
         }
