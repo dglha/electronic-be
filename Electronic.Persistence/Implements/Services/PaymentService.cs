@@ -38,7 +38,7 @@ public class PaymentService : IPaymentService
         var order = await _dbContext.Set<Order>()
             .FirstOrDefaultAsync(o => o.OrderId == orderId && o.CustomerId == _userService.UserId && o.OrderStatus == OrderStatusEnum.New);
 
-        if (order is null) throw new AppException("Order not found", 400);
+        if (order is null || !order.AddressId.HasValue) throw new AppException("Order not found", 400);
 
         return _vnPayPaymentService.CreatePaymentLink(order);
     }

@@ -12,4 +12,5 @@ public class OrderDto
     public decimal PaymentFeeAmount { get; set; }
     public IEnumerable<OrderItemDto> OrderItems { get; set; }
     public IEnumerable<OrderStatusHistoryDto> OrderStatusHistories { get; set; }
+    public OrderAddressDto? Address { get; set; }
 }

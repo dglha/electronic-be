@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Net;
+using System.Text.Json;
 using Electronic.Application.Contracts.DTOs.Order;
 using Electronic.Application.Contracts.Exeptions;
 using Electronic.Application.Contracts.Identity;
@@ -7,6 +8,7 @@ using Electronic.Application.Contracts.Response;
 using Electronic.Application.Interfaces.Services;
 using Electronic.Domain.Enums;
 using Electronic.Domain.Model.Catalog;
+using Electronic.Domain.Models.Core;
 using Electronic.Domain.Models.Order;
 using Electronic.Domain.Models.ShoppingCart;
 using Electronic.Persistence.DatabaseContext;
@@ -21,6 +23,8 @@ public class OrderService : IOrderService
     private readonly IUserService _userService;
     private readonly IMediaService _mediaService;
     private readonly IShoppingCartService _shoppingCartService;
+
+    private readonly int TAX_PERCENT = 10;
 
     public OrderService(ElectronicDatabaseContext dbContext, IAppLogger<OrderService> logger, IUserService userService, IMediaService mediaService, IShoppingCartService shoppingCartService)
     {
@@ -65,7 +69,7 @@ public class OrderService : IOrderService
                     Quantity = quantity,
                     ProductPrice = price,
                     DiscountAmount = discountAmount,
-                    TaxAmount = price * quantity * 10 / 100,
+                    TaxAmount = price * quantity * TAX_PERCENT / 100,
                     TaxPercent = 10m
                 };
             
@@ -118,6 +122,7 @@ public class OrderService : IOrderService
             .ThenInclude(oi => oi.Product).ThenInclude(product => product.OptionCombinations)
             .Include(order => order.OrderItems).ThenInclude(orderItem => orderItem.Product)
             .ThenInclude(product => product.ThumbnailImage)
+            .Include(o => o.Address)
             .Where(o => o.CustomerId == _userService.UserId && o.OrderId == orderId).FirstOrDefaultAsync();
 
         if (order is null) throw new AppException("Order not found!", 400);
@@ -152,6 +157,18 @@ public class OrderService : IOrderService
             OrderStatusHistories = orderStatusHistoriesDto,
             PaymentMethod = order.PaymentMethod,
             PaymentFeeAmount = order.PaymentFeeAmount ?? 0,
+            Address = order.Address != null ? new OrderAddressDto
+            {
+                Address = order.Address.AddressLineOne,
+                PaymentMethod = order.PaymentMethod,
+                City = order.Address.City,
+                Email = order.Address.Email,
+                FirstName = order.Address.FirstName,
+                Lastname = order.Address.LastName,
+                PhoneNumber = order.Address.PhoneNumber,
+                ZipCode = order.Address.ZipCode,
+                OrderId = order.OrderId,
+            } : null
         };
 
         return new BaseResponse<OrderDto>(result);
@@ -176,7 +193,54 @@ public class OrderService : IOrderService
 
         return Pagination<OrderListDto>.ToPagination(data, pageIndex, itemPerPage, totalCount);
     }
+    
+    public async Task<Pagination<OrderListDto>> GetOrdersByUser(int pageIndex, int itemPerPage)
+    {
+        var query = _dbContext.Orders.Where(o => o.CustomerId == _userService.UserId).OrderByDescending(o => o.UpdatedAt).AsQueryable();
 
+        var totalCount = await query.CountAsync();
+        var data = await query
+            .OrderByDescending(o => o.CreatedAt)
+            .Skip((pageIndex - 1) * itemPerPage).Take(itemPerPage)
+            .Select(o => new OrderListDto
+            {
+                OrderId = o.OrderId,
+                TaxAmount = o.TaxAmount ?? 0,
+                OrderStatus = o.OrderStatus.ToString(),
+                OrderTotal = o.OrderTotal,
+                Customer = _userService.UserEmail
+            }).ToListAsync();
+
+        return Pagination<OrderListDto>.ToPagination(data, pageIndex, itemPerPage, totalCount);
+    }
+
+    public async Task UpdateOrderAddress(OrderAddressDto request)
+    {
+        var order =  await _dbContext.Set<Order>()
+            .Where(o => o.CustomerId == _userService.UserId && o.OrderId == request.OrderId && o.OrderStatus == OrderStatusEnum.New).FirstOrDefaultAsync();
+
+        if (order is null) throw new AppException("Order not found!", (int)HttpStatusCode.NotFound);
+
+        var address = new Address
+        {
+            CustomerId = _userService.UserId,
+            City = request.City,
+            AddressLineOne = request.Address,
+            AddressLineTwo = request.Address,
+            PhoneNumber = request.PhoneNumber,
+            ZipCode = request.ZipCode,
+            FirstName = request.FirstName,
+            LastName = request.Lastname,
+            Email = request.Email,
+            ContactName = request.FirstName + request.Lastname
+        };
+
+        order.Address = address;
+        order.PaymentMethod = request.PaymentMethod;
+        
+        await _dbContext.Set<Address>().AddAsync(address);
+        await _dbContext.SaveChangesAsync();
+    }
 
     private async Task<List<long>> GetValidProductIdList(Cart cart)
     {

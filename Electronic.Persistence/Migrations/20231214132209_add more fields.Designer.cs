@@ -4,6 +4,7 @@ using Electronic.Persistence.DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Electronic.Persistence.Migrations
 {
     [DbContext(typeof(ElectronicDatabaseContext))]
-    partial class ElectronicDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20231214132209_add more fields")]
+    partial class addmorefields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

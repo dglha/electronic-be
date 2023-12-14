@@ -30,6 +30,15 @@ namespace Electronic.API.Controllers
         }
         
         [Authorize]
+        [HttpPost("{orderId:long}/Address")]
+        public async Task<ActionResult> UpdateOrderAddress(long orderId, OrderAddressDto request)
+        {
+            await _orderService.UpdateOrderAddress(request);
+            return Ok();
+        }
+        
+        
+        [Authorize]
         [HttpGet("{orderId:long}/detail")]
         public async Task<ActionResult<BaseResponse<OrderDto>>> GetOrderDetail(long orderId)
         {
@@ -37,7 +46,7 @@ namespace Electronic.API.Controllers
         }
         
         /// <summary>
-        /// Get Shop's top sell
+        /// Get admin order list
         /// </summary>
         /// <returns></returns>
         [Authorize(Roles = "Administrator")]
@@ -45,6 +54,17 @@ namespace Electronic.API.Controllers
         public async Task<ActionResult<Pagination<OrderListDto>>> GetAdminOrders(int pageNumber = 1, int take = 20)
         {
             return Ok(await _orderService.GetOrders(pageNumber, take));
+        }
+        
+        /// <summary>
+        /// Get user order list
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        [HttpGet("user-orders")]
+        public async Task<ActionResult<Pagination<OrderListDto>>> GetUserOrders(int pageNumber = 1, int take = 20)
+        {
+            return Ok(await _orderService.GetOrdersByUser(pageNumber, take));
         }
     }
 }
