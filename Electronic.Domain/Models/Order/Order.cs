@@ -1,5 +1,6 @@
 ﻿using Electronic.Domain.Common;
 using Electronic.Domain.Enums;
+using Electronic.Domain.Models.Core;
 
 namespace Electronic.Domain.Models.Order;
 
@@ -18,4 +19,8 @@ public class Order : BaseEntity
     public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
     
     public string CustomerId { get; set; }
+    
+    public int? AddressId { get; set; }
+    
+    public Address? Address { get; set; }
 }

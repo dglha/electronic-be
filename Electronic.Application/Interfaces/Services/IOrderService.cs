@@ -10,4 +10,6 @@ public interface IOrderService
     Task<BaseResponse<OrderDto>> GetOrderDetail(long orderId);
 
     Task<Pagination<OrderListDto>> GetOrders(int pageIndex, int itemPerPage);
+    Task<Pagination<OrderListDto>> GetOrdersByUser(int pageIndex, int itemPerPage);
+    Task UpdateOrderAddress(OrderAddressDto request);
 }
