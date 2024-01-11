@@ -12,4 +12,6 @@ public class CartItemDto
     public List<string> Options { get; set; }
     public string Slug { get; set; }
     public long ProductId { get; set; }
+    public bool IsAvailable { get; set; }
+    public string? Note { get; set; }
 }

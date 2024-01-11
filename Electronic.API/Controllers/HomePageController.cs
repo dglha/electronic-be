@@ -41,5 +41,15 @@ namespace Electronic.API.Controllers
         {
             return Ok(await _productService.GetNewProducts());
         }
+        
+        /// <summary>
+        /// Get category product (only take random 5)
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("list-product")]
+        public async Task<ActionResult<BaseResponse<ProductUserDto>>> GetProductCategory([FromQuery] long categoryId)
+        {
+            return Ok(await _productService.GetTopProductCategory(categoryId));
+        }
     }
 }

@@ -22,7 +22,7 @@ public class VnPayRequestDto
         this.vnp_CurrCode = currCode;
         this.vnp_CreateDate = createDate.ToString("yyyyMMddHHmmss");
         this.vnp_TmnCode = tmnCode;
-        this.vnp_Amount = (int)amount * 100;
+        this.vnp_Amount = amount * 100;
         this.vnp_Command = "pay";
         this.vnp_OrderType = orderType;
         this.vnp_OrderInfo = orderInfo;
@@ -50,7 +50,7 @@ public class VnPayRequestDto
     public void MakeRequestData()
     {
         if (vnp_Amount != null)
-            requestData.Add("vnp_Amount", vnp_Amount.ToString() ?? string.Empty);
+            requestData.Add("vnp_Amount", vnp_Amount?.ToString("F0", System.Globalization.CultureInfo.InvariantCulture) ?? string.Empty);
         if (vnp_Command != null)
             requestData.Add("vnp_Command", vnp_Command);
         if (vnp_CreateDate != null)

@@ -507,7 +507,9 @@ public class ProductService : IProductService
     public async Task<BaseResponse<IEnumerable<ProductUserDto>>> GetFeaturedProducts()
     {
         var featuredProducts = await _dbContext.Set<Product>()
-            .Where(p => !p.IsDeleted && p.IsVisibleIndividually && p.IsFeatured && p.StockQuantity > 0).OrderByDescending(p => p.CreatedAt).Take(5).Select(p =>
+            .Where(p => !p.IsDeleted && p.IsVisibleIndividually && p.IsFeatured && p.StockQuantity > 0
+                && p.SpecialPrice > 0
+            ).OrderByDescending(p => p.CreatedAt).Take(5).Select(p =>
                 new ProductUserDto
                 {
                     Name = p.Name,
@@ -536,6 +538,32 @@ public class ProductService : IProductService
                 }).ToListAsync();
 
         return new BaseResponse<IEnumerable<ProductUserDto>>(newProducts);
+    }
+    
+    public async Task<BaseResponse<ProductDetailUserDto>> GetProductUserDetailSlug(string slug)
+    {
+        if (string.IsNullOrEmpty(slug))
+        {
+            return new BaseResponse<ProductDetailUserDto>
+            {
+                Data = null,
+                IsSuccess = false,
+                Message = "Product not found"
+            };
+        }
+        
+        var productId = await _dbContext.Set<Product>().Where(p => p.Slug.ToLower().Trim().Contains(slug.ToLower().Trim()))
+            .Select(p => p.ProductId).FirstOrDefaultAsync();
+
+        if (productId == null)
+            return new BaseResponse<ProductDetailUserDto>
+            {
+                Data = null,
+                IsSuccess = false,
+                Message = "Product not found"
+            };
+
+        return await GetProductUserDetail(productId);
     }
 
     public async Task<BaseResponse<ProductDetailUserDto>> GetProductUserDetail(long productId)
@@ -784,7 +812,10 @@ public class ProductService : IProductService
         topItemIds.AddRange(parentProductIds);
         
         var products = await query.Where(p =>
-            topItemIds.Contains(p.ProductId) && p.StockQuantity.HasValue && p.StockQuantity.Value > 0).Take(5).Select(p=>new ProductUserDto
+            topItemIds.Contains(p.ProductId)) 
+            // && p.StockQuantity.HasValue 
+            // && p.StockQuantity.Value > 0)
+            .Take(5).Select(p=>new ProductUserDto
         {
             Name = p.Name,
             ProductId = p.ProductId,
@@ -795,6 +826,24 @@ public class ProductService : IProductService
         }).ToListAsync();
 
         return new BaseResponse<IEnumerable<ProductUserDto>>(products);
+    }
+
+    public async Task<BaseResponse<IEnumerable<ProductUserDto>>> GetTopProductCategory(long categoryId)
+    {
+        var query = GetProductUserQuery().Where(p => p.Categories.Any(c => c.CategoryId == categoryId))
+            .OrderBy(p => Guid.NewGuid()).Take(5);
+
+        var data = await  query.Select(p => new ProductUserDto
+        {
+            Name = p.Name,
+            ProductId = p.ProductId,
+            Slug = p.Slug,
+            SpecialPrice = DateTime.Now > p.SpecialPriceEndDate ? null : p.SpecialPrice,
+            Price = p.Price,
+            ThumbnailImage = _mediaService.GetThumbnailUrl(p.ThumbnailImage)
+        }).ToListAsync();
+        
+        return new BaseResponse<IEnumerable<ProductUserDto>>(data);
     }
 
     private IQueryable<Product> GetProductUserQuery()

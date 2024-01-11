@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Text.Json;
+using Electronic.Application.Contracts.DTOs.Address;
 using Electronic.Application.Contracts.DTOs.Order;
 using Electronic.Application.Contracts.Exeptions;
 using Electronic.Application.Contracts.Identity;
@@ -9,6 +10,7 @@ using Electronic.Application.Interfaces.Services;
 using Electronic.Domain.Enums;
 using Electronic.Domain.Model.Catalog;
 using Electronic.Domain.Models.Core;
+using Electronic.Domain.Models.Inventory;
 using Electronic.Domain.Models.Order;
 using Electronic.Domain.Models.ShoppingCart;
 using Electronic.Persistence.DatabaseContext;
@@ -24,7 +26,7 @@ public class OrderService : IOrderService
     private readonly IMediaService _mediaService;
     private readonly IShoppingCartService _shoppingCartService;
 
-    private readonly int TAX_PERCENT = 10;
+    public readonly int TAX_PERCENT = 10;
 
     public OrderService(ElectronicDatabaseContext dbContext, IAppLogger<OrderService> logger, IUserService userService, IMediaService mediaService, IShoppingCartService shoppingCartService)
     {
@@ -37,7 +39,10 @@ public class OrderService : IOrderService
 
     public async Task<long> CreateOrder()
     {
-        await _shoppingCartService.CheckValidCart();
+        var isCanCreateOrder = await _shoppingCartService.CheckValidCart();
+
+        if (!isCanCreateOrder)
+            throw new AppException("Hiện không thể tạo đơn hàng, vui lòng kiểm tra giỏ hàng của quý khách", (int)HttpStatusCode.BadRequest);
         
         var cart = await _dbContext.Set<Cart>()
             .Where(c => c.CustomerId == _userService.UserId).FirstOrDefaultAsync();
@@ -46,7 +51,7 @@ public class OrderService : IOrderService
 
         var cartItems = JsonSerializer.Deserialize<List<CartItem>>(cart.CartItems);
         
-        if (cartItems == null) throw new AppException("Cannot make order right now, your cart is empty1", 400);
+        if (cartItems == null) throw new AppException("Cannot make order right now, your cart is empty", 400);
         var validProductIdList = await GetValidProductIdList(cart);
         
         if (validProductIdList.Count == 0 ) throw new AppException("Cannot make order right now, your cart is empty", 400);
@@ -73,7 +78,21 @@ public class OrderService : IOrderService
                     TaxPercent = 10m
                 };
             
-                orderItems.Add(orderItem);            
+                orderItems.Add(orderItem);
+
+                // Update stock history
+                var stock = await _dbContext.Set<Stock>().FirstOrDefaultAsync(s => s.ProductId == product.ProductId);
+                var stockHistory = new StockHistory
+                {
+                    Note = "Tạo đơn đặt hàng",
+                    AdjustedQuantity = -orderItem.Quantity,
+                    OldQuantity = product.StockQuantity.Value,
+                    Stock = stock,
+                };
+                product.StockQuantity -= quantity;
+                stock.Quantity = (int)product.StockQuantity;
+        
+                _dbContext.Set<StockHistory>().Add(stockHistory);
             }
 
             var order = new Order
@@ -89,7 +108,7 @@ public class OrderService : IOrderService
             var orderStatusHistory = new OrderStatusHistory
             {
                 Order = order,
-                Note = "Create new order",
+                Note = "Tạo đơn đặt hàng mới",
                 NewStatus = OrderStatusEnum.New,
             };
 
@@ -103,7 +122,6 @@ public class OrderService : IOrderService
             await _dbContext.SaveChangesAsync();
             
             await _dbContext.Database.CommitTransactionAsync();
-            
 
             return order.OrderId;
         }
@@ -240,6 +258,22 @@ public class OrderService : IOrderService
         
         await _dbContext.Set<Address>().AddAsync(address);
         await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<BaseResponse<List<AddressDto>>> GetUserAddresses()
+    {
+        var response = await _dbContext.Set<Address>().Where(a => a.CustomerId == _userService.UserId && a.IsDefault).Select(a => new AddressDto
+        {
+            UserId = a.CustomerId,
+            FirstName = a.FirstName,
+            LastName = a.LastName,
+            City = a.City,
+            Email = a.Email,
+            Address = a.AddressLineOne,
+            Zipcode = a.ZipCode,
+            AddressId = a.AddressId
+        }).ToListAsync();
+        return new BaseResponse<List<AddressDto>>(response);
     }
 
     private async Task<List<long>> GetValidProductIdList(Cart cart)

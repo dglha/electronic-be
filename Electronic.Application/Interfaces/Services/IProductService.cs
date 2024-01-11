@@ -43,4 +43,8 @@ public interface IProductService
     Task<Pagination<ProductReviewDto>> GetProductReview(long productId, int pageNumber, int itemPerPage);
 
     Task<BaseResponse<IEnumerable<ProductUserDto>>> GetTopSaleProducts();
+    
+    Task<BaseResponse<IEnumerable<ProductUserDto>>> GetTopProductCategory(long categoryId);
+    
+    Task<BaseResponse<ProductDetailUserDto>> GetProductUserDetailSlug(string slug);
 }

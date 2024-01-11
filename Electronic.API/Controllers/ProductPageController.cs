@@ -30,6 +30,17 @@ namespace Electronic.API.Controllers
             return Ok(await _productService.GetProductUserDetail(productId));
         }
         
+        
+        /// <summary>
+        /// Get product detail via slug
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("detail")]
+        public async Task<ActionResult<BaseResponse<ProductDetailUserDto>>> GetProductDetailSlug([FromQuery] string slug)
+        {
+            return Ok(await _productService.GetProductUserDetailSlug(slug));
+        }
+        
         /// <summary>
         /// Get Shop's top sell
         /// </summary>

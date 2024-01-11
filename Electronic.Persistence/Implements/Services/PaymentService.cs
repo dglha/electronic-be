@@ -83,24 +83,25 @@ public class PaymentService : IPaymentService
             PaymentFee = 0
         };
         
-        foreach (var orderItem in order.OrderItems)
-        {
-            var product = orderItem.Product;
-            product.StockQuantity -= orderItem.Quantity;
-            
-            // Update stock history
-            var stock = await _dbContext.Set<Stock>().FirstOrDefaultAsync(s => s.ProductId == product.ProductId);
-            var stockHistory = new StockHistory
-            {
-                Note = StockHistoryNoteEnum.Sold.ToString(),
-                AdjustedQuantity = -orderItem.Quantity,
-                OldQuantity = product.StockQuantity.Value,
-                Stock = stock,
-            };
-            stock.Quantity = (int)product.StockQuantity;
-        
-            _dbContext.Set<StockHistory>().Add(stockHistory);
-        }
+        // TODO: Based on new Business: Product quantity will be updated at the time the order placed.
+        // foreach (var orderItem in order.OrderItems)
+        // {
+        //     var product = orderItem.Product;
+        //     product.StockQuantity -= orderItem.Quantity;
+        //     
+        //     // Update stock history
+        //     // var stock = await _dbContext.Set<Stock>().FirstOrDefaultAsync(s => s.ProductId == product.ProductId);
+        //     // var stockHistory = new StockHistory
+        //     // {
+        //     //     Note = StockHistoryNoteEnum.Sold.ToString(),
+        //     //     AdjustedQuantity = -orderItem.Quantity,
+        //     //     OldQuantity = product.StockQuantity.Value,
+        //     //     Stock = stock,
+        //     // };
+        //     // stock.Quantity = (int)product.StockQuantity;
+        //     //
+        //     // _dbContext.Set<StockHistory>().Add(stockHistory);
+        // }
         
         _dbContext.Set<OrderStatusHistory>().Add(orderHistory);
         _dbContext.Set<Payment>().Add(payment);

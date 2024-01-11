@@ -60,10 +60,10 @@ public class ShoppingCartService : IShoppingCartService
             var product = products.First(p => p.ProductId == cartItem.ProductId);
             if (product.HasOption || !product.StockQuantity.HasValue)
                 throw new AppException("Product are not allow to add to cart", (int)HttpStatusCode.BadRequest);
-            if (product.StockQuantity is 0)
-                throw new AppException("Not enough product in stock", (int)HttpStatusCode.BadRequest);
-            if (cartItem.Quantity > product.StockQuantity)
-                cartItem.Quantity = product.StockQuantity.Value;
+            // if (product.StockQuantity is 0)
+            //     throw new AppException("Not enough product in stock", (int)HttpStatusCode.BadRequest);
+            // if (cartItem.Quantity >= product.StockQuantity)
+            //     cartItem.Quantity = product.StockQuantity.Value;
         }
 
         var cart = _dbContext
@@ -89,7 +89,18 @@ public class ShoppingCartService : IShoppingCartService
             };
         }
 
-        cart.CartItems = JsonSerializer.Serialize(request.CartItems);
+        var currentCartItems = JsonSerializer.Deserialize<List<CartItem>>(cart.CartItems) ?? new List<CartItem>();
+        var newCartItems = new List<CartItem>();
+
+        foreach (var item in request.CartItems)
+        {
+            var currentItem = currentCartItems.FirstOrDefault(p => p.ProductId == item.ProductId);
+            if (currentItem == null) continue;
+            currentItem.Quantity = item.Quantity;
+            newCartItems.Add(currentItem);
+        }
+
+        cart.CartItems = JsonSerializer.Serialize(newCartItems);
 
         await _dbContext.SaveChangesAsync();
 
@@ -105,6 +116,8 @@ public class ShoppingCartService : IShoppingCartService
     {
         var isLogged = _userService.IsLogged;
         if (!isLogged) return null;
+
+        _ = await CheckValidCart();
 
         var cart = await _dbContext.Set<Cart>().Where(c => c.CustomerId == _userService.UserId).FirstOrDefaultAsync();
 
@@ -134,23 +147,24 @@ public class ShoppingCartService : IShoppingCartService
         }
         else
         {
-            cartItems.Add(new CartItem{ProductId = product.ProductId, Quantity = request.Quantity});
+            cartItems.Add(new CartItem{ProductId = product.ProductId, Quantity = request.Quantity, IsAvailable = true});
         }
 
         cart.CartItems = JsonSerializer.Serialize(cartItems);
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task CheckValidCart()
+    public async Task<bool> CheckValidCart()
     {
+        var isValid = true;
         var userCart = await _dbContext.Set<Cart>().Where(c => c.CustomerId == _userService.UserId)
             .FirstOrDefaultAsync();
 
-        if (userCart is null) return;
+        if (userCart is null) return false;
         
         var cartItems = JsonSerializer.Deserialize<List<CartItem>>(userCart.CartItems);
 
-        if (cartItems == null || cartItems.Count == 0) return;
+        if (cartItems == null || cartItems.Count == 0) return false;
 
         var validCartItems = new List<CartItem>();
 
@@ -159,21 +173,51 @@ public class ShoppingCartService : IShoppingCartService
         foreach (var cartItem in cartItems)
         {
             var product = products.FirstOrDefault(p => p.ProductId == cartItem.ProductId);
-            if (product is null) continue;
+            if (product is null)
+            {
+                cartItem.IsAvailable = false;
+                cartItem.Note = "Sản phẩm không tồn tại";
+                isValid = false;
+                validCartItems.Add(cartItem);
+                continue;
+            }
+            
             if (product.HasOption || !product.StockQuantity.HasValue)
+            {
+                cartItem.IsAvailable = false;
+                cartItem.Note = "Sản phẩm không hợp lệ";
+                isValid = false;
+                validCartItems.Add(cartItem);
                 continue;
+            }
+            
             if (product.StockQuantity is 0)
+            {
+                cartItem.IsAvailable = false;
+                cartItem.Note = "Hết hàng";
+                isValid = false;
+                validCartItems.Add(cartItem);
                 continue;
+            }
+            
             if (cartItem.Quantity > product.StockQuantity)
-                cartItem.Quantity = product.StockQuantity.Value;
+            {
+                cartItem.IsAvailable = false;
+                cartItem.Note = "Số lượng sản phẩm trong kho không đủ";
+                isValid = false;
+                validCartItems.Add(cartItem);
+                continue;
+            }
             
             validCartItems.Add(cartItem);
         }
         
-        if (validCartItems.Count == 0) return;
+        if (validCartItems.Count == 0) return false;
         
         userCart.CartItems = JsonSerializer.Serialize(validCartItems);
         await _dbContext.SaveChangesAsync();
+
+        return isValid;
     }
 
     private CartDto GetCartDetail(Cart? cart = null)
@@ -209,6 +253,14 @@ public class ShoppingCartService : IShoppingCartService
                     Options = p.OptionCombinations.Select(ob => ob.Value).ToList()
                 };
             }).ToList();
+
+        foreach (var item in cartItemDtos)
+        {
+            var cartItem = cartItems.FirstOrDefault(p => p.ProductId == item.ProductId);
+            if (cartItem == null) continue;
+            item.IsAvailable = cartItem.IsAvailable;
+            item.Note = cartItem.Note;
+        }
 
         return new CartDto
         {

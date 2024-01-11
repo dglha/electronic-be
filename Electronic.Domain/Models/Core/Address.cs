@@ -38,4 +38,6 @@ public class Address : BaseEntity
     public string LastName { get; set; }
     
     public string Email { get; set; }
+
+    public bool IsDefault { get; set; } = false;
 }

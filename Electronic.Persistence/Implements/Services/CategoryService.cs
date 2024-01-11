@@ -182,16 +182,19 @@ public class CategoryService : ICategoryService
                 Id = c.CategoryId,
                 Name = c.Name,
                 Level = 1,
+                Slug = c.Slug,
                 Children = c.ChildCategories.Where(firstChild =>
                     !firstChild.IsDeleted && firstChild.IsPublished && firstChild.IncludeInMenu).Select(firstChild => new CategoryListViewDto
                 {
                     Id = firstChild.CategoryId,
                     Name = firstChild.Name,
                     Level = 2,
+                    Slug = firstChild.Slug,
                     Children = firstChild.ChildCategories.Where(secondChild => !secondChild.IsDeleted && secondChild.IsPublished && secondChild.IncludeInMenu).Select(secondChild => new CategoryListViewDto
                     {
                         Id = secondChild.CategoryId,
                         Name = secondChild.Name,
+                        Slug = secondChild.Slug,
                         Level = 3,
                     }).ToList()
                 }).ToList()

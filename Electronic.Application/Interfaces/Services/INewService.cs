@@ -15,4 +15,5 @@ public interface INewService
     
     public Task<Pagination<NewItemDto>> GetUserNewItems(int pageIndex, int itemPerPage, int categoryId);
     public Task<BaseResponse<ICollection<NewCategoryDto>>> GetUserNewCategories();
+    public Task<BaseResponse<NewItemDetailDto>> GetNewItemDetailSlug(string slug);
 }

@@ -188,6 +188,32 @@ public class NewService : INewService
         return new BaseResponse<ICollection<NewCategoryDto>>(categories);
     }
 
+    public async Task<BaseResponse<NewItemDetailDto>> GetNewItemDetailSlug(string slug)
+    {
+        if (string.IsNullOrEmpty(slug))
+        {
+            return new BaseResponse<NewItemDetailDto>
+            {
+                Data = null,
+                IsSuccess = false,
+                Message = "New not found"
+            };
+        }
+        
+        var newId = await _dbContext.Set<NewItem>().Where(p => p.Slug.ToLower().Trim().Contains(slug.ToLower().Trim()))
+            .Select(p => p.NewItemId).FirstOrDefaultAsync();
+
+        if (newId == 0)
+            return new BaseResponse<NewItemDetailDto>
+            {
+                Data = null,
+                IsSuccess = false,
+                Message = "New not found"
+            };
+
+        return await GetNewItemDetails(newId);
+    }
+
     private async Task SaveNewItemThumbnail(NewItem newItem, Stream mediaBinaryStream, string fileName,
         string mimeType)
     {

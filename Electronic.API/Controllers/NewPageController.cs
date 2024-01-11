@@ -39,5 +39,13 @@ namespace Electronic.API.Controllers
         [HttpGet("item/{newItemId:int}/detail")]
         public async Task<ActionResult<BaseResponse<NewItemDetailDto>>> GetNewItemDetail(int newItemId)
             => Ok(await _newService.GetNewItemDetails(newItemId));
+        
+        /// <summary>
+        /// Get new content (detail) - via Slug
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("item/detail")]
+        public async Task<ActionResult<BaseResponse<NewItemDetailDto>>> GetNewItemDetailSlug([FromQuery] string slug)
+            => Ok(await _newService.GetNewItemDetailSlug(slug));
     }
 }
